@@ -4,19 +4,33 @@ A mono-style reference-to-image pipeline for producing new 3D assets with a matt
 
 ## Current scope
 
-The repository foundation currently implements:
+The repository currently implements:
 
 - plugin-ready repository architecture;
 - the canonical Silver-Gold style contract;
-- background delivery profiles for product and showcase surfaces;
+- `product-light` and `showcase-neutral` background profiles;
 - source provenance and normalization decisions;
-- deterministic foundation validation.
+- reference roles, priority, multi-reference precedence, and source-quality evidence;
+- semantic, identity, object, composition, palette, text, and mandatory style locks;
+- generator-neutral scene, generation, and edit contracts;
+- a ten-block prompt pack with semantic negative groups;
+- five quality gates, a weighted QA scorecard, and critical rejection criteria;
+- output manifest and explicit user-visible delivery states;
+- deterministic foundation and runtime-contract validation.
 
-The runtime `SKILL.md`, generator adapters, prompt pack, complete QA layer, packaging manifest, and visual golden set are tracked by separate issues and are intentionally not implemented in this foundation change.
+The canonical `SKILL.md`, safety/rights policy, generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
 
 ## Core rule
 
 Silver is the structural material and occupies 70-85% of the declared material allocation. Gold is an accent and occupies 15-30%. Surfaces are matte or satin, geometry is low-poly and faceted, lighting uses a controlled rim light, and reflections remain minimal.
+
+## Runtime contracts
+
+- [Reference analysis](skills/silver-gold-image-pipeline/references/reference-analysis.md)
+- [Workflow and locks](skills/silver-gold-image-pipeline/references/workflow-and-locks.md)
+- [Prompt patterns](skills/silver-gold-image-pipeline/references/prompt-patterns.md)
+- [Quality gates](skills/silver-gold-image-pipeline/references/quality-gates.md)
+- [Output delivery](skills/silver-gold-image-pipeline/references/output-delivery.md)
 
 ## Architecture
 
@@ -30,13 +44,12 @@ Silver is the structural material and occupies 70-85% of the declared material a
 
 ## Validation
 
-Run the complete foundation validation locally:
-
 ```bash
 python3 scripts/validate_foundation.py
+python3 scripts/validate_runtime_contracts.py
 ```
 
-The repository-only run checks structure, ASCII paths, case-insensitive brand-neutral runtime boundaries, style invariants, source-map metadata, background-profile luminance consistency, and regression semantics. When both provenance source paths are supplied, it also verifies their NFC-normalized filenames and SHA-256 bytes.
+The runtime validator checks machine-readable templates, reference roles, lock fidelity, ratio contracts, prompt block order, generate/edit separation, semantic negatives, valid/invalid fixtures, QA weights, critical defects, smoke evidence, manifest versions, and `DELIVERY_MISSING` behavior.
 
 ## Digital trace
 

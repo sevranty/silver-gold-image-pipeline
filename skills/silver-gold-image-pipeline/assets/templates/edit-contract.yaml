@@ -1,0 +1,41 @@
+schema_version: 1.0.0
+contract_version: 0.1.0
+edit_id: null
+scene_id: null
+mode: edit
+target_image_id: null
+mask_reference_id: null
+iteration:
+  number: 1
+  targeted_corrections_used: 0
+  targeted_corrections_remaining: 2
+  full_restart_used: false
+diagnostic_category: material_error
+editable_regions: []
+protected_regions: []
+change_only:
+  expected_visible_change: null
+  instructions: []
+active_lock_snapshot:
+  semantic_lock: []
+  identity_lock: []
+  object_lock: []
+  composition_lock: []
+  palette_lock: []
+  text_lock: []
+  silver_gold_style_lock: []
+keep_unchanged:
+  from_active_locks:
+    semantic_lock: []
+    identity_lock: []
+    object_lock: []
+    composition_lock: []
+    palette_lock: []
+    text_lock: []
+    silver_gold_style_lock: []
+  additional_invariants:
+    - selected_background_profile
+    - protected_text_logo_and_mask_regions
+    - dimensions_and_crop
+stop_condition: one_diagnostic_category_resolved_without_regression
+adapter_limitations: []

@@ -1,0 +1,71 @@
+schema_version: 1.0.0
+manifest_schema_version: 0.1.0
+manifest_id: null
+versions:
+  skill_version: null
+  pipeline_core_version: 0.2.0
+  style_core_version: 0.1.0
+  background_profiles_version: 0.1.0
+  prompt_schema_version: 0.1.0
+  qa_schema_version: 0.1.0
+  manifest_schema_version: 0.1.0
+scene:
+  scene_id: null
+  transformation_mode: generate
+  background_profile: product-light
+references: []
+active_locks: []
+runtime:
+  tool: null
+  model: null
+  mode: null
+  capabilities_used: []
+  limitations: []
+iterations: []
+quality:
+  gates_passed: []
+  total_score: null
+  critical_defects: []
+  known_limitations: []
+files:
+  final:
+    required: true
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  preview:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  source_render:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  deterministic_overlay:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+delivery:
+  state: PLANNED
+  user_visible: false
+  delivery_method: null
+  repaired_without_regeneration: false

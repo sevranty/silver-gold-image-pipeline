@@ -12,6 +12,11 @@ Each rule has one owner file:
 - accepted architecture decisions: `docs/decision-log.md`;
 - Silver-Gold visual invariants: `skills/silver-gold-image-pipeline/references/style-spec.md`;
 - background selection and delivery behavior: `skills/silver-gold-image-pipeline/references/background-profiles.md`;
+- reference roles and evidence fields: `skills/silver-gold-image-pipeline/references/reference-analysis.md`;
+- workflow, locks, precedence, and iteration budget: `skills/silver-gold-image-pipeline/references/workflow-and-locks.md`;
+- prompt block assembly and contradictions: `skills/silver-gold-image-pipeline/references/prompt-patterns.md`;
+- QA gates, scorecard, and diagnostic mapping: `skills/silver-gold-image-pipeline/references/quality-gates.md`;
+- output states and user-visible delivery: `skills/silver-gold-image-pipeline/references/output-delivery.md`;
 - provenance and normalization: `docs/source-map.md`;
 - version semantics: `docs/style-versioning.md`.
 
@@ -29,8 +34,8 @@ The final runtime must support this direction:
 reference analysis
 -> locks
 -> scene brief
--> generation specification
--> preflight QA
+-> generation or edit specification
+-> prompt preflight
 -> generation or edit
 -> visual QA
 -> targeted correction
@@ -38,7 +43,7 @@ reference analysis
 -> user-visible final image
 ```
 
-A successful generation call without surfacing the final image to the user is not completion.
+A successful generation call without surfacing the final image to the user is not completion. Record it as `DELIVERY_MISSING`.
 
 ## Change discipline
 
@@ -56,6 +61,7 @@ Run:
 
 ```bash
 python3 scripts/validate_foundation.py
+python3 scripts/validate_runtime_contracts.py
 ```
 
-Do not claim visual quality from static validation. Material allocation and visual style compliance require manual visual QA in later tasks.
+Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, and target-size readability require manual visual QA.

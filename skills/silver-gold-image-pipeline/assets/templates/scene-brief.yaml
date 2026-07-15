@@ -1,0 +1,106 @@
+schema_version: 1.0.0
+contract_version: 0.1.0
+scene_id: null
+asset:
+  type: object
+  target_surface: product-ui
+transformation_mode: generate
+background_profile: product-light
+references:
+  analysis_card_id: null
+  reference_ids: []
+locks:
+  semantic_lock:
+    enabled: true
+    fidelity: 3
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+  identity_lock:
+    enabled: false
+    fidelity: 0
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+  object_lock:
+    enabled: true
+    fidelity: 3
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+  composition_lock:
+    enabled: true
+    fidelity: 2
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+  palette_lock:
+    enabled: false
+    fidelity: 0
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+  text_lock:
+    enabled: false
+    fidelity: 0
+    source_reference_ids: []
+    preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
+    deterministic_production: true
+  silver_gold_style_lock:
+    enabled: true
+    fidelity: 4
+    source_reference_ids: []
+    preserve:
+      - silver_structural_base
+      - gold_subordinate_accent
+      - matte_or_satin_surface
+      - low_poly_faceted_geometry
+      - clean_edges_and_sharp_folds
+      - controlled_rim_light
+      - minimal_local_highlights
+    allowed_deviation: []
+    evidence:
+      - references/style-spec.md
+    uncertainty: []
+scene:
+  subject: null
+  action: null
+  environment: null
+  camera: null
+  composition: null
+  safe_area: null
+materials:
+  silver_ratio: 80
+  gold_ratio: 20
+  style_contract: references/style-spec.md
+  reflection_rule: minimal-local-highlights-no-environment-reflection
+render:
+  geometry_rule: low-poly-faceted-clean-edges
+  lighting_rule: coherent-neutral-key-controlled-rim
+  shadow_rule: dense-clean-intentional
+preserve: []
+change: []
+exclude: []
+output:
+  aspect_ratio: "1:1"
+  width: 1024
+  height: 1024
+  alpha_required: false
+  target_size_check:
+    width: 256
+    height: 256
+capability_assumptions: []
+unresolved_risks: []

@@ -1,0 +1,46 @@
+schema_version: 1.0.0
+qa_schema_version: 0.1.0
+scorecard_id: smoke-product-light-object-001
+scene_id: smoke-scene-001
+status: pass
+gates:
+  input:
+    pass: true
+    reviewer_mode: mixed
+    evidence: [reference_available, roles_assigned, source_quality_3]
+    findings: []
+  scene_contract:
+    pass: true
+    reviewer_mode: static
+    evidence: [ratios_80_20, style_lock_4, product_light]
+    findings: []
+  prompt_preflight:
+    pass: true
+    reviewer_mode: static
+    evidence: [ten_blocks_ordered, semantic_groups_complete, no_brand_leakage]
+    findings: []
+  visual_result:
+    pass: true
+    reviewer_mode: manual
+    evidence: [silver_dominant, gold_subordinate, matte_satin, no_mirror, silhouette_readable]
+    findings: []
+    inspected_sizes: [1024x1024, 256x256]
+  technical_delivery:
+    pass: true
+    reviewer_mode: mixed
+    evidence: [png_opens, dimensions_1024x1024, ascii_filename, manifest_complete, user_visible]
+    findings: []
+scores:
+  task_semantic_fidelity: {weight: 20, minimum: 16, awarded: 19}
+  reference_locks: {weight: 15, minimum: 11, awarded: 14}
+  metal_allocation: {weight: 15, minimum: 12, awarded: 14}
+  material_reflection_compliance: {weight: 15, minimum: 12, awarded: 14}
+  geometry: {weight: 10, minimum: 7, awarded: 9}
+  lighting_shadows: {weight: 10, minimum: 7, awarded: 8}
+  composition_background_profile: {weight: 10, minimum: 7, awarded: 9}
+  technical_delivery: {weight: 5, minimum: 5, awarded: 5}
+total_awarded: 92
+pass_threshold: 85
+critical_defects: []
+diagnostics: []
+iteration_decision: deliver
