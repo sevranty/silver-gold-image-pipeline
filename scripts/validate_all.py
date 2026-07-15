@@ -16,6 +16,7 @@ COMMANDS = [
     [sys.executable, "scripts/validate_skill_runtime.py"],
     [sys.executable, "scripts/validate_adapters.py"],
     [sys.executable, "scripts/validate_regression_suite.py"],
+    [sys.executable, "scripts/validate_visual_evidence.py"],
     [sys.executable, "-m", "unittest", "tests/test_validation.py", "tests/test_regression_suite.py"],
 ]
 
