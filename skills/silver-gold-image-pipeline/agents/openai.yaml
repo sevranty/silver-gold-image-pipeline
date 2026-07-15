@@ -1,0 +1,4 @@
+interface:
+  display_name: Silver-Gold Image Pipeline
+  short_description: Transform references into controlled Silver-Gold images.
+  default_prompt: Use @silver-gold-image-pipeline to transform the supplied reference into a new Silver-Gold image and complete every analysis, lock, QA, correction, manifest, and user-visible delivery stage.
