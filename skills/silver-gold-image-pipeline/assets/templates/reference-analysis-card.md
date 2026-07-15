@@ -16,6 +16,42 @@ set_level:
   exact_text_required: false
   logo_asset_required: false
   unresolved_stop_conditions: []
+reference_entry_schema:
+  required_fields:
+    - reference_id
+    - primary_role
+    - secondary_roles
+    - priority
+    - available
+    - source_quality
+    - observations
+    - identity_critical
+    - construction_critical
+    - transferable
+    - non_transferable
+    - limitations
+    - uncertainty
+    - provenance
+  source_quality_range: [0, 4]
+  confidence_range: [0, 4]
+conflict_entry_schema:
+  required_fields:
+    - conflict_id
+    - concern
+    - competing_reference_ids
+    - selected_resolution
+    - rationale
+    - residual_risk
+    - stop_generation
+  allowed_concerns:
+    - subject
+    - identity
+    - object
+    - composition
+    - palette
+    - environment
+    - text
+    - mask
 ---
 
 # Reference analysis card
@@ -46,11 +82,13 @@ limitations:
   blur: null
   compression: null
   resolution: null
-uncertainty: []
+uncertainty:
+  - statement: null
+    confidence: 0
 provenance:
   contains_text: false
   contains_logo: false
   rights_note: null
 ```
 
-The YAML front matter is the canonical machine-readable document. The example defines entry shape and contains no runtime evidence until populated.
+Each `conflicts` entry follows `conflict_entry_schema` in the YAML front matter. The front matter is the canonical machine-readable template; examples are illustrative and contain no runtime evidence until populated.
