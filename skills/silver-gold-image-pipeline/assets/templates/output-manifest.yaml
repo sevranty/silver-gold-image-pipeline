@@ -28,9 +28,42 @@ quality:
   critical_defects: []
   known_limitations: []
 files:
-  final: null
-  preview: null
-  source_render: null
+  final:
+    required: true
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  preview:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  source_render:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
+  deterministic_overlay:
+    required: false
+    path: null
+    sha256: null
+    size_bytes: null
+    width: null
+    height: null
+    format: null
+    alpha: null
 delivery:
   state: PLANNED
   user_visible: false
