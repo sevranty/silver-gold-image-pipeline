@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+adapter_contract_version: 0.1.0
+decision_id: null
+run_id: null
+requested_mode: generate
+mandatory_capabilities: []
+available_profile_ids: []
+selected_profile_id: null
+runtime_available: false
+capability_results: []
+degradations: []
+preserved_requirements: []
+lost_requirements: []
+deterministic_post_processing: []
+fallback_level: null
+stop_reason: null
+actual_invocation:
+  provider: null
+  tool: null
+  model: null
+  version: null
+  output_surface: null
+  user_visible: false
