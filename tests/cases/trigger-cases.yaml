@@ -1,0 +1,45 @@
+schema_version: 1.0.0
+skill_version: 0.1.0
+cases:
+- id: trigger-reference-generate
+  expected: trigger
+  request: Create a new Silver-Gold 3D image from this attached product reference.
+- id: trigger-edit-existing
+  expected: trigger
+  request: Edit the attached image into Silver-Gold while keeping the camera and silhouette.
+- id: trigger-style-transfer
+  expected: trigger
+  request: Apply the Silver-Gold treatment to this available image without changing the subject.
+- id: trigger-composite
+  expected: trigger
+  request: Combine these subject and composition references into one Silver-Gold image.
+- id: trigger-sketch-render
+  expected: trigger
+  request: Turn this attached sketch into a Silver-Gold render.
+- id: trigger-reinterpret
+  expected: trigger
+  request: Reinterpret this reference in Silver-Gold with a new environment.
+- id: nontrigger-analysis
+  expected: non_trigger
+  request: Analyze this image and describe the composition.
+- id: nontrigger-resize
+  expected: non_trigger
+  request: Resize this image to 1024 by 1024 without changing it.
+- id: nontrigger-format
+  expected: non_trigger
+  request: Convert this PNG to WebP.
+- id: nontrigger-background-remove
+  expected: non_trigger
+  request: Remove the background without generating anything new.
+- id: nontrigger-other-style
+  expected: non_trigger
+  request: Make this attached image watercolor.
+- id: nontrigger-prompt-only
+  expected: non_trigger
+  request: Write a prompt for a Silver-Gold image but do not generate it.
+- id: nontrigger-no-image
+  expected: non_trigger
+  request: Transform the image I mentioned earlier, but no image is available here.
+- id: nontrigger-caption
+  expected: non_trigger
+  request: Write a caption for this image.
