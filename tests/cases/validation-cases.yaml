@@ -1,0 +1,16 @@
+schema_version: 1.0.0
+cases:
+- tool: validate_scene_spec
+  valid: valid-scene.yaml
+  invalid: invalid-scene.yaml
+- tool: validate_prompt
+  valid: valid-prompt.txt
+  valid_regression: negative-reflection-prompt.txt
+  invalid: invalid-prompt.txt
+- tool: validate_manifest
+  valid: valid-manifest.yaml
+  invalid: invalid-manifest.yaml
+- tool: inspect_image
+  generated_in_test: true
+- tool: package_asset
+  generated_in_test: true

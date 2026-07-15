@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+asset_id: silver-gold-test
+created_at: '2026-07-15T15:30:00Z'
+versions:
+  skill_version: 0.1.0
+  pipeline_core_version: 0.2.0
+  style_core_version: 0.1.0
+  background_profiles_version: 0.1.0
+  prompt_schema_version: 0.1.0
+  qa_schema_version: 0.1.0
+  manifest_schema_version: 0.1.0
+references:
+- path: references/input.png
+  role: subject_reference
+  provenance_status: authorized
+iterations: []
+quality:
+  status: pass
+  known_limitations:
+  - manual visual QA required
+files:
+  final:
+    path: assets/final.png
+    sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+    size_bytes: 1024
+bundled_assets:
+- path: assets/final.png
+  license_status: self-created
+  redistribution_status: allowed

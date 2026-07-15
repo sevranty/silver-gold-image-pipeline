@@ -1,0 +1,22 @@
+schema_version: 1.0.0
+contract_version: 0.1.0
+transformation_mode: generate
+background_profile: product-light
+references:
+  items:
+  - role: subject_reference
+    priority: 50
+locks:
+  silver_gold_style_lock:
+    enabled: true
+    fidelity: 4
+materials:
+  silver_ratio: 80
+  gold_ratio: 20
+preserve: []
+change: []
+exclude: []
+output:
+  width: 1024
+  height: 1024
+  aspect_ratio: '1:1'

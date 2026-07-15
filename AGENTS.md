@@ -62,14 +62,12 @@ A successful generation call without surfacing the final image to the user is no
 
 ## Validation
 
-Run:
+Run the complete offline suite:
 
 ```bash
-python3 scripts/validate_foundation.py
-python3 scripts/validate_runtime_contracts.py
-python3 scripts/validate_policy.py
-python3 scripts/validate_skill_runtime.py
-python3 scripts/validate_adapters.py
+python3 scripts/validate_all.py
 ```
+
+Individual CLIs support `--json` and return `0` on pass, `2` on validation failure, and argparse's non-zero usage code for invalid invocation.
 
 Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, and target-size readability require manual visual QA.
