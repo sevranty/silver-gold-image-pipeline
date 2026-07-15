@@ -52,6 +52,18 @@ cases:
     diagnostic_category: reflection_error
     keep_unchanged_count: 8
     reference_roles: [subject_reference, mask_reference]
+  - id: invalid-style-transfer-with-generate-prompt
+    expected_error: mode_mismatch
+    transformation_mode: style_transfer
+    background_profile: product-light
+    silver_ratio: 80
+    gold_ratio: 20
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    diagnostic_category: material_error
+    keep_unchanged_count: 8
+    reference_roles: [subject_reference]
   - id: invalid-external-style-role
     expected_error: reference_role
     transformation_mode: style_transfer
@@ -60,5 +72,7 @@ cases:
     gold_ratio: 25
     style_lock_enabled: true
     style_lock_fidelity: 4
-    prompt_mode: generate
+    prompt_mode: edit
+    diagnostic_category: material_error
+    keep_unchanged_count: 8
     reference_roles: [subject_reference, style_reference]
