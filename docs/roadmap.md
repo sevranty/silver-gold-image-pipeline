@@ -11,8 +11,8 @@
 - [x] #5 reference analysis, locks, scene contracts, and prompt pack merged through PR #16
 - [x] #6 quality gates and final delivery merged through PR #16
 - [x] #10 people, text, logo, and rights policy merged through PR #17
-- [ ] #2 canonical `SKILL.md` implemented in Draft PR #18; pending owner-review and merge
-- [ ] #9 generator capability matrix
+- [x] #2 canonical `SKILL.md` merged through PR #18
+- [ ] #9 generator capability matrix implemented in Draft PR #19; pending owner-review and merge
 
 ## Phase C: proof
 

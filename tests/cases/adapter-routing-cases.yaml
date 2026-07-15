@@ -1,0 +1,76 @@
+schema_version: 1.0.0
+adapter_contract_version: 0.1.0
+cases:
+- id: openai-reference-generate
+  available_profiles: [openai-native-image]
+  mode: generate
+  mandatory_capabilities: [text_to_image, reference_image_generation, multi_reference, aspect_ratio_control, resolution_control, visible_final_output]
+  expected_profile: openai-native-image
+  expected_outcome: fallback
+  expected_degradations: [visible_final_output]
+- id: openai-mask-edit
+  available_profiles: [openai-native-image]
+  mode: edit
+  mandatory_capabilities: [image_editing, mask_or_region_editing, composition_preservation, visible_final_output]
+  expected_profile: openai-native-image
+  expected_outcome: fallback
+  expected_degradations: [mask_or_region_editing, composition_preservation, visible_final_output]
+- id: openai-transparent-latest-model
+  available_profiles: [openai-native-image]
+  mode: generate
+  mandatory_capabilities: [text_to_image, transparent_output]
+  expected_profile: openai-native-image
+  expected_outcome: fallback
+  expected_degradations: [transparent_output]
+- id: nano-banana-multi-reference
+  available_profiles: [google-nano-banana-2]
+  mode: composite
+  mandatory_capabilities: [reference_image_generation, multi_reference, aspect_ratio_control, resolution_control, visible_final_output]
+  expected_profile: google-nano-banana-2
+  expected_outcome: fallback
+  expected_degradations: [visible_final_output]
+- id: nano-banana-style-transfer
+  available_profiles: [google-nano-banana-2]
+  mode: style_transfer
+  mandatory_capabilities: [image_editing, identity_preservation, composition_preservation, visible_final_output]
+  expected_profile: google-nano-banana-2
+  expected_outcome: fallback
+  expected_degradations: [identity_preservation, composition_preservation, visible_final_output]
+- id: nano-banana-exact-mask
+  available_profiles: [google-nano-banana-2]
+  mode: edit
+  mandatory_capabilities: [image_editing, mask_or_region_editing]
+  expected_profile: null
+  expected_outcome: stop
+  expected_stop_reason: CAPABILITY_UNSUPPORTED
+- id: future-empty-profile
+  available_profiles: [generic-runtime-detected]
+  mode: generate
+  mandatory_capabilities: [text_to_image, visible_final_output]
+  expected_profile: null
+  expected_outcome: stop
+  expected_stop_reason: CAPABILITY_UNSUPPORTED
+- id: choose-fewer-degradations
+  available_profiles: [openai-native-image, google-nano-banana-2]
+  mode: composite
+  mandatory_capabilities: [reference_image_generation, multi_reference, aspect_ratio_control, resolution_control]
+  expected_profile: openai-native-image
+  allowed_profiles: [openai-native-image, google-nano-banana-2]
+  expected_outcome: route
+  expected_degradations: []
+- id: exact-text-post-process
+  available_profiles: [openai-native-image, google-nano-banana-2]
+  mode: generate
+  mandatory_capabilities: [text_to_image, exact_text]
+  expected_profile: openai-native-image
+  allowed_profiles: [openai-native-image, google-nano-banana-2]
+  expected_outcome: fallback
+  expected_degradations: [exact_text]
+  deterministic_post_processing: [text]
+- id: seed-mandatory-stop
+  available_profiles: [openai-native-image, google-nano-banana-2]
+  mode: generate
+  mandatory_capabilities: [text_to_image, seed_reproducibility]
+  expected_profile: null
+  expected_outcome: stop
+  expected_stop_reason: CAPABILITY_UNSUPPORTED
