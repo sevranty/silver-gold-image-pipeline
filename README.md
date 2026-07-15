@@ -20,7 +20,7 @@ The repository currently implements:
 - operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
 - evidence-backed OpenAI, Nano Banana, and future-generator capability routing;
 - a complete offline static validation and packaging suite;
-- trigger, workflow, and manual visual regression contracts with deterministic synthetic QA anchors.
+- trigger, workflow, rejection-matrix, and manual visual regression contracts with deterministic synthetic QA anchors.
 
 Plugin packaging and the production README are tracked by separate issues.
 
@@ -45,10 +45,12 @@ Silver is the structural material and occupies 70-85% of the declared material a
 - [Trigger cases](tests/cases/trigger-cases.yaml)
 - [Workflow cases](tests/cases/workflow-cases.yaml)
 - [Visual regression cases](tests/cases/visual-regression-cases.yaml)
+- [Rejection matrix](tests/cases/rejection-matrix.yaml)
+- [Manual visual review records](docs/evidence/visual-manual-review.json)
 - [Anchor provenance](skills/silver-gold-image-pipeline/assets/anchors/provenance.yaml)
 - [Reproducibility manifest](skills/silver-gold-image-pipeline/assets/anchors/reproducibility-manifest.yaml)
 
-Synthetic SVG anchors are repository-generated structural QA examples. They are not image-generator outputs and do not prove perceptual quality. Every visual verdict requires manual review at full size and target size.
+Synthetic SVG anchors are repository-generated structural QA examples. They are not image-generator outputs and do not prove production visual quality. Every visual verdict requires manual review at full size and target size.
 
 ## Architecture
 
@@ -76,11 +78,12 @@ validate_scene_spec.py
 validate_prompt.py
 validate_manifest.py
 validate_regression_suite.py
+validate_visual_evidence.py
 inspect_image.py
 package_asset.py
 ```
 
-Static validators check structure, declared contracts, contextual prompt rules, trigger boundaries, policy actions, adapter routing, manifests, raster metadata, packaging, regression coverage, provenance, checksums, and brand-neutrality. They do not claim perceptual visual quality.
+Static validators check structure, declared contracts, contextual prompt rules, trigger boundaries, policy actions, adapter routing, manifests, raster metadata, packaging, regression coverage, manual-review evidence, provenance, checksums, and brand-neutrality. They do not claim perceptual visual quality.
 
 ## Digital trace
 
