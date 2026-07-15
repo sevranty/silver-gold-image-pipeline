@@ -76,7 +76,7 @@ The source documents combine reusable style rules with organization-specific own
 
 ## ADR-0004: Require intermediate analysis, locks, and typed prompt contracts
 
-Status: proposed in Draft PR #16  
+Status: accepted  
 Date: 2026-07-15  
 Related issues: #1, #5
 
@@ -89,9 +89,11 @@ A direct reference-to-prompt jump hides conflicts, overstates fidelity, and make
 - Every image receives an explicit role and priority.
 - Reference analysis records source quality, uncertainty, transferable features, and conflicts before generation.
 - Concern ownership is evaluated before numeric priority.
+- Every lock records preserve rules, allowed deviations, evidence, and uncertainty.
 - `silver_gold_style_lock` is mandatory at fidelity 4.
 - Scene briefs are generator-neutral and ratios must sum to 100.
-- Generate and edit contracts are separate.
+- Generate-like modes and image-preserving modes use separate contracts.
+- `style_transfer` is an image-preserving edit route and cannot silently degrade to free generation.
 - Prompt assembly uses ten ordered semantic blocks.
 - One targeted correction fixes one diagnostic category; budget is two corrections plus one full restart.
 
@@ -99,11 +101,12 @@ A direct reference-to-prompt jump hides conflicts, overstates fidelity, and make
 
 - Runtime behavior becomes auditable and generator-independent.
 - Low-quality evidence cannot silently become a high-fidelity promise.
+- Image-preserving transformations retain an explicit active-lock snapshot.
 - Future adapters must map typed blocks and record unsupported capabilities.
 
 ## ADR-0005: Make quality gates and user-visible delivery hard lifecycle boundaries
 
-Status: proposed in Draft PR #16  
+Status: accepted  
 Date: 2026-07-15  
 Related issues: #1, #6
 
@@ -117,11 +120,12 @@ A high aggregate score can conceal a critical style, semantic, or delivery failu
 - Pass requires at least 85/100, category minimums, all gates, and no critical defects.
 - Visual QA is manual at full and target size.
 - Critical defects reject independently of score.
+- Output manifests use typed file records for final, preview, source render, and deterministic overlays.
 - `DELIVERY_MISSING` is a failure state when generation succeeds but the image is not surfaced.
 - Only `DELIVERED` is a successful terminal state.
 
 ### Consequences
 
 - Static tools cannot claim subjective visual compliance.
-- Runtime must retain evidence, limitations, iterations, and delivery state in the manifest.
+- Runtime must retain evidence, limitations, iterations, file metadata, and delivery state in the manifest.
 - Empty final responses cannot be treated as successful completion.
