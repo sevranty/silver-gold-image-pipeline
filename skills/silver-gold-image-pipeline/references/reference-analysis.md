@@ -1,7 +1,7 @@
 # Reference analysis contract
 
 Contract version: 0.1.0  
-Status: proposed runtime contract  
+Status: accepted runtime contract  
 Related issue: #5
 
 ## 1. Purpose
@@ -114,4 +114,4 @@ Stop when identity, exact text, logo rights, or protected edit regions cannot be
 
 ## 8. Output
 
-The canonical analysis artifact is `assets/templates/reference-analysis-card.md`. A complete card is required before locks or a scene brief are created.
+The canonical analysis artifact is `assets/templates/reference-analysis-card.md`. A complete card is required before locks or a scene brief are created. Its YAML front matter includes machine-readable entry schemas; prose examples are illustrative only.
