@@ -1,0 +1,43 @@
+schema_version: 1.0.0
+policy_version: 0.1.0
+decision_id: null
+scene_id: null
+subject_category: not_applicable
+source:
+  available: false
+  quality: 0
+  provenance_status: unknown
+  permission_status: unknown
+  redistribution_status: unknown
+fidelity:
+  requested: 0
+  supported: 0
+risks:
+  identity: []
+  living_tissue: []
+  child_safety: []
+  exact_text: []
+  logo: []
+  privacy: []
+  external_style: []
+  reference_rights: []
+actions: []
+deterministic_layers:
+  text:
+    required: false
+    source_asset_id: null
+  logo:
+    required: false
+    source_asset_id: null
+public_fixture:
+  eligible: false
+  pii_absent: false
+  exif_removed: false
+  geolocation_removed: false
+  confidential_material_absent: false
+  redistribution_allowed: false
+  provenance_recorded: false
+stop_reasons: []
+user_visible_limitation: null
+decision_state: block
+rationale: []

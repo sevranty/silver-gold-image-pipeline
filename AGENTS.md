@@ -17,6 +17,7 @@ Each rule has one owner file:
 - prompt block assembly and contradictions: `skills/silver-gold-image-pipeline/references/prompt-patterns.md`;
 - QA gates, scorecard, and diagnostic mapping: `skills/silver-gold-image-pipeline/references/quality-gates.md`;
 - output states and user-visible delivery: `skills/silver-gold-image-pipeline/references/output-delivery.md`;
+- people, text, logo, privacy, provenance, and public-fixture decisions: `skills/silver-gold-image-pipeline/references/safety-and-rights.md`;
 - provenance and normalization: `docs/source-map.md`;
 - version semantics: `docs/style-versioning.md`.
 
@@ -32,6 +33,7 @@ The final runtime must support this direction:
 
 ```text
 reference analysis
+-> safety and rights decision
 -> locks
 -> scene brief
 -> generation or edit specification
@@ -62,6 +64,7 @@ Run:
 ```bash
 python3 scripts/validate_foundation.py
 python3 scripts/validate_runtime_contracts.py
+python3 scripts/validate_policy.py
 ```
 
 Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, and target-size readability require manual visual QA.

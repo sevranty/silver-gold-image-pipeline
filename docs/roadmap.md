@@ -8,9 +8,9 @@
 
 ## Phase B: runtime contracts
 
-- [ ] #5 reference analysis, locks, scene contracts, and prompt pack implemented in Draft PR #16; pending owner-review and merge
-- [ ] #6 quality gates and final delivery implemented in Draft PR #16; pending owner-review and merge
-- [ ] #10 people, text, logo, and rights policy
+- [x] #5 reference analysis, locks, scene contracts, and prompt pack merged through PR #16
+- [x] #6 quality gates and final delivery merged through PR #16
+- [ ] #10 people, text, logo, and rights policy implemented in Draft PR #17; pending owner-review and merge
 - [ ] #2 canonical `SKILL.md`
 - [ ] #9 generator capability matrix
 
