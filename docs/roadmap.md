@@ -3,7 +3,7 @@
 ## Phase A: foundation
 
 - [x] #1 repository architecture and source-of-truth matrix
-- [ ] #4 background delivery profiles and ADR
+- [x] #4 background delivery profiles and ADR
 - [ ] #3 canonical Silver-Gold style contract and source map
 
 ## Phase B: runtime contracts
