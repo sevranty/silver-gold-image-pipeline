@@ -1,0 +1,53 @@
+schema_version: 1
+contract_version: 0.1.0
+cases:
+  - id: product-light-pass
+    profile: product-light
+    expected: pass
+    background: light-neutral
+    background_hex: "#F7F7F8"
+    silver_ratio: 80
+    gold_ratio: 20
+    assertions:
+      - silver_separates_from_background
+      - controlled_contact_shadow
+      - no_mirror_glare
+      - safe_area_preserved
+
+  - id: product-light-fail
+    profile: product-light
+    expected: fail
+    background: pure-white
+    background_hex: "#FFFFFF"
+    silver_ratio: 72
+    gold_ratio: 28
+    defects:
+      - silver_dissolves_into_background
+      - broad_white_glare
+      - gold_used_as_primary_edge_separation
+
+  - id: showcase-neutral-pass
+    profile: showcase-neutral
+    expected: pass
+    background: dark-neutral-not-black
+    background_hex: "#34373D"
+    silver_ratio: 78
+    gold_ratio: 22
+    assertions:
+      - silver_remains_dominant_structural_material
+      - silhouette_separates
+      - neutral_key_and_rim_light
+      - full_primary_silhouette_preserved
+
+  - id: showcase-neutral-fail
+    profile: showcase-neutral
+    expected: fail
+    background: pure-black
+    background_hex: "#000000"
+    silver_ratio: 70
+    gold_ratio: 30
+    defects:
+      - black_gold_dominance
+      - obsidian_like_read
+      - silver_not_dominant
+      - silhouette_merges_with_background
