@@ -2,9 +2,9 @@
 
 ## Phase A: foundation
 
-- [x] #1 repository architecture and source-of-truth matrix
-- [x] #4 background delivery profiles and ADR
-- [x] #3 canonical Silver-Gold style contract and source map
+- [ ] #1 orchestration remains open; its foundation architecture slice is implemented by PR #15
+- [x] #4 background delivery profiles and ADR implemented by PR #15
+- [x] #3 canonical Silver-Gold style contract and source map implemented by PR #15
 
 ## Phase B: runtime contracts
 
