@@ -1,0 +1,63 @@
+schema_version: 1.0.0
+cases:
+  - id: valid-generate-product-light
+    transformation_mode: generate
+    background_profile: product-light
+    silver_ratio: 80
+    gold_ratio: 20
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+  - id: valid-edit-material-only
+    transformation_mode: edit
+    background_profile: product-light
+    silver_ratio: 75
+    gold_ratio: 25
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: edit
+    diagnostic_category: material_error
+    keep_unchanged_count: 8
+    reference_roles: [subject_reference, mask_reference]
+  - id: valid-composite-precedence
+    transformation_mode: composite
+    background_profile: showcase-neutral
+    silver_ratio: 78
+    gold_ratio: 22
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference, identity_reference, composition_reference]
+    priorities: [80, 100, 70]
+  - id: valid-style-transfer-internal-style
+    transformation_mode: style_transfer
+    background_profile: product-light
+    silver_ratio: 85
+    gold_ratio: 15
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference, composition_reference]
+  - id: valid-sketch-to-render
+    transformation_mode: sketch_to_render
+    background_profile: showcase-neutral
+    silver_ratio: 70
+    gold_ratio: 30
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+    source_quality: 2
+    object_fidelity: 2
+  - id: valid-text-deterministic
+    transformation_mode: reinterpretation
+    background_profile: product-light
+    silver_ratio: 82
+    gold_ratio: 18
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference, text_reference]
+    text_lock_enabled: true
+    deterministic_text: true

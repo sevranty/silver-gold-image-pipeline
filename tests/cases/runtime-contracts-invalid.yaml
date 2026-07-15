@@ -1,0 +1,64 @@
+schema_version: 1.0.0
+cases:
+  - id: invalid-ratio-sum
+    expected_error: ratio_sum
+    transformation_mode: generate
+    background_profile: product-light
+    silver_ratio: 80
+    gold_ratio: 25
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+  - id: invalid-gold-range
+    expected_error: gold_ratio_range
+    transformation_mode: generate
+    background_profile: product-light
+    silver_ratio: 65
+    gold_ratio: 35
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+  - id: invalid-style-lock-disabled
+    expected_error: style_lock
+    transformation_mode: generate
+    background_profile: product-light
+    silver_ratio: 80
+    gold_ratio: 20
+    style_lock_enabled: false
+    style_lock_fidelity: 0
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+  - id: invalid-background-profile
+    expected_error: background_profile
+    transformation_mode: generate
+    background_profile: pure-black
+    silver_ratio: 80
+    gold_ratio: 20
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference]
+  - id: invalid-edit-with-generate-prompt
+    expected_error: mode_mismatch
+    transformation_mode: edit
+    background_profile: product-light
+    silver_ratio: 80
+    gold_ratio: 20
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    diagnostic_category: reflection_error
+    keep_unchanged_count: 8
+    reference_roles: [subject_reference, mask_reference]
+  - id: invalid-external-style-role
+    expected_error: reference_role
+    transformation_mode: style_transfer
+    background_profile: showcase-neutral
+    silver_ratio: 75
+    gold_ratio: 25
+    style_lock_enabled: true
+    style_lock_fidelity: 4
+    prompt_mode: generate
+    reference_roles: [subject_reference, style_reference]

@@ -1,0 +1,52 @@
+schema_version: 1.0.0
+prompt_schema_version: 0.1.0
+spec_id: null
+scene_id: null
+mode: generate
+background_profile: product-light
+material_allocation:
+  silver_ratio: 80
+  gold_ratio: 20
+prompt_blocks:
+  - id: asset_and_use_case
+    content: null
+  - id: primary_subject_and_action
+    content: null
+  - id: required_construction_details
+    content: null
+  - id: composition_and_camera
+    content: null
+  - id: silver_gold_material_allocation
+    content: null
+  - id: geometry_and_edges
+    content: null
+  - id: background_profile
+    content: null
+  - id: lighting_shadows_reflections
+    content: null
+  - id: negative_constraints
+    content: null
+  - id: output_constraints
+    content: null
+required_semantic_markers:
+  - matte_or_satin_silver_structural_base
+  - subtle_subordinate_gold_accents
+  - declared_70_85_15_30_allocation
+  - low_poly_faceted_geometry
+  - clean_edges_and_sharp_folds
+  - controlled_rim_light
+  - minimal_local_highlights_no_environment_reflection
+negative_semantic_groups:
+  - gloss
+  - reflection
+  - chrome
+  - liquid_metal
+  - jewelry
+  - gold_dominance
+  - baroque
+  - surface_noise
+  - colored_reflection
+  - style_mixing
+exact_text_strategy: deterministic-post-processing
+logo_strategy: deterministic-provided-asset
+adapter_limitations: []
