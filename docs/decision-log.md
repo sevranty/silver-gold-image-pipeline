@@ -73,3 +73,55 @@ The source documents combine reusable style rules with organization-specific own
 - The public skill can be reused across projects.
 - Provenance remains auditable without leaking internal operating context.
 - Static tooling cannot claim pixel-perfect material measurement.
+
+## ADR-0004: Require intermediate analysis, locks, and typed prompt contracts
+
+Status: proposed in Draft PR #16  
+Date: 2026-07-15  
+Related issues: #1, #5
+
+### Context
+
+A direct reference-to-prompt jump hides conflicts, overstates fidelity, and makes edit iterations destructive. Multiple references also need concern ownership rather than a single global priority.
+
+### Decision
+
+- Every image receives an explicit role and priority.
+- Reference analysis records source quality, uncertainty, transferable features, and conflicts before generation.
+- Concern ownership is evaluated before numeric priority.
+- `silver_gold_style_lock` is mandatory at fidelity 4.
+- Scene briefs are generator-neutral and ratios must sum to 100.
+- Generate and edit contracts are separate.
+- Prompt assembly uses ten ordered semantic blocks.
+- One targeted correction fixes one diagnostic category; budget is two corrections plus one full restart.
+
+### Consequences
+
+- Runtime behavior becomes auditable and generator-independent.
+- Low-quality evidence cannot silently become a high-fidelity promise.
+- Future adapters must map typed blocks and record unsupported capabilities.
+
+## ADR-0005: Make quality gates and user-visible delivery hard lifecycle boundaries
+
+Status: proposed in Draft PR #16  
+Date: 2026-07-15  
+Related issues: #1, #6
+
+### Context
+
+A high aggregate score can conceal a critical style, semantic, or delivery failure. Tool success also does not prove that the user received an image.
+
+### Decision
+
+- Five gates run sequentially: input, scene, prompt, visual, technical delivery.
+- Pass requires at least 85/100, category minimums, all gates, and no critical defects.
+- Visual QA is manual at full and target size.
+- Critical defects reject independently of score.
+- `DELIVERY_MISSING` is a failure state when generation succeeds but the image is not surfaced.
+- Only `DELIVERED` is a successful terminal state.
+
+### Consequences
+
+- Static tools cannot claim subjective visual compliance.
+- Runtime must retain evidence, limitations, iterations, and delivery state in the manifest.
+- Empty final responses cannot be treated as successful completion.

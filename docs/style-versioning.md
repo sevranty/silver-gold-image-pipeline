@@ -13,15 +13,18 @@ The project versions these contracts independently:
 - `manifest_schema_version`: output evidence manifest;
 - `plugin_manifest_version`: distribution metadata schema.
 
-## Current foundation versions
+## Current contract versions
 
 ```yaml
-pipeline_core_version: 0.1.0
+pipeline_core_version: 0.2.0
 style_core_version: 0.1.0
 background_profiles_version: 0.1.0
+prompt_schema_version: 0.1.0
+qa_schema_version: 0.1.0
+manifest_schema_version: 0.1.0
 ```
 
-Runtime, prompt, QA, output-manifest, and plugin versions begin when their owning issues are implemented.
+`skill_version` begins with #2. `plugin_manifest_version` begins with #8.
 
 ## SemVer interpretation
 
@@ -32,9 +35,11 @@ A breaking change to:
 - numeric material ranges;
 - required material role;
 - profile IDs or their default-selection behavior;
-- critical rejection criteria;
+- reference-role or lock semantics;
+- prompt block order or required machine-readable fields;
+- critical rejection criteria or pass thresholds;
 - runtime stage ordering;
-- machine-readable schema fields.
+- delivery terminal-state meaning.
 
 ### Minor
 
@@ -42,8 +47,9 @@ A backward-compatible addition such as:
 
 - a new asset subtype;
 - an additional allowed neutral range;
-- a new optional QA diagnostic;
-- a new generator adapter.
+- a new optional lock or QA diagnostic;
+- a new generator adapter;
+- an optional manifest evidence field.
 
 ### Patch
 
