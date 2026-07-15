@@ -1,0 +1,147 @@
+schema_version: 1.0.0
+policy_version: 0.1.0
+cases:
+- id: self-clear-reference
+  subject_category: user_self
+  source_quality: 4
+  requested_fidelity: 4
+  permission_status: authorized
+  risks: []
+  actions:
+  - proceed
+  expected: pass
+- id: private-adult-insufficient-evidence
+  subject_category: private_adult
+  source_quality: 1
+  requested_fidelity: 4
+  permission_status: unknown
+  risks:
+  - identity
+  actions:
+  - lower_fidelity
+  - request_asset
+  expected: pass
+- id: child-safe-clothing-transform
+  subject_category: child
+  source_quality: 3
+  requested_fidelity: 2
+  permission_status: authorized
+  risks: []
+  actions:
+  - proceed
+  expected: pass
+- id: child-exploitative-treatment
+  subject_category: child
+  source_quality: 3
+  requested_fidelity: 2
+  permission_status: authorized
+  risks:
+  - child_safety
+  actions:
+  - stop
+  expected: reject
+- id: living-tissue-default-metal
+  subject_category: private_adult
+  source_quality: 3
+  requested_fidelity: 2
+  permission_status: authorized
+  risks:
+  - living_tissue
+  actions:
+  - transform
+  expected: pass
+- id: exact-text-deterministic
+  subject_category: not_applicable
+  source_quality: 3
+  requested_fidelity: 0
+  permission_status: authorized
+  risks:
+  - exact_text
+  actions:
+  - post_process
+  expected: pass
+- id: mandatory-logo-missing
+  subject_category: not_applicable
+  source_quality: 3
+  requested_fidelity: 0
+  permission_status: unknown
+  risks:
+  - logo
+  actions:
+  - request_asset
+  - stop
+  expected: reject
+- id: external-style-exact-imitation
+  subject_category: not_applicable
+  source_quality: 3
+  requested_fidelity: 0
+  permission_status: unknown
+  risks:
+  - external_style
+  actions:
+  - transform
+  expected: pass
+- id: public-fixture-clean
+  subject_category: not_applicable
+  source_quality: 4
+  requested_fidelity: 0
+  permission_status: authorized
+  risks: []
+  actions:
+  - proceed
+  expected: pass
+  public_fixture:
+    eligible: true
+    pii_absent: true
+    exif_removed: true
+    geolocation_removed: true
+    confidential_material_absent: true
+    redistribution_allowed: true
+    provenance_recorded: true
+- id: public-fixture-with-pii
+  subject_category: private_adult
+  source_quality: 4
+  requested_fidelity: 1
+  permission_status: authorized
+  risks:
+  - privacy
+  actions:
+  - stop
+  expected: reject
+  public_fixture:
+    eligible: false
+    pii_absent: false
+    exif_removed: true
+    geolocation_removed: true
+    confidential_material_absent: true
+    redistribution_allowed: true
+    provenance_recorded: true
+- id: unknown-redistribution
+  subject_category: not_applicable
+  source_quality: 3
+  requested_fidelity: 0
+  permission_status: authorized
+  risks:
+  - privacy
+  actions:
+  - request_asset
+  expected: reject
+  public_fixture:
+    eligible: false
+    pii_absent: true
+    exif_removed: true
+    geolocation_removed: true
+    confidential_material_absent: true
+    redistribution_allowed: false
+    provenance_recorded: false
+- id: unsupported-identity-capability
+  subject_category: public_person
+  source_quality: 4
+  requested_fidelity: 4
+  supported_fidelity: 2
+  permission_status: authorized
+  risks:
+  - identity
+  actions:
+  - lower_fidelity
+  expected: pass
