@@ -16,35 +16,48 @@ locks:
     source_reference_ids: []
     preserve: []
     allowed_deviation: []
+    evidence: []
+    uncertainty: []
   identity_lock:
     enabled: false
     fidelity: 0
     source_reference_ids: []
     preserve: []
     allowed_deviation: []
+    evidence: []
+    uncertainty: []
   object_lock:
     enabled: true
     fidelity: 3
     source_reference_ids: []
     preserve: []
     allowed_deviation: []
+    evidence: []
+    uncertainty: []
   composition_lock:
     enabled: true
     fidelity: 2
     source_reference_ids: []
     preserve: []
     allowed_deviation: []
+    evidence: []
+    uncertainty: []
   palette_lock:
     enabled: false
     fidelity: 0
     source_reference_ids: []
     preserve: []
     allowed_deviation: []
+    evidence: []
+    uncertainty: []
   text_lock:
     enabled: false
     fidelity: 0
     source_reference_ids: []
     preserve: []
+    allowed_deviation: []
+    evidence: []
+    uncertainty: []
     deterministic_production: true
   silver_gold_style_lock:
     enabled: true
@@ -59,6 +72,9 @@ locks:
       - controlled_rim_light
       - minimal_local_highlights
     allowed_deviation: []
+    evidence:
+      - references/style-spec.md
+    uncertainty: []
 scene:
   subject: null
   action: null
