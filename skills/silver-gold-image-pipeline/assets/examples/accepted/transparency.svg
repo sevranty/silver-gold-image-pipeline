@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<title>Accepted transparent Silver-Gold QA anchor</title>
+
+<polygon points="512,282 704,406 512,520" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="704,406 651,670 512,520" fill="#7A828D" stroke="none" stroke-width="0"/>
+<polygon points="651,670 512,766 512,520" fill="#9AA1AA" stroke="none" stroke-width="0"/>
+<polygon points="512,766 373,670 512,520" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="373,670 320,406 512,520" fill="#D2D6DB" stroke="none" stroke-width="0"/>
+<polygon points="320,406 512,282 512,520" fill="#A4AAB2" stroke="none" stroke-width="0"/>
+<polygon points="512,282 704,406 651,670" fill="none" stroke="#C89B2B" stroke-width="16"/>
+<polygon points="512,766 373,670 320,406" fill="none" stroke="#C89B2B" stroke-width="12"/>
+</svg>

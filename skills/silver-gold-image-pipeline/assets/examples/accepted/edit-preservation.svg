@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<title>Accepted edit-preservation QA anchor</title>
+<rect width="1024" height="1024" fill="#F4F5F7"/>
+<line x1="512" y1="120" x2="512" y2="904" stroke="#9AA1AA" stroke-width="4" stroke-dasharray="18 16"/>
+<rect x="120" y="260" width="280" height="420" rx="42" fill="#B9C0C8"/><circle cx="260" cy="470" r="72" fill="#8A929C"/>
+<polygon points="760,353 895,439 760,520" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="895,439 858,625 760,520" fill="#7A828D" stroke="none" stroke-width="0"/>
+<polygon points="858,625 760,694 760,520" fill="#9AA1AA" stroke="none" stroke-width="0"/>
+<polygon points="760,694 662,625 760,520" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="662,625 625,439 760,520" fill="#D2D6DB" stroke="none" stroke-width="0"/>
+<polygon points="625,439 760,353 760,520" fill="#A4AAB2" stroke="none" stroke-width="0"/>
+<polygon points="760,353 895,439 858,625" fill="none" stroke="#C89B2B" stroke-width="11"/>
+<polygon points="760,694 662,625 625,439" fill="none" stroke="#C89B2B" stroke-width="9"/>
+<text x="260" y="760" text-anchor="middle" font-family="Arial" font-size="32" fill="#5D6570">INPUT</text><text x="760" y="760" text-anchor="middle" font-family="Arial" font-size="32" fill="#5D6570">EDIT</text>
+</svg>
