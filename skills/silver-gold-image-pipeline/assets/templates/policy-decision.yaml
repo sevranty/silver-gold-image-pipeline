@@ -20,6 +20,7 @@ risks:
   logo: []
   privacy: []
   external_style: []
+  reference_rights: []
 actions: []
 deterministic_layers:
   text:
@@ -38,3 +39,5 @@ public_fixture:
   provenance_recorded: false
 stop_reasons: []
 user_visible_limitation: null
+decision_state: block
+rationale: []
