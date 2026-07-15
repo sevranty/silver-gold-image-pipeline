@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+defects:
+  - id: gold_base_material
+    accepted: {silver_structural: true, gold_subordinate: true}
+    rejected: {silver_structural: false, gold_body: true}
+  - id: silver_not_dominant
+    accepted: {silver_perceptually_dominant: true}
+    rejected: {silver_perceptually_dominant: false}
+  - id: gloss_mirror_chrome
+    accepted: {surface: matte-satin, environment_reflection: false}
+    rejected: {surface: chrome, environment_reflection: true}
+  - id: jewelry_baroque
+    accepted: {ornament_first: false}
+    rejected: {ornament_first: true}
+  - id: wrong_subject_or_meaning
+    accepted: {primary_subject_correct: true, action_correct: true}
+    rejected: {primary_subject_correct: false, action_correct: false}
+  - id: identity_or_construction_failure
+    accepted: {identity_preserved: true, construction_valid: true}
+    rejected: {identity_preserved: false, construction_valid: false}
+  - id: background_profile_failure
+    accepted: {selected_profile_respected: true}
+    rejected: {selected_profile_respected: false}
+  - id: required_text_or_logo_damaged
+    accepted: {deterministic_layer_intact: true}
+    rejected: {deterministic_layer_intact: false}
+  - id: delivery_missing
+    accepted: {delivery_state: DELIVERED, user_visible: true}
+    rejected: {delivery_state: DELIVERY_MISSING, user_visible: false}
