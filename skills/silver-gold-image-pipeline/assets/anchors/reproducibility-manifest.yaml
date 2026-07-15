@@ -12,13 +12,13 @@ assets:
   sha256: 6d46ff6d98d862aafd11f349ba5675a7074e9a358f64c708b6d31b7555c8735b
 - path: skills/silver-gold-image-pipeline/assets/examples/accepted/transparency.svg
   sha256: 20abaf87374395a10370cde34d6a0efe5e9df1e44936832b9f74a461cf980077
-- path: skils/silver-gold-image-pipeline/assets/examples/accepted/edit-preservation.svg
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/edit-preservation.svg
   sha256: 602dbdff5d6ec35096ba2680456abc3ff2278fa1f77bac6aaef5ec852a2e7f41
 - path: skills/silver-gold-image-pipeline/assets/examples/accepted/people-nonmetal-tissue.svg
   sha256: 207234a2c67f2f989d7913a904f18fe579b381f565a0d6e7d45e9025eeb162b1
 - path: skills/silver-gold-image-pipeline/assets/examples/accepted/text-logo-postprocess.svg
   sha256: c9ac631c73dbdf14354461a16c827380d20dfdc1ec8673bf24c0c2196d88e2d5
-- path: skils/silver-gold-image-pipeline/assets/examples/rejected/gold-dominance.svg
+- path: skills/silver-gold-image-pipeline/assets/examples/rejected/gold-dominance.svg
   sha256: ed467a7f0a178f898742ee13c171a63e0cbeece56ae9823cca7a717138ed2e1b
 - path: skills/silver-gold-image-pipeline/assets/examples/rejected/chrome-gloss.svg
   sha256: b2b88fe7f9a93e4349de55354b1148163e8d8b1c615f3100e5cee13842c56e10
