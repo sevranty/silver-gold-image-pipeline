@@ -1,7 +1,7 @@
 # Prompt patterns contract
 
 Prompt schema version: 0.1.0  
-Status: proposed runtime contract  
+Status: accepted runtime contract  
 Related issue: #5
 
 ## 1. Purpose
@@ -59,7 +59,7 @@ The phrase `minimal reflections` is valid only as a bounded positive rule and mu
 
 ## 5. Generate pattern
 
-Generate mode describes a new image. It must:
+Generate-like modes describe a new image. They must:
 
 - use the scene brief as the only content source;
 - name required construction details;
@@ -70,7 +70,7 @@ Generate mode describes a new image. It must:
 
 ## 6. Edit pattern
 
-Edit mode has two sections:
+Image-preserving modes `edit` and `style_transfer` use two sections:
 
 ### Change only
 
@@ -81,6 +81,7 @@ Edit mode has two sections:
 
 ### Keep unchanged
 
+- actual invariants copied from the active-lock snapshot;
 - primary subject and identity;
 - object construction not implicated in the correction;
 - camera and composition unless `composition_error` is selected;
@@ -89,7 +90,7 @@ Edit mode has two sections:
 - protected text, logo, and mask regions;
 - dimensions and crop unless `technical_error` is selected.
 
-An edit prompt must not introduce a second diagnostic category.
+An edit prompt must not introduce a second diagnostic category or replace the active-lock snapshot with a generic checklist.
 
 ## 7. Prompt contradiction checks
 
@@ -100,6 +101,7 @@ Reject preflight when:
 - material ratios in prompt blocks differ from the scene brief;
 - the background profile is absent or not one of `product-light` and `showcase-neutral`;
 - generate and edit instructions are mixed;
+- `style_transfer` is routed as generate;
 - an edit omits active `keep_unchanged` invariants;
 - exact text or a logo is requested through stochastic generation despite a deterministic requirement;
 - the prompt contains source-brand identifiers or an external style resolver.
