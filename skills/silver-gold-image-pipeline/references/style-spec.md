@@ -163,23 +163,19 @@ These are asset subtypes, not separate styles.
 
 - larger controlled negative space;
 - more visible planar construction;
-- may use `showcase-neutral` when the delivery context requires it.
+- requests `showcase-neutral` only when the delivery context satisfies `background-profiles.md`.
 
 ### Product-surface object
 
-- uses `product-light` by default;
+- requests `product-light` according to `background-profiles.md`;
 - preserves UI and text contrast;
 - keeps shadow and detail subordinate to the surrounding interface.
 
 ## 9. Background behavior
 
-The canonical background contract is `background-profiles.md`.
+`background-profiles.md` is the exclusive source of truth for profile IDs, default selection, tonal ranges, safe areas, crop behavior, transparency, and background-specific rejection criteria.
 
-- default: `product-light`;
-- explicit showcase use: `showcase-neutral`;
-- pure black is rejected;
-- transparency is post-processing, not a style;
-- a background profile never changes the material allocation or surface rules.
+This style contract only requires that a valid profile be selected and that profile selection never changes material allocation, geometry, surface, or lighting invariants.
 
 ## 10. Critical rejection criteria
 
@@ -194,8 +190,7 @@ Reject the result regardless of other quality scores when any of the following i
 - noisy texture, scratches, dirt, grunge, or colored reflection;
 - missing readable silhouette;
 - wrong primary subject or lost reference-critical construction;
-- selected background profile is violated;
-- final asset cannot be surfaced to the user.
+- selected background profile is violated.
 
 ## 11. Tolerated variation
 
