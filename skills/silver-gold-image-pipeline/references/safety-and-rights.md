@@ -8,12 +8,18 @@ Related issue: #10
 
 This policy converts people, text, logo, privacy, provenance, and reference-rights risks into explicit runtime actions. It is an operational gate, not a legal opinion. The runtime records the available evidence, chooses the least-destructive compliant action, and stops when a required permission, source asset, or usable reference is missing.
 
+Decision states:
+
+- `pass` — policy permits the workflow to continue;
+- `block` — required evidence or asset must be supplied before continuing;
+- `reject` — the requested treatment cannot proceed under the active constraints.
+
 Allowed actions:
 
 - `proceed` — continue under the declared locks;
 - `transform` — preserve allowed content while changing risky or unsupported treatment;
 - `post_process` — reserve a deterministic production layer after generation;
-- `request_asset` — require an actual authorized source file;
+- `request_asset` — require an actual authorized source file and set the decision state to `block` until it is supplied;
 - `lower_fidelity` — reduce a preservation promise to the supported evidence/capability level;
 - `stop` — do not generate or deliver.
 
@@ -26,13 +32,13 @@ Before prompt assembly, create `assets/templates/policy-decision.yaml`. Record:
 - source availability and quality;
 - permission or provenance status;
 - requested fidelity and supported fidelity;
-- text, logo, privacy, and style-reference risks;
-- selected actions and rationale;
+- text, logo, privacy, reference-rights, and style-reference risks;
+- decision state, selected actions, and rationale;
 - required deterministic layers;
 - public-fixture eligibility;
 - stop reasons and user-visible limitation.
 
-No unknown permission is converted into `authorized` by assumption.
+No unknown permission is converted into `authorized` by assumption. `request_asset` is never a passing terminal decision.
 
 ## 3. People
 
@@ -121,7 +127,7 @@ Before any image or metadata enters a public fixture:
 | living tissue would be metallized by default | `transform` | `stop` if non-living interpretation is rejected |
 | exact text required | `post_process` | `request_asset` or `stop` when wording is missing |
 | exact logo required | `request_asset` + `post_process` | `stop` when mandatory asset/authorization is missing |
-| unknown reference redistribution status | `request_asset` | exclude from public fixtures |
+| unknown reference permission or redistribution status | `request_asset` and `block` | `stop` when the required use cannot be authorized |
 | named contemporary creator imitation | `transform` to internal contract | `stop` if exact imitation is essential |
 | PII, EXIF, geolocation, confidential material | sanitize and `transform` | `stop` if sanitization cannot be verified |
 | unsupported generator capability | `lower_fidelity` or supported fallback | `stop` when a mandatory lock would be lost |
@@ -135,7 +141,7 @@ Fail or stop when:
 - a required image is unavailable;
 - identity fidelity exceeds evidence;
 - a mandatory logo/text asset is missing;
-- permission/provenance status is unresolved for a required exact asset;
+- permission/provenance status is unresolved for a required exact asset or reference use;
 - a public fixture contains private or confidential material.
 
 ### Scene and prompt gates
