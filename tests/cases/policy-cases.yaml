@@ -20,7 +20,7 @@ cases:
   actions:
   - lower_fidelity
   - request_asset
-  expected: pass
+  expected: block
 - id: child-safe-clothing-transform
   subject_category: child
   source_quality: 3
@@ -122,10 +122,10 @@ cases:
   requested_fidelity: 0
   permission_status: authorized
   risks:
-  - privacy
+  - reference_rights
   actions:
   - request_asset
-  expected: reject
+  expected: block
   public_fixture:
     eligible: false
     pii_absent: true
@@ -145,3 +145,23 @@ cases:
   actions:
   - lower_fidelity
   expected: pass
+- id: authorized-logo-postprocess
+  subject_category: not_applicable
+  source_quality: 4
+  requested_fidelity: 0
+  permission_status: authorized
+  risks:
+  - logo
+  actions:
+  - post_process
+  expected: pass
+- id: required-reference-rights-unknown
+  subject_category: not_applicable
+  source_quality: 3
+  requested_fidelity: 1
+  permission_status: unknown
+  risks:
+  - reference_rights
+  actions:
+  - request_asset
+  expected: block
