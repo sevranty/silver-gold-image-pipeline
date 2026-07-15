@@ -19,9 +19,9 @@ The repository currently implements:
 - output manifest and explicit user-visible delivery states;
 - operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
 - evidence-backed OpenAI, Nano Banana, and future-generator capability routing;
-- deterministic foundation, runtime-contract, policy, skill-runtime, and adapter validation.
+- a complete offline static validation and packaging suite.
 
-The complete static validation suite, visual evaluation suite, plugin packaging, and production README are tracked by separate issues.
+The visual evaluation suite, plugin packaging, and production README are tracked by separate issues.
 
 ## Core rule
 
@@ -50,15 +50,24 @@ Silver is the structural material and occupies 70-85% of the declared material a
 
 ## Validation
 
+Run every deterministic offline check:
+
 ```bash
-python3 scripts/validate_foundation.py
-python3 scripts/validate_runtime_contracts.py
-python3 scripts/validate_policy.py
-python3 scripts/validate_skill_runtime.py
-python3 scripts/validate_adapters.py
+python3 scripts/validate_all.py
 ```
 
-Static validators check structure, declared contracts, trigger boundaries, policy actions, adapter routing, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
+Individual CLIs:
+
+```text
+validate_skill_structure.py
+validate_scene_spec.py
+validate_prompt.py
+validate_manifest.py
+inspect_image.py
+package_asset.py
+```
+
+Static validators check structure, declared contracts, contextual prompt rules, trigger boundaries, policy actions, adapter routing, manifests, raster metadata, packaging, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
 
 ## Digital trace
 
