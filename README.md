@@ -7,6 +7,7 @@ A mono-style reference-to-image pipeline for producing new 3D assets with a matt
 The repository currently implements:
 
 - plugin-ready repository architecture;
+- canonical `SKILL.md` runtime orchestration and OpenAI presentation metadata;
 - the canonical Silver-Gold style contract;
 - `product-light` and `showcase-neutral` background profiles;
 - source provenance and normalization decisions;
@@ -17,16 +18,17 @@ The repository currently implements:
 - five quality gates, a weighted QA scorecard, and critical rejection criteria;
 - output manifest and explicit user-visible delivery states;
 - operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
-- deterministic foundation, runtime-contract, and policy validation.
+- deterministic foundation, runtime-contract, policy, and skill-runtime validation.
 
-The canonical `SKILL.md`, generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
+Generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
 
 ## Core rule
 
 Silver is the structural material and occupies 70-85% of the declared material allocation. Gold is an accent and occupies 15-30%. Surfaces are matte or satin, geometry is low-poly and faceted, lighting uses a controlled rim light, and reflections remain minimal.
 
-## Runtime contracts
+## Runtime
 
+- [Canonical SKILL.md](skills/silver-gold-image-pipeline/SKILL.md)
 - [Reference analysis](skills/silver-gold-image-pipeline/references/reference-analysis.md)
 - [Workflow and locks](skills/silver-gold-image-pipeline/references/workflow-and-locks.md)
 - [Prompt patterns](skills/silver-gold-image-pipeline/references/prompt-patterns.md)
@@ -50,9 +52,10 @@ Silver is the structural material and occupies 70-85% of the declared material a
 python3 scripts/validate_foundation.py
 python3 scripts/validate_runtime_contracts.py
 python3 scripts/validate_policy.py
+python3 scripts/validate_skill_runtime.py
 ```
 
-Static validators check structure, declared contracts, policy actions, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
+Static validators check structure, declared contracts, trigger boundaries, policy actions, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
 
 ## Digital trace
 
