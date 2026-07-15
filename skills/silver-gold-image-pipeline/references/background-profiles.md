@@ -84,7 +84,7 @@ Reject when:
 ### Background
 
 - neutral mid-gray to dark graphite;
-- recommended relative luminance: 0.04-0.36;
+- recommended relative luminance: 0.018-0.36;
 - pure black `#000000` is not allowed;
 - no colored environment, material texture, or luminous gradient.
 
@@ -92,7 +92,7 @@ Examples of acceptable neutral backgrounds include `#24262B`, `#34373D`, `#4B4F5
 
 ### Object contrast
 
-- silver remains the dominant and brightest material family;
+- silver remains the dominant structural material family;
 - at least one major silver plane and the outer silhouette must separate from the background;
 - the result must not read as black material with gold accents.
 
