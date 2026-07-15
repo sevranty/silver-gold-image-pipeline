@@ -4,7 +4,7 @@
 
 - [x] #1 repository architecture and source-of-truth matrix
 - [x] #4 background delivery profiles and ADR
-- [ ] #3 canonical Silver-Gold style contract and source map
+- [x] #3 canonical Silver-Gold style contract and source map
 
 ## Phase B: runtime contracts
 

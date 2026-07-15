@@ -49,3 +49,27 @@ The source style specification allows a dark or neutral background. The broader 
 - Product use has a predictable default.
 - Showcase use remains possible without drifting into black-gold or obsidian-like aesthetics.
 - Prompts, QA, adapters, and regression cases must reference a profile ID.
+
+## ADR-0003: Normalize source rules into a brand-neutral style contract
+
+Status: accepted  
+Date: 2026-07-15  
+Related issues: #1, #3
+
+### Context
+
+The source documents combine reusable style rules with organization-specific ownership, product scope, platform guidance, and internal artifact names.
+
+### Decision
+
+- Reusable visual rules are normalized into `style-spec.md`.
+- Source files and their checksums are recorded in `docs/source-map.md`.
+- Organization names, internal RACI, internal artifact IDs, fixed brand colors, and product-specific governance remain outside runtime.
+- The source documents are not shipped in the runtime package.
+- Declared metal allocation is machine-checkable; actual visual allocation is verified manually.
+
+### Consequences
+
+- The public skill can be reused across projects.
+- Provenance remains auditable without leaking internal operating context.
+- Static tooling cannot claim pixel-perfect material measurement.
