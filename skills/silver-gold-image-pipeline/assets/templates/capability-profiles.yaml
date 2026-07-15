@@ -1,0 +1,76 @@
+schema_version: 1.0.0
+adapter_contract_version: 0.1.0
+status_values: [supported, partial, unsupported]
+profiles:
+- id: openai-native-image
+  provider: OpenAI
+  family: GPT Image
+  checked_at: 2026-07-15
+  runtime_availability_required: true
+  evidence_sources:
+  - url: https://developers.openai.com/api/docs/guides/image-generation
+    type: official_documentation
+    retrieved_at: 2026-07-15
+  capabilities:
+    text_to_image: {status: supported, evidence: official guide documents generations, limitations: []}
+    reference_image_generation: {status: supported, evidence: official guide documents one or more reference images, limitations: []}
+    image_editing: {status: supported, evidence: official guide documents edits and multi-turn editing, limitations: []}
+    mask_or_region_editing: {status: partial, evidence: official guide documents prompt-guided masks, limitations: [mask shape may not be followed with complete precision]}
+    multi_reference: {status: supported, evidence: official guide documents multiple input/reference images, limitations: [provider input limits remain model-specific]}
+    identity_preservation: {status: partial, evidence: high-fidelity image input workflow exists, limitations: [not a deterministic identity guarantee]}
+    composition_preservation: {status: partial, evidence: edit and reference workflows exist, limitations: [manual lock verification required]}
+    transparent_output: {status: partial, evidence: transparency depends on model support, limitations: [gpt-image-2 does not support transparent backgrounds]}
+    exact_text: {status: partial, evidence: image generation can render text, limitations: [SGP still requires deterministic production for exact wording]}
+    aspect_ratio_control: {status: supported, evidence: official guide documents square portrait and landscape sizes, limitations: [not arbitrary ratios]}
+    resolution_control: {status: supported, evidence: official guide documents size and quality controls, limitations: [supported sizes are model-specific]}
+    seed_reproducibility: {status: unsupported, evidence: no stable seed control documented in checked guide, limitations: [use manifest reproducibility evidence]}
+    visible_final_output: {status: partial, evidence: APIs return image outputs, limitations: [runtime must explicitly surface artifact to user]}
+    iterative_editing: {status: supported, evidence: Responses API documents multi-turn editing, limitations: [drift requires QA after each turn]}
+  silver_gold_risks: [chrome_mirror_amplification, gold_overfill, matte_loss, rim_light_drift, metallic_noise, background_drift, black_gold_drift, identity_composition_drift]
+- id: google-nano-banana-2
+  provider: Google
+  family: Gemini native image generation
+  checked_at: 2026-07-15
+  runtime_availability_required: true
+  evidence_sources:
+  - url: https://ai.google.dev/gemini-api/docs/image-generation
+    type: official_documentation
+    retrieved_at: 2026-07-15
+  capabilities:
+    text_to_image: {status: supported, evidence: official guide documents text-to-image, limitations: []}
+    reference_image_generation: {status: supported, evidence: official guide accepts text and image inputs, limitations: []}
+    image_editing: {status: supported, evidence: official guide documents text-and-image-to-image editing, limitations: []}
+    mask_or_region_editing: {status: unsupported, evidence: no exact mask API relied on by checked guide, limitations: [use conversational whole-image edit or another adapter]}
+    multi_reference: {status: supported, evidence: official guide documents combining multiple images, limitations: [model-specific reference limits]}
+    identity_preservation: {status: partial, evidence: consistency and multiple-reference processing are documented, limitations: [not deterministic identity preservation]}
+    composition_preservation: {status: partial, evidence: conversational edit workflow exists, limitations: [manual lock verification required]}
+    transparent_output: {status: unsupported, evidence: native alpha is not relied on by checked guide, limitations: [use controlled background and verified post-processing]}
+    exact_text: {status: partial, evidence: reliable text rendering is described for current model family, limitations: [exact wording still uses deterministic production]}
+    aspect_ratio_control: {status: supported, evidence: response_format supports aspect_ratio, limitations: [allowed ratios are model-specific]}
+    resolution_control: {status: supported, evidence: response_format supports image_size including documented 2K and 4K profiles, limitations: [model-specific sizes]}
+    seed_reproducibility: {status: unsupported, evidence: no stable seed control relied on by checked guide, limitations: [use manifest reproducibility evidence]}
+    visible_final_output: {status: partial, evidence: API returns output image data, limitations: [runtime must explicitly surface artifact to user]}
+    iterative_editing: {status: supported, evidence: guide describes conversational creation editing and iteration, limitations: [drift requires QA after each turn]}
+  silver_gold_risks: [chrome_mirror_amplification, gold_overfill, matte_loss, rim_light_drift, metallic_noise, background_drift, black_gold_drift, identity_composition_drift]
+- id: generic-runtime-detected
+  provider: generic
+  family: future adapter template
+  checked_at: null
+  runtime_availability_required: true
+  evidence_sources: []
+  capabilities:
+    text_to_image: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    reference_image_generation: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    image_editing: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    mask_or_region_editing: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    multi_reference: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    identity_preservation: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    composition_preservation: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    transparent_output: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    exact_text: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    aspect_ratio_control: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    resolution_control: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    seed_reproducibility: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    visible_final_output: {status: unsupported, evidence: runtime evidence required, limitations: []}
+    iterative_editing: {status: unsupported, evidence: runtime evidence required, limitations: []}
+  silver_gold_risks: [chrome_mirror_amplification, gold_overfill, matte_loss, rim_light_drift, metallic_noise, background_drift, black_gold_drift, identity_composition_drift]
