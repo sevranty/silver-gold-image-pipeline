@@ -16,9 +16,10 @@ The repository currently implements:
 - a ten-block prompt pack with semantic negative groups;
 - five quality gates, a weighted QA scorecard, and critical rejection criteria;
 - output manifest and explicit user-visible delivery states;
-- deterministic foundation and runtime-contract validation.
+- operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
+- deterministic foundation, runtime-contract, and policy validation.
 
-The canonical `SKILL.md`, safety/rights policy, generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
+The canonical `SKILL.md`, generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
 
 ## Core rule
 
@@ -31,6 +32,7 @@ Silver is the structural material and occupies 70-85% of the declared material a
 - [Prompt patterns](skills/silver-gold-image-pipeline/references/prompt-patterns.md)
 - [Quality gates](skills/silver-gold-image-pipeline/references/quality-gates.md)
 - [Output delivery](skills/silver-gold-image-pipeline/references/output-delivery.md)
+- [Safety and rights](skills/silver-gold-image-pipeline/references/safety-and-rights.md)
 
 ## Architecture
 
@@ -47,9 +49,10 @@ Silver is the structural material and occupies 70-85% of the declared material a
 ```bash
 python3 scripts/validate_foundation.py
 python3 scripts/validate_runtime_contracts.py
+python3 scripts/validate_policy.py
 ```
 
-The runtime validator checks machine-readable templates, reference roles, lock fidelity, ratio contracts, prompt block order, generate/edit separation, semantic negatives, valid/invalid fixtures, QA weights, critical defects, smoke evidence, manifest versions, and `DELIVERY_MISSING` behavior.
+Static validators check structure, declared contracts, policy actions, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
 
 ## Digital trace
 
