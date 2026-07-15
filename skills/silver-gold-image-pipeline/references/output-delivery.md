@@ -1,7 +1,7 @@
 # Output delivery contract
 
 Manifest schema version: 0.1.0  
-Status: proposed runtime contract  
+Status: accepted runtime contract  
 Related issue: #6
 
 ## 1. Completion definition
@@ -57,10 +57,10 @@ silver-gold-{asset-type}-{short-subject}-{width}x{height}.{ext}
 - generator/tool/model/mode and capability limitations;
 - iterations and diagnostic categories;
 - gate results, score, critical defects, and known limitations;
-- final/preview/source files with hashes, sizes, dimensions, formats, and alpha;
+- final, preview, source-render, and deterministic-overlay file records with hashes, sizes, dimensions, formats, and alpha;
 - delivery state and `user_visible` boolean.
 
-No limitation may be omitted to make a fallback look equivalent to the requested mode.
+Optional file records remain present with `required: false` and null metadata until produced. No limitation may be omitted to make a fallback look equivalent to the requested mode.
 
 ## 6. User response
 
@@ -91,6 +91,7 @@ Exact text and logos are deterministic production layers:
 - preserve the reserved safe area;
 - record source asset and placement;
 - inspect the composite at full and target size;
+- record the deterministic overlay as a file object in the output manifest;
 - damage to required text/logo is a critical defect.
 
 ## 9. Stop rules
