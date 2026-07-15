@@ -6,14 +6,14 @@ cases:
   mode: generate
   mandatory_capabilities: [text_to_image, reference_image_generation, multi_reference, aspect_ratio_control, resolution_control, visible_final_output]
   expected_profile: openai-native-image
-  expected_outcome: route
+  expected_outcome: fallback
   expected_degradations: [visible_final_output]
 - id: openai-mask-edit
   available_profiles: [openai-native-image]
   mode: edit
   mandatory_capabilities: [image_editing, mask_or_region_editing, composition_preservation, visible_final_output]
   expected_profile: openai-native-image
-  expected_outcome: route
+  expected_outcome: fallback
   expected_degradations: [mask_or_region_editing, composition_preservation, visible_final_output]
 - id: openai-transparent-latest-model
   available_profiles: [openai-native-image]
@@ -27,14 +27,14 @@ cases:
   mode: composite
   mandatory_capabilities: [reference_image_generation, multi_reference, aspect_ratio_control, resolution_control, visible_final_output]
   expected_profile: google-nano-banana-2
-  expected_outcome: route
+  expected_outcome: fallback
   expected_degradations: [visible_final_output]
 - id: nano-banana-style-transfer
   available_profiles: [google-nano-banana-2]
   mode: style_transfer
   mandatory_capabilities: [image_editing, identity_preservation, composition_preservation, visible_final_output]
   expected_profile: google-nano-banana-2
-  expected_outcome: route
+  expected_outcome: fallback
   expected_degradations: [identity_preservation, composition_preservation, visible_final_output]
 - id: nano-banana-exact-mask
   available_profiles: [google-nano-banana-2]
