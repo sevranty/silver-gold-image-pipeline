@@ -17,7 +17,7 @@
 ## Phase C: proof
 
 - [x] #11 complete static validation suite merged through PR #20
-- [ ] #7 trigger, workflow, and visual regression suite implemented in its dedicated branch; Draft PR and owner-review pending
+- [ ] #7 trigger, workflow, rejection matrix, and manual visual regression suite implemented in Draft PR #21; exact-HEAD owner-review pending
 
 ## Phase D: distribution
 
