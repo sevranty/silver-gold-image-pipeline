@@ -5,6 +5,7 @@ cases:
     profile: product-light
     expected: pass
     background: light-neutral
+    background_hex: "#F7F7F8"
     silver_ratio: 80
     gold_ratio: 20
     assertions:
@@ -17,6 +18,7 @@ cases:
     profile: product-light
     expected: fail
     background: pure-white
+    background_hex: "#FFFFFF"
     silver_ratio: 72
     gold_ratio: 28
     defects:
@@ -28,10 +30,11 @@ cases:
     profile: showcase-neutral
     expected: pass
     background: dark-neutral-not-black
+    background_hex: "#34373D"
     silver_ratio: 78
     gold_ratio: 22
     assertions:
-      - silver_is_brightest_material_family
+      - silver_remains_dominant_structural_material
       - silhouette_separates
       - neutral_key_and_rim_light
       - full_primary_silhouette_preserved
@@ -40,6 +43,7 @@ cases:
     profile: showcase-neutral
     expected: fail
     background: pure-black
+    background_hex: "#000000"
     silver_ratio: 70
     gold_ratio: 30
     defects:
