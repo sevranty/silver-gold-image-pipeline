@@ -2,8 +2,6 @@
 
 ## Independent versions
 
-The project versions these contracts independently:
-
 - `skill_version`: runtime orchestration and trigger behavior;
 - `pipeline_core_version`: workflow contract and stage ordering;
 - `style_core_version`: Silver-Gold visual invariants;
@@ -16,51 +14,32 @@ The project versions these contracts independently:
 ## Current contract versions
 
 ```yaml
+skill_version: 0.1.0
 pipeline_core_version: 0.2.0
 style_core_version: 0.1.0
 background_profiles_version: 0.1.0
 prompt_schema_version: 0.1.0
 qa_schema_version: 0.1.0
 manifest_schema_version: 0.1.0
+plugin_manifest_version: 1.0.0
 ```
 
-`skill_version` begins with #2. `plugin_manifest_version` begins with #8.
+The first repository release is `0.1.0`. Contract versions remain independent from the repository release version.
 
 ## SemVer interpretation
 
 ### Major
 
-A breaking change to:
-
-- numeric material ranges;
-- required material role;
-- profile IDs or their default-selection behavior;
-- reference-role or lock semantics;
-- prompt block order or required machine-readable fields;
-- critical rejection criteria or pass thresholds;
-- runtime stage ordering;
-- delivery terminal-state meaning.
+Breaking changes include material ranges or roles, profile IDs/defaults, reference roles or lock semantics, prompt block ordering or required fields, critical rejection rules, runtime stage ordering, delivery terminal-state meaning, plugin ID, canonical skill path, or package layout.
 
 ### Minor
 
-A backward-compatible addition such as:
-
-- a new asset subtype;
-- an additional allowed neutral range;
-- a new optional lock or QA diagnostic;
-- a new generator adapter;
-- an optional manifest evidence field.
+Backward-compatible additions include new optional asset subtypes, neutral ranges, optional locks or diagnostics, generator adapters, optional manifest evidence, or additive package metadata.
 
 ### Patch
 
-A clarification that does not change accepted output behavior, such as wording, examples, typo correction, or additional evidence.
+Clarifications that do not change accepted runtime behavior, such as wording, examples, typo corrections, additional evidence, or non-behavioral packaging fixes.
 
 ## Change requirements
 
-Every version change requires:
-
-1. linked Issue;
-2. decision-log entry when behavior changes;
-3. updated source map when provenance changes;
-4. validation evidence;
-5. changelog entry after packaging is implemented.
+Every version change requires a linked Issue, decision-log entry when behavior changes, updated source map when provenance changes, validation evidence, and a changelog entry. A release tag is a separate lifecycle action and is never implied by a packaging commit.
