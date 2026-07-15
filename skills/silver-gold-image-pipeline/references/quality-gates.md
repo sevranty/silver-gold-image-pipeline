@@ -1,7 +1,7 @@
 # Quality gates contract
 
 QA schema version: 0.1.0  
-Status: proposed runtime contract  
+Status: accepted runtime contract  
 Related issue: #6
 
 ## 1. Principle
@@ -29,6 +29,7 @@ Pass evidence:
 - one valid transformation mode;
 - complete reference analysis card;
 - required locks including `silver_gold_style_lock`;
+- every lock contains preserve, allowed deviation, evidence, and uncertainty fields;
 - valid background profile;
 - integer Silver/Gold ratios within range and summing to 100;
 - preserve/change/exclude are explicit;
@@ -41,15 +42,17 @@ Fail when any mandatory field is absent or contradictory.
 
 Pass evidence:
 
-- all ten prompt blocks are present in canonical order;
+- all ten prompt blocks are present in canonical order for generate-like modes;
+- image-preserving modes use an edit contract with an active-lock snapshot;
 - required Silver-Gold meanings are expressed;
 - forbidden semantic groups are absent from positive instructions;
 - negative constraints cover gloss, mirror, chrome, liquid metal, jewelry, gold dominance, baroque, grunge, colored reflections, and style mixing;
 - background profile matches the scene brief;
 - generate and edit contracts are not mixed;
+- `style_transfer` is not downgraded to generate;
 - runtime is brand-neutral.
 
-Fail on contradiction, hidden style substitution, or missing edit invariants.
+Fail on contradiction, hidden style substitution, unsupported routing, or missing edit invariants.
 
 ## 5. Gate 4 — visual result
 
@@ -87,7 +90,7 @@ Pass evidence:
 - final format, dimensions, aspect ratio, alpha behavior, and file size match the contract;
 - ASCII filename is valid and extension matches encoded content;
 - preview and final asset open successfully;
-- manifest records versions, reference roles, locks, generator capability, iterations, diagnostics, known limitations, and file hashes;
+- manifest records versions, reference roles, locks, generator capability, iterations, diagnostics, known limitations, deterministic overlays, and file hashes;
 - user-visible delivery is confirmed.
 
 A successful tool call with no surfaced image is `DELIVERY_MISSING`, not pass.
