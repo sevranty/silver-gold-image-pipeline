@@ -12,11 +12,11 @@
 - [x] #6 quality gates and final delivery merged through PR #16
 - [x] #10 people, text, logo, and rights policy merged through PR #17
 - [x] #2 canonical `SKILL.md` merged through PR #18
-- [ ] #9 generator capability matrix implemented in Draft PR #19; pending owner-review and merge
+- [x] #9 generator capability matrix merged through PR #19
 
 ## Phase C: proof
 
-- [ ] #11 complete static validation suite
+- [ ] #11 complete static validation suite implemented in Draft PR #20; pending owner-review and merge
 - [ ] #7 trigger, workflow, and visual regression suite
 
 ## Phase D: distribution
