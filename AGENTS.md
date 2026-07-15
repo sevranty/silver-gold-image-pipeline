@@ -8,6 +8,7 @@ This repository contains one mono-style reference-to-image pipeline: Silver-Gold
 
 Each rule has one owner file:
 
+- runtime trigger, stage order, stop conditions, and completion boundary: `skills/silver-gold-image-pipeline/SKILL.md`;
 - repository boundaries and dependency direction: `docs/architecture.md`;
 - accepted architecture decisions: `docs/decision-log.md`;
 - Silver-Gold visual invariants: `skills/silver-gold-image-pipeline/references/style-spec.md`;
@@ -21,7 +22,7 @@ Each rule has one owner file:
 - provenance and normalization: `docs/source-map.md`;
 - version semantics: `docs/style-versioning.md`.
 
-Do not duplicate detailed rules in future `SKILL.md`. The runtime file must orchestrate these contracts by reference.
+`SKILL.md` orchestrates these contracts by reference. It must not duplicate their detailed rules.
 
 ## Runtime neutrality
 
@@ -65,6 +66,7 @@ Run:
 python3 scripts/validate_foundation.py
 python3 scripts/validate_runtime_contracts.py
 python3 scripts/validate_policy.py
+python3 scripts/validate_skill_runtime.py
 ```
 
 Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, and target-size readability require manual visual QA.
