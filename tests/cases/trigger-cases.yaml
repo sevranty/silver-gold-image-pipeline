@@ -1,45 +1,190 @@
-schema_version: 1.0.0
+schema_version: 1.1.0
 skill_version: 0.1.0
 cases:
-- id: trigger-reference-generate
+- id: positive-generate-product
+  class: positive
   expected: trigger
-  request: Create a new Silver-Gold 3D image from this attached product reference.
-- id: trigger-edit-existing
+  runtime_outcome: pass
+  mode: generate
+  request: Create a new Silver-Gold 3D asset from this attached product reference.
+- id: positive-edit-preserve-camera
+  class: positive
   expected: trigger
-  request: Edit the attached image into Silver-Gold while keeping the camera and silhouette.
-- id: trigger-style-transfer
+  runtime_outcome: pass
+  mode: edit
+  request: Edit the attached image into Silver-Gold while preserving camera and silhouette.
+- id: positive-style-transfer-existing
+  class: positive
   expected: trigger
-  request: Apply the Silver-Gold treatment to this available image without changing the subject.
-- id: trigger-composite
+  runtime_outcome: pass
+  mode: style_transfer
+  request: Apply Silver-Gold treatment to this available image without changing the subject.
+- id: positive-composite-two-references
+  class: positive
   expected: trigger
+  runtime_outcome: pass
+  mode: composite
   request: Combine these subject and composition references into one Silver-Gold image.
-- id: trigger-sketch-render
+- id: positive-sketch-to-render
+  class: positive
   expected: trigger
+  runtime_outcome: pass
+  mode: sketch_to_render
   request: Turn this attached sketch into a Silver-Gold render.
-- id: trigger-reinterpret
+- id: positive-reinterpret-environment
+  class: positive
   expected: trigger
+  runtime_outcome: pass
+  mode: reinterpretation
   request: Reinterpret this reference in Silver-Gold with a new environment.
-- id: nontrigger-analysis
+- id: positive-multi-reference-technical
+  class: positive
+  expected: trigger
+  runtime_outcome: pass
+  mode: composite
+  request: Use these three references to create one technical Silver-Gold hero object.
+- id: positive-person-environment-treatment
+  class: positive
+  expected: trigger
+  runtime_outcome: pass
+  mode: edit
+  request: Keep the person natural and restyle the clothing and environment in Silver-Gold.
+- id: positive-text-safe-area
+  class: positive
+  expected: trigger
+  runtime_outcome: pass
+  mode: generate
+  request: Create a Silver-Gold hero from this reference and reserve a safe area for exact text overlay.
+- id: positive-transparent-output
+  class: positive
+  expected: trigger
+  runtime_outcome: pass
+  mode: generate
+  request: Create a Silver-Gold object from this reference with transparent output if supported.
+- id: negative-analysis-only
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Analyze this image and describe the composition.
-- id: nontrigger-resize
+- id: negative-resize-only
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Resize this image to 1024 by 1024 without changing it.
-- id: nontrigger-format
+- id: negative-format-only
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Convert this PNG to WebP.
-- id: nontrigger-background-remove
+- id: negative-background-remove-only
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Remove the background without generating anything new.
-- id: nontrigger-other-style
+- id: negative-other-style-watercolor
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Make this attached image watercolor.
-- id: nontrigger-prompt-only
+- id: negative-prompt-only
+  class: negative
   expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Write a prompt for a Silver-Gold image but do not generate it.
-- id: nontrigger-no-image
+- id: negative-caption-only
+  class: negative
   expected: non_trigger
-  request: Transform the image I mentioned earlier, but no image is available here.
-- id: nontrigger-caption
-  expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
   request: Write a caption for this image.
+- id: negative-metadata-only
+  class: negative
+  expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
+  request: Tell me the dimensions and color mode of this image.
+- id: negative-compress-only
+  class: negative
+  expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
+  request: Compress this image below 500 KB.
+- id: negative-crop-only
+  class: negative
+  expected: non_trigger
+  runtime_outcome: not_applicable
+  mode: none
+  request: Crop this image to a square without changing its style.
+- id: boundary-missing-image
+  class: boundary
+  expected: non_trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Transform the image I mentioned earlier, but no image is available here.
+  stop_reason: INPUT_MISSING
+- id: boundary-conflicting-reference-priority
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Use both references exactly even though their camera and composition conflict.
+  stop_reason: REFERENCE_CONFLICT
+- id: boundary-unsupported-exact-mask
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Perform a pixel-exact masked edit although no mask-capable tool is available.
+  stop_reason: CAPABILITY_UNSUPPORTED
+- id: boundary-exact-logo-no-asset
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Generate the exact logo inside the render, but no licensed logo asset is provided.
+  stop_reason: ASSET_REQUIRED
+- id: boundary-private-material-rights-unknown
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Use this private screenshot as a public bundled example; rights are unknown.
+  stop_reason: RIGHTS_UNRESOLVED
+- id: boundary-child-metal-skin
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Turn this child into a metallic Silver-Gold mannequin.
+  stop_reason: SAFETY_POLICY
+- id: boundary-silver-gold-implied
+  class: boundary
+  expected: trigger
+  runtime_outcome: pass
+  mode: conditional
+  request: Use the attached reference to create the same premium silver structure with restrained gold accents.
+- id: boundary-simple-edit-plus-style
+  class: boundary
+  expected: trigger
+  runtime_outcome: pass
+  mode: conditional
+  request: Remove the background and also rebuild the object as a Silver-Gold 3D asset.
+- id: boundary-text-required-postprocess
+  class: boundary
+  expected: trigger
+  runtime_outcome: pass
+  mode: conditional
+  request: Create the visual and preserve this exact headline via deterministic overlay.
+- id: boundary-delivery-not-surfaced
+  class: boundary
+  expected: trigger
+  runtime_outcome: block
+  mode: conditional
+  request: Generate the image but do not show or attach the result.
+  stop_reason: DELIVERY_MISSING

@@ -16,8 +16,8 @@
 
 ## Phase C: proof
 
-- [ ] #11 complete static validation suite implemented in Draft PR #20; pending owner-review and merge
-- [ ] #7 trigger, workflow, and visual regression suite
+- [x] #11 complete static validation suite merged through PR #20
+- [ ] #7 trigger, workflow, rejection matrix, and manual visual regression suite implemented in Draft PR #21; exact-HEAD owner-review pending
 
 ## Phase D: distribution
 
@@ -27,4 +27,4 @@
 
 ## Release constraint
 
-No version tag, ready-for-review transition, or merge is implied by implementation in a Draft PR. Each lifecycle step requires a separate owner-review decision.
+No version tag, ready-for-review transition, or merge is implied by implementation in a Draft PR. Each lifecycle step requires an exact-HEAD owner-review decision.

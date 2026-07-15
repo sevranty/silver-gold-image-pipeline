@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+cases:
+- {id: reject-gold-dominance, defect: gold_dominance, evidence_type: visual_anchor, evidence_ref: gold-dominance, expected_outcome: rejected}
+- {id: reject-chrome-gloss, defect: chrome_mirror_glossy, evidence_type: visual_anchor, evidence_ref: chrome-gloss, expected_outcome: rejected}
+- {id: reject-jewelry-baroque, defect: jewelry_baroque, evidence_type: prompt_contract, evidence_ref: tests/fixtures/invalid/prompts/jewelry-render.txt, expected_outcome: rejected}
+- {id: reject-missing-rim-light, defect: missing_rim_light, evidence_type: rubric_rule, evidence_ref: docs/visual-rubric.md, expected_outcome: rejected, note: weak may be ambiguous but fully missing is rejected}
+- {id: reject-noisy-texture, defect: noisy_texture, evidence_type: visual_anchor, evidence_ref: noisy-texture, expected_outcome: rejected}
+- {id: reject-wrong-background, defect: wrong_background_profile, evidence_type: visual_anchor, evidence_ref: obsidian-drift, expected_outcome: rejected}
+- {id: reject-dark-style-drift, defect: alternate_dark_style_drift, evidence_type: visual_anchor, evidence_ref: obsidian-drift, expected_outcome: rejected}
+- {id: reject-photoreal-drift, defect: photoreal_product_photo_drift, evidence_type: prompt_contract, evidence_ref: tests/fixtures/invalid/prompts/photoreal-product.txt, expected_outcome: rejected}
+- {id: reject-unreadable-silhouette, defect: unreadable_silhouette, evidence_type: visual_anchor, evidence_ref: unreadable-silhouette, expected_outcome: rejected}
+- {id: reject-identity-loss, defect: reference_identity_loss, evidence_type: workflow_rule, evidence_ref: person-02, expected_outcome: rejected}
+- {id: reject-delivery-missing, defect: final_asset_not_surfaced, evidence_type: trigger_boundary, evidence_ref: boundary-delivery-not-surfaced, expected_outcome: rejected}

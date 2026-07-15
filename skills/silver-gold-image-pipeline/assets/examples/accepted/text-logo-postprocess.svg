@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<title>Accepted deterministic text and logo overlay workflow</title>
+<rect width="1024" height="1024" fill="#F4F5F7"/>
+<polygon points="330,363 465,449 330,530" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="465,449 428,635 330,530" fill="#7A828D" stroke="none" stroke-width="0"/>
+<polygon points="428,635 330,704 330,530" fill="#9AA1AA" stroke="none" stroke-width="0"/>
+<polygon points="330,704 232,635 330,530" fill="#B8BDC5" stroke="none" stroke-width="0"/>
+<polygon points="232,635 195,449 330,530" fill="#D2D6DB" stroke="none" stroke-width="0"/>
+<polygon points="195,449 330,363 330,530" fill="#A4AAB2" stroke="none" stroke-width="0"/>
+<polygon points="330,363 465,449 428,635" fill="none" stroke="#C89B2B" stroke-width="11"/>
+<polygon points="330,704 232,635 195,449" fill="none" stroke="#C89B2B" stroke-width="9"/>
+<rect x="590" y="260" width="320" height="500" rx="28" fill="none" stroke="#A3AAB3" stroke-width="6" stroke-dasharray="22 14"/>
+<text x="750" y="495" text-anchor="middle" font-family="Arial" font-size="34" fill="#6A727D">TEXT / LOGO</text><text x="750" y="545" text-anchor="middle" font-family="Arial" font-size="24" fill="#8A929C">POST-PROCESS SAFE AREA</text>
+</svg>

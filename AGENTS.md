@@ -20,6 +20,8 @@ Each rule has one owner file:
 - output states and user-visible delivery: `skills/silver-gold-image-pipeline/references/output-delivery.md`;
 - people, text, logo, privacy, provenance, and public-fixture decisions: `skills/silver-gold-image-pipeline/references/safety-and-rights.md`;
 - generator capability evidence, routing, degradation, and fallback: `skills/silver-gold-image-pipeline/references/generator-adapters.md`;
+- manual visual verdict rules: `docs/visual-rubric.md`;
+- trigger, workflow, visual coverage, anchor hashes, and provenance: `tests/cases/` plus `skills/silver-gold-image-pipeline/assets/anchors/`;
 - provenance and normalization: `docs/source-map.md`;
 - version semantics: `docs/style-versioning.md`.
 
@@ -28,6 +30,8 @@ Each rule has one owner file:
 ## Runtime neutrality
 
 Files under `skills/` must not contain organization names, internal design-system names, embedded logos, fixed brand colors, internal RACI, or product-specific governance. Source provenance belongs in `docs/source-map.md`, outside the runtime package.
+
+Synthetic visual anchors must be marked as project-generated QA examples. Never describe them as outputs from an image generator or as proof of production visual quality.
 
 ## Required workflow boundary
 
@@ -42,7 +46,8 @@ reference analysis
 -> generation or edit specification
 -> prompt preflight
 -> generation or edit
--> visual QA
+-> full-size visual QA
+-> target-size visual QA
 -> targeted correction
 -> technical validation
 -> user-visible final image
@@ -70,4 +75,4 @@ python3 scripts/validate_all.py
 
 Individual CLIs support `--json` and return `0` on pass, `2` on validation failure, and argparse's non-zero usage code for invalid invocation.
 
-Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, and target-size readability require manual visual QA.
+Static validation does not claim visual quality. Perceptual material allocation, identity, construction, composition, full-size quality, and target-size readability require manual visual QA.
