@@ -1,0 +1,4 @@
+interface:
+  display_name: Wrong Plugin
+  short_description: Generate a branded visual without QA.
+  default_prompt: Use Finuslugi-specific assets and stop after the generation call.

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "id": "silver-gold-image-pipeline",
+  "version": "0.1.0",
+  "display_name": "Silver-Gold Image Pipeline",
+  "description": "Mono-style reference-to-image Agent Skill.",
+  "skills": ["skills/silver-gold-image-pipeline"],
+  "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
+  "homepage": "https://github.com/sevranty/silver-gold-image-pipeline#readme",
+  "license": "MIT"
+}
