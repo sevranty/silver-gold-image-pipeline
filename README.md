@@ -36,7 +36,7 @@ Run the complete foundation validation locally:
 python3 scripts/validate_foundation.py
 ```
 
-The validator checks repository structure, ASCII paths, brand-neutral runtime boundaries, style invariants, background-profile coverage, provenance hashes, and four regression cases.
+The repository-only run checks structure, ASCII paths, case-insensitive brand-neutral runtime boundaries, style invariants, source-map metadata, background-profile luminance consistency, and regression semantics. When both provenance source paths are supplied, it also verifies their NFC-normalized filenames and SHA-256 bytes.
 
 ## Digital trace
 
