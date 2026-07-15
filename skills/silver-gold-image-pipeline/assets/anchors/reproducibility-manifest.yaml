@@ -1,0 +1,34 @@
+schema_version: 1.0.0
+suite_version: 0.1.0
+builder: scripts/build_regression_anchors.py
+deterministic: true
+network_required: false
+image_generator_used: false
+subjective_visual_quality_assessed: false
+assets:
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/product-light.svg
+  sha256: def01dc90f5d53074de5dd069eee6b3ed80c422815356a8770a976aee04f3782
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/showcase-neutral.svg
+  sha256: 6d46ff6d98d862aafd11f349ba5675a7074e9a358f64c708b6d31b7555c8735b
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/transparency.svg
+  sha256: 20abaf87374395a10370cde34d6a0efe5e9df1e44936832b9f74a461cf980077
+- path: skils/silver-gold-image-pipeline/assets/examples/accepted/edit-preservation.svg
+  sha256: 602dbdff5d6ec35096ba2680456abc3ff2278fa1f77bac6aaef5ec852a2e7f41
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/people-nonmetal-tissue.svg
+  sha256: 207234a2c67f2f989d7913a904f18fe579b381f565a0d6e7d45e9025eeb162b1
+- path: skills/silver-gold-image-pipeline/assets/examples/accepted/text-logo-postprocess.svg
+  sha256: c9ac631c73dbdf14354461a16c827380d20dfdc1ec8673bf24c0c2196d88e2d5
+- path: skils/silver-gold-image-pipeline/assets/examples/rejected/gold-dominance.svg
+  sha256: ed467a7f0a178f898742ee13c171a63e0cbeece56ae9823cca7a717138ed2e1b
+- path: skills/silver-gold-image-pipeline/assets/examples/rejected/chrome-gloss.svg
+  sha256: b2b88fe7f9a93e4349de55354b1148163e8d8b1c615f3100e5cee13842c56e10
+- path: skills/silver-gold-image-pipeline/assets/examples/rejected/obsidian-drift.svg
+  sha256: bacd269b28b36f0e4dae9804718cb24bb8bb9cc8b2398e1b01ef0953c3d192b2
+- path: skills/silver-gold-image-pipeline/assets/examples/rejected/noisy-texture.svg
+  sha256: cbb23fedacbfa3023a151bf1261dff240591eeb58861d25c92312577878fc8ea
+- path: skills/silver-gold-image-pipeline/assets/examples/rejected/unreadable-silhouette.svg
+  sha256: b03b2d6a24ea4859adb0dc7ced270bb189b864baa46db67efaa26c4298e1ea52
+- path: skills/silver-gold-image-pipeline/assets/examples/ambiguous/weak-rim-light.svg
+  sha256: 75d77732a5920cc969f0ca67318f4f4a6b4dbacb82bc9ff4352126a738eb7806
+- path: skills/silver-gold-image-pipeline/assets/examples/ambiguous/borderline-metal-allocation.svg
+  sha256: a309cadcdcb59d4fa67a1cef4ec2b454e41d1f2e58b14edfe0534546bf40a635
