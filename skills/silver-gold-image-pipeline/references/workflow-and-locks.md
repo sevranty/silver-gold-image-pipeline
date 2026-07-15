@@ -2,7 +2,7 @@
 
 Contract version: 0.1.0  
 Pipeline core version: 0.2.0  
-Status: proposed runtime contract  
+Status: accepted runtime contract  
 Related issue: #5
 
 ## 1. Mandatory stage order
@@ -31,12 +31,17 @@ Exactly one mode is selected:
 
 - `generate` — create a new image from semantic and visual evidence;
 - `edit` — modify an available target image while preserving protected content;
-- `style_transfer` — preserve content/composition while replacing incompatible material treatment with Silver-Gold;
+- `style_transfer` — preserve an available target image's content/composition while replacing incompatible material treatment with Silver-Gold;
 - `reinterpretation` — preserve semantic intent with controlled freedom in construction or composition;
 - `composite` — combine owned concerns from multiple references;
 - `sketch_to_render` — turn a sketch or simplified form into a coherent Silver-Gold render.
 
-`generate` uses `generation-spec.yaml`. `edit` and edit-like corrections additionally require `edit-contract.yaml`.
+Contract routing is deterministic:
+
+- generate-like modes `generate`, `reinterpretation`, `composite`, and `sketch_to_render` use `generation-spec.yaml`;
+- image-preserving modes `edit` and `style_transfer` require `edit-contract.yaml`;
+- `style_transfer` must never be serialized as a free generate request because its preserve constraints are mandatory;
+- an adapter may use a generator's edit or reference workflow, but it must record capability degradation and may not silently switch an image-preserving mode to generate.
 
 ## 3. Locks
 
@@ -46,8 +51,9 @@ Every lock has:
 - `fidelity` from 0 to 4;
 - `source_reference_ids`;
 - explicit `preserve` statements;
-- explicit allowed deviations;
-- evidence and uncertainty.
+- explicit `allowed_deviation` statements;
+- evidence;
+- uncertainty.
 
 ### Fidelity scale
 
@@ -116,12 +122,13 @@ An edit contract must identify:
 - protected regions;
 - editable regions;
 - one diagnostic category to fix;
-- `keep_unchanged` invariants copied from active locks;
+- a machine-readable snapshot of every active lock;
+- `keep_unchanged` invariants copied from that snapshot;
 - expected visible change;
 - stop condition;
 - iteration number and remaining budget.
 
-An edit instruction that says only “improve the image” is invalid.
+An edit instruction that says only “improve the image” is invalid. A static generic checklist is not an active-lock snapshot.
 
 ## 7. Iteration protocol
 
