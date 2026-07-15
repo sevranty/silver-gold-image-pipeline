@@ -18,9 +18,10 @@ The repository currently implements:
 - five quality gates, a weighted QA scorecard, and critical rejection criteria;
 - output manifest and explicit user-visible delivery states;
 - operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
-- deterministic foundation, runtime-contract, policy, and skill-runtime validation.
+- evidence-backed OpenAI, Nano Banana, and future-generator capability routing;
+- deterministic foundation, runtime-contract, policy, skill-runtime, and adapter validation.
 
-Generator adapters, complete evaluation suite, plugin packaging, and production README are tracked by separate issues.
+The complete static validation suite, visual evaluation suite, plugin packaging, and production README are tracked by separate issues.
 
 ## Core rule
 
@@ -35,6 +36,7 @@ Silver is the structural material and occupies 70-85% of the declared material a
 - [Quality gates](skills/silver-gold-image-pipeline/references/quality-gates.md)
 - [Output delivery](skills/silver-gold-image-pipeline/references/output-delivery.md)
 - [Safety and rights](skills/silver-gold-image-pipeline/references/safety-and-rights.md)
+- [Generator adapters](skills/silver-gold-image-pipeline/references/generator-adapters.md)
 
 ## Architecture
 
@@ -53,9 +55,10 @@ python3 scripts/validate_foundation.py
 python3 scripts/validate_runtime_contracts.py
 python3 scripts/validate_policy.py
 python3 scripts/validate_skill_runtime.py
+python3 scripts/validate_adapters.py
 ```
 
-Static validators check structure, declared contracts, trigger boundaries, policy actions, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
+Static validators check structure, declared contracts, trigger boundaries, policy actions, adapter routing, fixtures, and brand-neutrality. They do not claim perceptual visual quality.
 
 ## Digital trace
 
