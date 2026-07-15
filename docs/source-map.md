@@ -7,7 +7,7 @@ Related issue: #3
 
 ### Primary style source
 
-- file: `FDS [visual-style] Style Silver-Gold v3.1 (2026-02-24).docx`
+- file (exact display name): `FDS [visual-style] Стиль Silver-Gold v3.1 (2026-02-24).docx`
 - source version: 3.1
 - source date: 2026-02-24
 - SHA-256: `9ba60cb1454efd657f8457f74b930c538eeba49637aa03d14984ffd8ff3961e4`
@@ -15,13 +15,25 @@ Related issue: #3
 
 ### Architecture cross-check source
 
-- file: `FDS [visual-architecture] Visual Style Architecture v2 (August 2025).docx`
+- file (NFC-normalized display name): `FDS [visual-architecture] Архитектура визуальных стилей Финуслуг v2 (август 2025).docx`
 - source version: 2
 - normalized update date: 2026-02-24
 - SHA-256: `8bfc102c9f52597a5696f4717d37add41057caa79f047401134e799d5dde589b`
 - role: cross-check for product-surface compatibility and background conflict
 
 The source files are not committed to this repository and are not included in the runtime package.
+
+### Filename normalization
+
+The architecture source filename may be stored by a filesystem with decomposed Unicode characters. Filename verification compares Unicode NFC-normalized names, while SHA-256 remains the byte-level identity check.
+
+Independent source-byte verification command used by owner review:
+
+```bash
+python3 scripts/validate_foundation.py \
+  --style-source "/mnt/data/FDS [visual-style] Стиль Silver-Gold v3.1 (2026-02-24).docx" \
+  --architecture-source "/mnt/data/FDS [visual-architecture] Архитектура визуальных стилей Финуслуг v2 (август 2025).docx"
+```
 
 ## 2. Mapping rules
 
