@@ -1,0 +1,4 @@
+interface:
+  display_name: Silver-Gold Image Pipeline
+  short_description: Transform available references into controlled Silver-Gold images with manual visual QA and user-visible delivery.
+  default_prompt: Complete the full workflow and final delivery.

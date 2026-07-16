@@ -6,7 +6,7 @@ A mono-style reference-to-image pipeline for producing new 3D assets with a matt
 
 The repository currently implements:
 
-- plugin-ready repository architecture;
+- plugin-ready repository architecture and a versioned plugin manifest;
 - canonical `SKILL.md` runtime orchestration and OpenAI presentation metadata;
 - the canonical Silver-Gold style contract;
 - `product-light` and `showcase-neutral` background profiles;
@@ -20,9 +20,10 @@ The repository currently implements:
 - operational safety/rights decisions for people, text, logos, privacy, provenance, and public fixtures;
 - evidence-backed OpenAI, Nano Banana, and future-generator capability routing;
 - a complete offline static validation and packaging suite;
-- trigger, workflow, rejection-matrix, and manual visual regression contracts with deterministic synthetic QA anchors.
+- trigger, workflow, rejection-matrix, and manual visual regression contracts with deterministic synthetic QA anchors;
+- deterministic standalone ZIP packaging, archive manifests, checksums, and installation smoke tests.
 
-Plugin packaging and the production README are tracked by separate issues.
+The benchmarked production README is tracked by Issue #12.
 
 ## Core rule
 
@@ -62,6 +63,30 @@ Synthetic SVG anchors are repository-generated structural QA examples. They are 
 - [Versioning](docs/style-versioning.md)
 - [Roadmap](docs/roadmap.md)
 
+## Plugin package
+
+The release package contains only the plugin manifest, license notices, changelog, canonical runtime skill, runtime references, and runtime templates. Repository documentation, source documents, tests, visual anchors, and evaluation examples are excluded.
+
+Build the deterministic package:
+
+```bash
+python3 scripts/build_plugin_package.py --out-dir dist
+```
+
+Validate source metadata, archive bytes, generated manifest, and checksum:
+
+```bash
+python3 scripts/validate_plugin_package.py --archive dist/silver-gold-image-pipeline-0.1.0.zip --manifest dist/silver-gold-image-pipeline-0.1.0.zip.manifest.json --checksum dist/silver-gold-image-pipeline-0.1.0.zip.sha256
+```
+
+Run the standalone installation smoke test:
+
+```bash
+python3 scripts/test_installation.py
+```
+
+Packaging prepares v0.1.0 but does not create a tag or GitHub Release. Release publication is a separate lifecycle decision.
+
 ## Validation
 
 Run every deterministic offline check:
@@ -79,8 +104,11 @@ validate_prompt.py
 validate_manifest.py
 validate_regression_suite.py
 validate_visual_evidence.py
+validate_plugin_package.py
+test_installation.py
 inspect_image.py
 package_asset.py
+build_plugin_package.py
 ```
 
 Static validators check structure, declared contracts, contextual prompt rules, trigger boundaries, policy actions, adapter routing, manifests, raster metadata, packaging, regression coverage, manual-review evidence, provenance, checksums, and brand-neutrality. They do not claim perceptual visual quality.

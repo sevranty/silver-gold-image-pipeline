@@ -2,7 +2,7 @@
 
 ## Phase A: foundation
 
-- [ ] #1 orchestration remains open; its foundation architecture slice is merged through PR #15
+- [ ] #1 orchestration remains open; foundation architecture merged through PR #15
 - [x] #4 background delivery profiles and ADR merged through PR #15
 - [x] #3 canonical Silver-Gold style contract and source map merged through PR #15
 
@@ -17,14 +17,14 @@
 ## Phase C: proof
 
 - [x] #11 complete static validation suite merged through PR #20
-- [ ] #7 trigger, workflow, rejection matrix, and manual visual regression suite implemented in Draft PR #21; exact-HEAD owner-review pending
+- [x] #7 trigger, workflow, rejection matrix, and manual visual regression suite merged through PR #21
 
 ## Phase D: distribution
 
-- [ ] #8 plugin packaging and release contract
+- [ ] #8 plugin packaging and release contract implemented in Draft PR #22; exact-HEAD review pending
 - [ ] #12 benchmarked production README
 - [ ] #13 repository social preview
 
 ## Release constraint
 
-No version tag, ready-for-review transition, or merge is implied by implementation in a Draft PR. Each lifecycle step requires an exact-HEAD owner-review decision.
+The packaging task does not publish a version tag or GitHub Release. Ready transitions and merges require exact-HEAD validation and owner review. Release v0.1.0 is created only after #8, #12, #13, post-merge validation, and project closure #1.

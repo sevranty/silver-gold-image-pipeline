@@ -1,4 +1,4 @@
 interface:
   display_name: Silver-Gold Image Pipeline
-  short_description: Transform references into controlled Silver-Gold images.
-  default_prompt: Use @silver-gold-image-pipeline to transform the supplied reference into a new Silver-Gold image and complete every analysis, lock, QA, correction, manifest, and user-visible delivery stage.
+  short_description: Transform available references into controlled Silver-Gold images with manual visual QA and user-visible delivery.
+  default_prompt: Use @silver-gold-image-pipeline to transform the supplied reference into a new or edited Silver-Gold image. Complete reference analysis, policy, locks, scene and adapter decisions, prompt preflight, generation or edit, full-size and target-size visual QA, correction, technical validation, manifest, and user-visible final delivery. Stop honestly when the image or required capability is unavailable.

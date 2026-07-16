@@ -1,0 +1,51 @@
+schema_version: 1.0.0
+package_version: 0.1.0
+plugin_manifest_version: 1.0.0
+versions:
+  skill_version: 0.1.0
+  pipeline_core_version: 0.2.0
+  style_core_version: 0.1.0
+  background_profiles_version: 0.1.0
+  prompt_schema_version: 0.1.0
+  qa_schema_version: 0.1.0
+  manifest_schema_version: 0.1.0
+runtime_root: skills/silver-gold-image-pipeline
+include:
+- .codex-plugin/plugin.json
+- LICENSE
+- CHANGELOG.md
+- NOTICE.md
+- skills/silver-gold-image-pipeline/**
+exclude:
+- skills/silver-gold-image-pipeline/assets/examples/**
+- skills/silver-gold-image-pipeline/assets/anchors/**
+- docs/**
+- tests/**
+- release/**
+- dist/**
+- source-documents/**
+- '**/__pycache__/**'
+- '**/*.pyc'
+required_runtime_files:
+- skills/silver-gold-image-pipeline/SKILL.md
+- skills/silver-gold-image-pipeline/agents/openai.yaml
+- skills/silver-gold-image-pipeline/references/style-spec.md
+- skills/silver-gold-image-pipeline/references/background-profiles.md
+- skills/silver-gold-image-pipeline/references/reference-analysis.md
+- skills/silver-gold-image-pipeline/references/workflow-and-locks.md
+- skills/silver-gold-image-pipeline/references/prompt-patterns.md
+- skills/silver-gold-image-pipeline/references/generator-adapters.md
+- skills/silver-gold-image-pipeline/references/quality-gates.md
+- skills/silver-gold-image-pipeline/references/output-delivery.md
+- skills/silver-gold-image-pipeline/references/safety-and-rights.md
+release_gates:
+- plugin_manifest_validation
+- skill_structure_validation
+- trigger_smoke_tests
+- prompt_scene_manifest_fixtures
+- installation_smoke_test
+- reference_to_image_workflow_smoke
+- exact_head_owner_review
+- changelog_entry
+- package_checksum_verification
+publish_tag_in_packaging_task: false

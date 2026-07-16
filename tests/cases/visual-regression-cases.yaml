@@ -1,6 +1,6 @@
 schema_version: 1.0.0
-style_core_version: 1.0.0
-qa_schema_version: 1.0.0
+style_core_version: 0.1.0
+qa_schema_version: 0.1.0
 anchors:
 - id: product-light
   path: skills/silver-gold-image-pipeline/assets/examples/accepted/product-light.svg
@@ -188,8 +188,8 @@ anchors:
   full_size_review_required: true
   target_size_review_required: true
   target_size_px: 64
-  declared_silver_ratio": 80
-  declared_gold_ratio": 20
+  declared_silver_ratio: 80
+  declared_gold_ratio: 20
   defects:
   - unreadable_target_size
   provenance_id: prov-unreadable-silhouette
