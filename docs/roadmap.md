@@ -50,6 +50,14 @@
 - [x] #25 records that SGP has no WebFactoryOS runtime or CI dependency.
 - [ ] #26 tracks closure debt for external orchestration records.
 
+## WebFactoryOS handoff
+
+- [x] #25 records SGP ownership of skill code, runtime package, QA contracts, assets, validation, and releases.
+- [x] #25 records WebFactoryOS ownership of external registry, routing status, and cross-project relation records.
+- [x] #25 records that external WebFactoryOS relations grant no write access to SGP.
+- [x] #25 records that SGP has no WebFactoryOS runtime or CI dependency.
+- [ ] #26 tracks closure debt for external orchestration records.
+
 ## Release constraint
 
 No tag or GitHub Release is created until #13 and #30 are complete, exact-main post-merge validation passes, package bytes and checksum are rebuilt from the final main SHA, and project closure #1 is verified. The final sequence is tracked by #26.

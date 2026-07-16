@@ -1,6 +1,9 @@
-# SGP-025 WebFactoryOS local handoff
+# SGP-025: Record WebFactoryOS orchestration handoff and local ownership boundaries
 
 Issue: #25
+Name: `Record WebFactoryOS orchestration handoff and local ownership boundaries`
+Status: `blocked: remote verification and publication unavailable from this environment`
+PR name: `Record WebFactoryOS orchestration handoff and local ownership boundaries (Issue #25)`
 Branch: `orchestration/sgp-25-webfactoryos-migration`
 Base: `main@23cc79258b58b3b164362dc5414677437a9f8f1a`
 
@@ -27,6 +30,8 @@ SGP parent closure: https://github.com/sevranty/silver-gold-image-pipeline/issue
 Reference source: https://github.com/JuliusBrussee/caveman
 
 ## Review blockers
+
+No merge conflict markers are present in the touched files.
 
 Remote verification, branch push, and GitHub Draft PR creation are blocked in this environment by `CONNECT tunnel failed, response 403`.
 

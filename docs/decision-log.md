@@ -130,6 +130,30 @@ A high aggregate score can conceal a critical style, semantic, or delivery failu
 - Runtime must retain evidence, limitations, iterations, file metadata, and delivery state in the manifest.
 - Empty final responses cannot be treated as successful completion.
 
+
+## ADR-0006: Record WebFactoryOS orchestration as an external handoff
+
+Status: accepted
+Date: 2026-07-16
+Related issue: #25
+
+### Context
+
+SGP needs a local handoff record for WebFactoryOS orchestration without importing WebFactoryOS registry records, grammar, workflows, implementation, or dependencies.
+
+### Decision
+
+- SGP owns this repository's skill code, runtime package, QA contracts, assets, validation, and releases.
+- WebFactoryOS owns external registry, routing status, and cross-project relation records.
+- External WebFactoryOS relations grant no write access to SGP files, settings, releases, or runtime behavior.
+- SGP has no WebFactoryOS runtime, CI, package, grammar, workflow, or registry dependency.
+- SGP links external WebFactoryOS sources instead of copying their contracts into this repository.
+
+### Consequences
+
+- SGP remains independently installable and releasable.
+- WebFactoryOS can route to SGP through external records without changing SGP runtime behavior.
+- Reviews can reject any future change that imports WebFactoryOS implementation or governance into this repository.
 ## ADR-0006: Keep WebFactoryOS orchestration external to SGP implementation
 
 Status: accepted  
