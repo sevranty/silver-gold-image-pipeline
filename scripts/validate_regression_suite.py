@@ -10,7 +10,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_CATEGORIES = {
