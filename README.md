@@ -11,6 +11,7 @@ Clone the repository and install the skill into the local Agent Skills directory
 ```bash
 git clone https://github.com/sevranty/silver-gold-image-pipeline.git
 mkdir -p "$HOME/.agents/skills"
+rm -rf "$HOME/.agents/skills/silver-gold-image-pipeline"
 cp -R silver-gold-image-pipeline/skills/silver-gold-image-pipeline "$HOME/.agents/skills/"
 ```
 
@@ -175,8 +176,8 @@ Build the deterministic package twice when producing release evidence:
 rm -rf dist-first dist-second
 python3 scripts/build_plugin_package.py --out-dir dist-first
 python3 scripts/build_plugin_package.py --out-dir dist-second
-sha256sum dist-first/silver-gold-image-pipeline-0.1.0.zip
-sha256sum dist-second/silver-gold-image-pipeline-0.1.0.zip
+cmp dist-first/silver-gold-image-pipeline-0.1.0.zip dist-second/silver-gold-image-pipeline-0.1.0.zip
+cmp dist-first/silver-gold-image-pipeline-0.1.0.zip.sha256 dist-second/silver-gold-image-pipeline-0.1.0.zip.sha256
 ```
 
 Validate the package manifest and checksum:
