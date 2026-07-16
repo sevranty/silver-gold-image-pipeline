@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-import yaml
+from yaml_compat import yaml
 
 EXIT_OK = 0
 EXIT_VALIDATION = 2

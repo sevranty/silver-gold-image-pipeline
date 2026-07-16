@@ -25,7 +25,8 @@ Each rule has one owner file:
 - manual visual verdict rules: `docs/visual-rubric.md`;
 - trigger, workflow, visual coverage, anchor hashes, and provenance: `tests/cases/` plus `skills/silver-gold-image-pipeline/assets/anchors/`;
 - provenance and normalization: `docs/source-map.md`;
-- version semantics: `docs/style-versioning.md`.
+- version semantics: `docs/style-versioning.md`;
+- local WebFactoryOS ownership boundary and routing links: `TASK.md`.
 
 `SKILL.md` orchestrates these contracts by reference. It must not duplicate their detailed rules.
 
@@ -34,6 +35,16 @@ Each rule has one owner file:
 Files under `skills/` must not contain organization names, internal design-system names, embedded logos, fixed brand colors, internal RACI, or product-specific governance. Source provenance belongs in `docs/source-map.md`, outside the runtime package.
 
 Synthetic visual anchors must be marked as project-generated QA examples. Never describe them as outputs from an image generator or as proof of production visual quality.
+
+## WebFactoryOS orchestration boundary
+
+- SGP owns its skill code, package, QA, assets, validators, evidence, tags and releases
+- WebFactoryOS owns the external project registry, routing status and cross-project relations
+- A WebFactoryOS relation never grants write access to SGP
+- SGP validation and release gates remain local and autonomous
+- Do not copy WebFactoryOS registry records, naming grammar, workflows or implementation into this repository
+- Do not add a WebFactoryOS runtime, CI or pinned package dependency
+- Use `TASK.md` for the concise local handoff, WFO#67 for remote routing and WFO#65 for chat naming
 
 ## Package boundary
 

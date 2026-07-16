@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "skills/silver-gold-image-pipeline/references/safety-and-rights.md"

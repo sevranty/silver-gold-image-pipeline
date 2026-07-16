@@ -3,11 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 from pathlib import Path
 
-from PIL import Image
-
+from png_utils import clean_png
 from validation_common import ascii_path, emit, sha256_file
 
 FORBIDDEN_SUFFIXES = {".doc", ".docx", ".pdf", ".pages"}
@@ -15,10 +13,8 @@ FORBIDDEN_PARTS = {"private", "source-documents", "confidential"}
 
 
 def clean_image(source: Path, target: Path) -> None:
-    with Image.open(source) as image:
-        image.load()
-        save_args = {"quality": 95, "optimize": True} if image.format == "JPEG" else {}
-        image.save(target, format=image.format, **save_args)
+    cleaned, _ = clean_png(source.read_bytes())
+    target.write_bytes(cleaned)
 
 
 def package(final: Path, preview: Path | None, output_dir: Path, asset_id: str) -> tuple[list[str], dict]:
@@ -32,6 +28,8 @@ def package(final: Path, preview: Path | None, output_dir: Path, asset_id: str) 
             continue
         if source.suffix.lower() in FORBIDDEN_SUFFIXES or any(part.casefold() in FORBIDDEN_PARTS for part in source.parts):
             errors.append(f"forbidden source input: {source}")
+        if source.suffix.lower() != ".png":
+            errors.append(f"unsupported source format: {source.name}")
         if not ascii_path(Path(source.name)):
             errors.append(f"non-ASCII filename: {source.name}")
     if errors:
@@ -45,10 +43,21 @@ def package(final: Path, preview: Path | None, output_dir: Path, asset_id: str) 
         target = target_dir / source.name
         try:
             clean_image(source, target)
-        except Exception:
-            shutil.copy2(source, target)
-        records[role] = {"path": target.relative_to(output_dir).as_posix(), "sha256": sha256_file(target), "size_bytes": target.stat().st_size}
-    manifest = {"schema_version": "1.0.0", "asset_id": asset_id, "files": records, "source_documents_included": False, "private_fixtures_included": False, "exif_preserved": False}
+        except (OSError, ValueError) as exc:
+            return [f"invalid PNG input {source.name}: {exc}"], {}
+        records[role] = {
+            "path": target.relative_to(output_dir).as_posix(),
+            "sha256": sha256_file(target),
+            "size_bytes": target.stat().st_size,
+        }
+    manifest = {
+        "schema_version": "1.0.0",
+        "asset_id": asset_id,
+        "files": records,
+        "source_documents_included": False,
+        "private_fixtures_included": False,
+        "exif_preserved": False,
+    }
     manifest_path = target_dir / "package-manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return [], {"package_dir": str(target_dir), "manifest": str(manifest_path), "files": records}
