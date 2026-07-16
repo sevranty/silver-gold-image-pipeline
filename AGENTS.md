@@ -73,6 +73,14 @@ A successful generation call without surfacing the final image to the user is no
 - Attach validation evidence to the repository and PR.
 - Do not mark work ready or merge without a separate decision.
 
+## WebFactoryOS orchestration handoff
+
+- SGP owns this repository's skill code, runtime package, QA contracts, assets, validation, and releases.
+- WebFactoryOS owns any external registry, routing status, and cross-project relation records.
+- External WebFactoryOS relations grant no write access to SGP files, settings, releases, or runtime behavior.
+- SGP has no WebFactoryOS runtime, CI, package, grammar, workflow, or registry dependency.
+- Link external WebFactoryOS sources instead of copying their registry records, grammar, workflow, or implementation into this repository.
+
 ## Validation
 
 Run the complete offline suite:

@@ -2,7 +2,7 @@
 
 Status: accepted runtime-contract foundation  
 Architecture version: 0.2.0  
-Related issues: #1, #3, #4, #5, #6
+Related issues: #1, #3, #4, #5, #6, #25
 
 ## 1. Purpose
 
@@ -181,7 +181,15 @@ The public runtime package must not include:
 
 Generic material rules, geometry, light, composition, locks, prompt structure, QA, and delivery contracts may be normalized into the runtime.
 
-## 9. Digital trace
+## 9. WebFactoryOS orchestration boundary
+
+SGP owns this repository's skill code, runtime package, QA contracts, assets, validation, and releases.
+
+WebFactoryOS owns external registry, routing status, and cross-project relation records. Those external relations grant no write access to SGP files, settings, releases, or runtime behavior.
+
+SGP has no WebFactoryOS runtime, CI, package, grammar, workflow, or registry dependency. Link WebFactoryOS sources instead of copying their contracts into this repository.
+
+## 10. Digital trace
 
 Every change must retain:
 
@@ -194,7 +202,7 @@ Every change must retain:
 - review decision;
 - changelog entry when release scope begins.
 
-## 10. Maturity model
+## 11. Maturity model
 
 ### Foundation
 
