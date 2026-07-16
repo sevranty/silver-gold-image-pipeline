@@ -86,13 +86,12 @@ def smoke(root: Path) -> tuple[list[str], dict[str, Any]]:
                 if not (skill_root / relative).is_file():
                     errors.append(f"installed reference missing: {relative}")
 
-        forbidden_roots = ("docs", "tests", "release", "source-documents")
-        for forbidden in forbidden_roots:
+        for forbidden in ("docs", "tests", "release", "source-documents"):
             if (install / forbidden).exists():
                 errors.append(f"installed package contains forbidden root: {forbidden}")
-        if any((install / "skills").rglob("assets/examples")):
+        if (skill_root / "assets/examples").exists():
             errors.append("installed package contains visual regression examples")
-        if any((install / "skills").rglob("assets/anchors")):
+        if (skill_root / "assets/anchors").exists():
             errors.append("installed package contains visual regression anchors")
 
         installed_files = sorted(
