@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here. Versions follow Semantic Versioning for each independently versioned contract.
 
+## [Unreleased]
+
+### Fixed
+
+- aligned `.codex-plugin/plugin.json` with the current official OpenAI plugin manifest shape: top-level `name`, plugin-root-relative `skills: "./skills/"`, and install-surface `interface` metadata;
+- rejected the deprecated internal `id`/array-path manifest shape in validation and installation tests.
+
 ## [0.1.0] - 2026-07-15
 
 ### Added

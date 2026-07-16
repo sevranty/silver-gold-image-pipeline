@@ -42,7 +42,7 @@ class PluginPackageTests(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertGreaterEqual(details["source_required_files"], 10)
 
-    def test_invalid_metadata_fixtures_fail(self) -> None:
+    def test_legacy_plugin_and_invalid_agent_metadata_fail(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             target = self.copy_repo(Path(temporary_directory))
             shutil.copy2(
@@ -50,7 +50,8 @@ class PluginPackageTests(unittest.TestCase):
                 target / ".codex-plugin/plugin.json",
             )
             errors, _ = VALIDATOR.validate(target)
-            self.assertTrue(any("plugin manifest" in error for error in errors))
+            self.assertTrue(any("legacy plugin manifest field" in error for error in errors))
+            self.assertTrue(any("plugin manifest name mismatch" in error for error in errors))
 
         with tempfile.TemporaryDirectory() as temporary_directory:
             target = self.copy_repo(Path(temporary_directory))
@@ -59,7 +60,17 @@ class PluginPackageTests(unittest.TestCase):
                 target / "skills/silver-gold-image-pipeline/agents/openai.yaml",
             )
             errors, _ = VALIDATOR.validate(target)
-            self.assertTrue(any("openai" in error or "brand-specific" in error for error in errors))
+            self.assertTrue(any("brand-specific" in error for error in errors))
+
+    def test_non_relative_skills_path_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            target = self.copy_repo(Path(temporary_directory))
+            path = target / ".codex-plugin/plugin.json"
+            plugin = json.loads(path.read_text(encoding="utf-8"))
+            plugin["skills"] = "skills/"
+            path.write_text(json.dumps(plugin, indent=2) + "\n", encoding="utf-8")
+            errors, _ = VALIDATOR.validate(target)
+            self.assertIn("plugin manifest skills mismatch", errors)
 
     def test_missing_reference_and_version_mismatch_fail(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -97,6 +108,10 @@ class PluginPackageTests(unittest.TestCase):
             install_errors, install_details = INSTALLER.smoke(ROOT)
             self.assertEqual(install_errors, [])
             self.assertEqual(install_details["archive_sha256"], first["archive_sha256"])
+            self.assertEqual(
+                install_details["standalone_root"],
+                "skills/silver-gold-image-pipeline",
+            )
 
     def test_forbidden_content_and_changed_archive_fail(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -128,7 +143,8 @@ class PluginPackageTests(unittest.TestCase):
         openai = yaml.safe_load(
             (ROOT / "tests/fixtures/package/valid-openai.yaml").read_text(encoding="utf-8")
         )
-        self.assertEqual(plugin["id"], "silver-gold-image-pipeline")
+        self.assertEqual(plugin["name"], "silver-gold-image-pipeline")
+        self.assertEqual(plugin["skills"], "./skills/")
         self.assertIn("visual QA", openai["interface"]["short_description"])
 
 
