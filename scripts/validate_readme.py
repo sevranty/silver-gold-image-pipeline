@@ -46,10 +46,11 @@ REQUIRED_SNIPPETS = [
     "python3 scripts/validate_readme.py",
     "python3 scripts/validate_all.py",
     "python3 scripts/build_plugin_package.py --out-dir dist-first",
+    "cmp dist-first/silver-gold-image-pipeline-0.1.0.zip dist-second/silver-gold-image-pipeline-0.1.0.zip",
     "python3 scripts/test_installation.py",
 ]
 
-BANNED_MARKERS = ["finuslugi", "финуслуги", "moex", "finkit"]
+BANNED_MARKERS = ["finuslugi", "финуслуги", "moex", "fds", "finkit"]
 UNSUPPORTED_CLAIMS = [
     r"\bis (?:an )?official marketplace (?:publication|release|listing)\b",
     r"\bautomatically (?:approves?|guarantees?) (?:visual|perceptual) quality\b",
