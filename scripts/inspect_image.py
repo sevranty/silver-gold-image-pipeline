@@ -2,11 +2,38 @@
 from __future__ import annotations
 
 import argparse
+import struct
 from pathlib import Path
 
-from PIL import Image, UnidentifiedImageError
-
 from validation_common import ascii_path, emit
+
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+
+
+def _inspect_png(data: bytes) -> dict:
+    if not data.startswith(PNG_SIGNATURE):
+        raise ValueError("not a PNG file")
+    offset = len(PNG_SIGNATURE)
+    while offset + 8 <= len(data):
+        length = struct.unpack(">I", data[offset:offset + 4])[0]
+        kind = data[offset + 4:offset + 8]
+        payload_start = offset + 8
+        payload_end = payload_start + length
+        if payload_end + 4 > len(data):
+            raise ValueError("truncated PNG file")
+        payload = data[payload_start:payload_end]
+        if kind == b"IHDR":
+            if length != 13:
+                raise ValueError("invalid PNG IHDR")
+            width, height, bit_depth, color_type, compression, filter_method, interlace = struct.unpack(">IIBBBBB", payload)
+            if bit_depth != 8 or compression != 0 or filter_method != 0 or interlace != 0:
+                raise ValueError("unsupported PNG header")
+            mode = {0: "L", 2: "RGB", 6: "RGBA"}.get(color_type)
+            if mode is None:
+                raise ValueError(f"unsupported PNG color type: {color_type}")
+            return {"format": "PNG", "width": width, "height": height, "aspect_ratio": width / height if height else None, "mode": mode, "alpha": color_type == 6, "exif_entries": 0}
+        offset = payload_end + 4
+    raise ValueError("missing PNG IHDR")
 
 
 def inspect(path: Path) -> tuple[list[str], list[str], dict]:
@@ -17,19 +44,15 @@ def inspect(path: Path) -> tuple[list[str], list[str], dict]:
         return ["file does not exist"], warnings, details
     if not ascii_path(Path(path.name)):
         errors.append("filename must be ASCII")
-    if path.stat().st_size <= 0:
+    size_bytes = path.stat().st_size
+    if size_bytes <= 0:
         errors.append("file is empty")
     try:
-        with Image.open(path) as image:
-            image.verify()
-        with Image.open(path) as image:
-            width, height = image.size
-            details = {"format": image.format, "width": width, "height": height, "aspect_ratio": width / height if height else None, "mode": image.mode, "alpha": "A" in image.getbands(), "size_bytes": path.stat().st_size, "exif_entries": len(image.getexif())}
-            if width <= 0 or height <= 0:
-                errors.append("invalid image dimensions")
-            if image.getexif():
-                warnings.append("EXIF metadata present")
-    except (UnidentifiedImageError, OSError) as exc:
+        details = _inspect_png(path.read_bytes())
+        details["size_bytes"] = size_bytes
+        if details["width"] <= 0 or details["height"] <= 0:
+            errors.append("invalid image dimensions")
+    except (OSError, ValueError) as exc:
         errors.append(f"image cannot be opened: {exc}")
     return errors, warnings, details
 
