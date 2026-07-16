@@ -1,0 +1,10 @@
+schema_version: 1.0.0
+case_id: readme-rejected-gold-dominance
+status: rejected
+materials:
+  declared_silver_ratio: 30
+  declared_gold_ratio: 70
+expected:
+  terminal_state: REJECTED
+  critical_defects:
+  - gold_dominance
