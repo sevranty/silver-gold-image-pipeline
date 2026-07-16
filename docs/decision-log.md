@@ -130,27 +130,29 @@ A high aggregate score can conceal a critical style, semantic, or delivery failu
 - Runtime must retain evidence, limitations, iterations, file metadata, and delivery state in the manifest.
 - Empty final responses cannot be treated as successful completion.
 
+## ADR-0006: Keep WebFactoryOS orchestration external to SGP implementation
 
-## ADR-0006: Record WebFactoryOS orchestration as an external handoff
-
-Status: accepted
-Date: 2026-07-16
-Related issue: #25
+Status: accepted  
+Date: 2026-07-16  
+Related issues: #1, #25, #26  
+External routing task: https://github.com/sevranty/web-factory-os/issues/67
 
 ### Context
 
-SGP needs a local handoff record for WebFactoryOS orchestration without importing WebFactoryOS registry records, grammar, workflows, implementation, or dependencies.
+The project is registered and routed through WebFactoryOS together with other independent skills. Copying its registry, naming grammar, workflows or implementation into SGP would create duplicate sources of truth and make the skill dependent on an orchestration repository.
 
 ### Decision
 
-- SGP owns this repository's skill code, runtime package, QA contracts, assets, validation, and releases.
-- WebFactoryOS owns external registry, routing status, and cross-project relation records.
-- External WebFactoryOS relations grant no write access to SGP files, settings, releases, or runtime behavior.
-- SGP has no WebFactoryOS runtime, CI, package, grammar, workflow, or registry dependency.
-- SGP links external WebFactoryOS sources instead of copying their contracts into this repository.
+- SGP remains the only source of truth for skill code, package, QA, assets, validation, tags and releases.
+- WebFactoryOS owns external project registration, route lookup, orchestration status and cross-project relations.
+- A WebFactoryOS relation grants no write access to SGP.
+- SGP keeps its own Issue, branch, PR, validation, review and release lifecycle.
+- SGP does not import WebFactoryOS code, registry records, workflows, CI or pinned dependencies.
+- `TASK.md` stores the concise local handoff and exact external links.
 
 ### Consequences
 
-- SGP remains independently installable and releasable.
-- WebFactoryOS can route to SGP through external records without changing SGP runtime behavior.
-- Reviews can reject any future change that imports WebFactoryOS implementation or governance into this repository.
+- SGP remains independently installable, testable and releasable.
+- External orchestration may change without changing runtime behavior or package bytes.
+- Routing facts are not duplicated in SGP beyond stable identifiers and links.
+- Naming rules remain owned by the WebFactoryOS naming task and do not redefine SGP artifact naming.
