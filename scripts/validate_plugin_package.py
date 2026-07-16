@@ -28,15 +28,20 @@ VERSIONS = {
 }
 
 EXPECTED_PLUGIN = {
-    "schema_version": "1.0.0",
-    "id": "silver-gold-image-pipeline",
+    "name": "silver-gold-image-pipeline",
     "version": "0.1.0",
-    "display_name": "Silver-Gold Image Pipeline",
-    "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
+    "description": "Mono-style reference-to-image Agent Skill that applies the internal Silver-Gold contract with explicit analysis, locks, QA, correction, manifest, and user-visible delivery stages.",
     "homepage": "https://github.com/sevranty/silver-gold-image-pipeline#readme",
+    "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
     "license": "MIT",
+    "skills": "./skills/",
 }
-
+EXPECTED_INTERFACE = {
+    "displayName": "Silver-Gold Image Pipeline",
+    "developerName": "Vsevolod Rymar",
+    "category": "Creativity",
+}
+LEGACY_PLUGIN_FIELDS = {"id", "schema_version", "display_name"}
 EXCLUDED_PREFIXES = ("docs/", "tests/", "release/", "dist/", "source-documents/")
 EXCLUDED_MARKERS = ("/assets/examples/", "/assets/anchors/", "__pycache__")
 BRAND_MARKERS = ("finuslugi", "финуслуги", "moscow exchange", "moex", "finkit")
@@ -99,12 +104,12 @@ def validate(
     errors: list[str] = []
     details: dict[str, Any] = {}
 
-    manifest_path = root / ".codex-plugin/plugin.json"
+    plugin_path = root / ".codex-plugin/plugin.json"
     contract_path = root / "release/package-contract.yaml"
     skill_path = root / "skills/silver-gold-image-pipeline/SKILL.md"
     agent_path = root / "skills/silver-gold-image-pipeline/agents/openai.yaml"
     required_packaging = (
-        manifest_path,
+        plugin_path,
         contract_path,
         skill_path,
         agent_path,
@@ -120,7 +125,7 @@ def validate(
         return errors, details
 
     try:
-        plugin = json.loads(manifest_path.read_text(encoding="utf-8"))
+        plugin = json.loads(plugin_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         return [f"invalid plugin manifest: {error}"], details
     try:
@@ -129,25 +134,57 @@ def validate(
     except (OSError, yaml.YAMLError) as error:
         return [f"invalid packaging YAML: {error}"], details
 
+    for field in LEGACY_PLUGIN_FIELDS:
+        if field in plugin:
+            errors.append(f"legacy plugin manifest field is not allowed: {field}")
     for key, value in EXPECTED_PLUGIN.items():
         if plugin.get(key) != value:
             errors.append(f"plugin manifest {key} mismatch")
-    if plugin.get("skills") != ["skills/silver-gold-image-pipeline"]:
-        errors.append("plugin manifest must declare exactly one canonical skill path")
-    if not isinstance(plugin.get("description"), str) or not plugin["description"].strip():
-        errors.append("plugin manifest description is required")
 
-    interface = openai.get("interface", {}) if isinstance(openai, dict) else {}
-    if interface.get("display_name") != plugin.get("display_name"):
+    author = plugin.get("author", {})
+    if not isinstance(author, dict) or author.get("name") != "Vsevolod Rymar":
+        errors.append("plugin manifest author mismatch")
+    if not str(author.get("url", "")).startswith("https://github.com/sevranty"):
+        errors.append("plugin manifest author URL mismatch")
+
+    keywords = plugin.get("keywords")
+    if not isinstance(keywords, list) or not keywords or not all(isinstance(item, str) for item in keywords):
+        errors.append("plugin manifest keywords must be a non-empty string list")
+
+    interface = plugin.get("interface", {})
+    if not isinstance(interface, dict):
+        errors.append("plugin interface must be a mapping")
+        interface = {}
+    for key, value in EXPECTED_INTERFACE.items():
+        if interface.get(key) != value:
+            errors.append(f"plugin interface {key} mismatch")
+    if not isinstance(interface.get("shortDescription"), str) or not interface["shortDescription"].strip():
+        errors.append("plugin interface shortDescription is required")
+    if not isinstance(interface.get("longDescription"), str) or not interface["longDescription"].strip():
+        errors.append("plugin interface longDescription is required")
+    default_prompts = interface.get("defaultPrompt")
+    if not isinstance(default_prompts, list) or not default_prompts or not all(
+        isinstance(item, str) and item.strip() for item in default_prompts
+    ):
+        errors.append("plugin interface defaultPrompt must be a non-empty string list")
+
+    agent_interface = openai.get("interface", {}) if isinstance(openai, dict) else {}
+    if agent_interface.get("display_name") != interface.get("displayName"):
         errors.append("openai display name mismatch")
     metadata_text = " ".join(
-        str(interface.get(key, "")) for key in ("short_description", "default_prompt")
+        [
+            str(agent_interface.get("short_description", "")),
+            str(agent_interface.get("default_prompt", "")),
+            str(interface.get("shortDescription", "")),
+            str(interface.get("longDescription", "")),
+            " ".join(str(item) for item in default_prompts or []),
+        ]
     ).casefold()
-    for marker in ("visual qa", "user-visible", "final delivery"):
+    for marker in ("visual qa", "user-visible", "delivery"):
         if marker not in metadata_text:
-            errors.append(f"openai metadata missing delivery marker: {marker}")
+            errors.append(f"plugin metadata missing delivery marker: {marker}")
     if any(marker in metadata_text for marker in BRAND_MARKERS):
-        errors.append("brand-specific marker in agent metadata")
+        errors.append("brand-specific marker in plugin metadata")
 
     frontmatter = re.match(r"^---\n(.*?)\n---", skill_path.read_text(encoding="utf-8"), re.S)
     if frontmatter is None:
@@ -158,13 +195,13 @@ def validate(
         except yaml.YAMLError as error:
             errors.append(f"SKILL front matter invalid: {error}")
         else:
-            if frontmatter_data.get("name") != plugin.get("id"):
+            if frontmatter_data.get("name") != plugin.get("name"):
                 errors.append("SKILL front matter name mismatch")
 
     if contract.get("package_version") != plugin.get("version"):
         errors.append("package/plugin version mismatch")
-    if contract.get("plugin_manifest_version") != plugin.get("schema_version"):
-        errors.append("plugin manifest schema version mismatch")
+    if contract.get("plugin_manifest_version") != "1.0.0":
+        errors.append("plugin manifest contract version mismatch")
     if contract.get("versions") != VERSIONS:
         errors.append("package contract versions mismatch")
     if contract.get("runtime_root") != "skills/silver-gold-image-pipeline":
