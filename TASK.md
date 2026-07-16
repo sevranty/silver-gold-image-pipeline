@@ -2,7 +2,7 @@
 
 Issue: #25
 Name: `Record WebFactoryOS orchestration handoff and local ownership boundaries`
-Status: `blocked: remote verification and publication unavailable from this environment`
+Status: `conflicts resolved locally; remote verification and publication blocked from this environment`
 PR name: `Record WebFactoryOS orchestration handoff and local ownership boundaries (Issue #25)`
 Branch: `orchestration/sgp-25-webfactoryos-migration`
 Base: `main@23cc79258b58b3b164362dc5414677437a9f8f1a`
