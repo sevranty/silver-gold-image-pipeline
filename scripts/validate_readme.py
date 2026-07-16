@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from urllib.parse import unquote
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 ACCEPTED = Path("docs/examples/accepted-contract-smoke.yaml")
@@ -43,6 +43,7 @@ REQUIRED_SNIPPETS = [
     "matte or satin",
     "controlled rim light",
     "minimal reflections",
+    "python3 -m pip install PyYAML",
     "python3 scripts/validate_readme.py",
     "python3 scripts/validate_all.py",
     "python3 scripts/build_plugin_package.py --out-dir dist-first",
