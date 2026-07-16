@@ -1,10 +1,44 @@
 schema_version: 1.0.0
 case_id: readme-rejected-gold-dominance
 status: rejected
+claim_boundary:
+  image_generator_executed: false
+  synthetic_qa_anchor: true
+  production_visual_quality_proven: false
+input:
+  reference_role: subject_reference
+  subject: faceted shield
+  transformation_mode: reinterpretation
+  background_profile: showcase-neutral
+preserve:
+- shield meaning
+- centered composition
+change:
+- rendering language
+- material allocation
+locks:
+- semantic_lock
+- object_lock
+- composition_lock
+- silver_gold_style_lock
 materials:
   declared_silver_ratio: 30
   declared_gold_ratio: 70
+workflow:
+- input_gate
+- reference_analysis
+- safety_and_rights
+- locks
+- scene_brief
+- prompt_preflight
+- quality_gate
 expected:
   terminal_state: REJECTED
   critical_defects:
   - gold_dominance
+  manual_visual_review_required: true
+  user_visible_delivery_allowed: false
+evidence:
+  anchor: skills/silver-gold-image-pipeline/assets/examples/rejected/gold-dominance.svg
+  manual_review: docs/evidence/visual-manual-review.json
+  manifest_template: skills/silver-gold-image-pipeline/assets/templates/output-manifest.yaml
