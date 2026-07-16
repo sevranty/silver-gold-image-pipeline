@@ -1,11 +1,22 @@
 {
-  "schema_version": "1.0.0",
-  "id": "silver-gold-image-pipeline",
+  "name": "silver-gold-image-pipeline",
   "version": "0.1.0",
-  "display_name": "Silver-Gold Image Pipeline",
-  "description": "Mono-style reference-to-image Agent Skill.",
-  "skills": ["skills/silver-gold-image-pipeline"],
-  "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
+  "description": "Mono-style reference-to-image Agent Skill that applies the internal Silver-Gold contract with explicit analysis, locks, QA, correction, manifest, and user-visible delivery stages.",
+  "author": {
+    "name": "Vsevolod Rymar",
+    "url": "https://github.com/sevranty"
+  },
   "homepage": "https://github.com/sevranty/silver-gold-image-pipeline#readme",
-  "license": "MIT"
+  "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
+  "license": "MIT",
+  "keywords": ["image-generation", "image-editing", "agent-skill", "silver-gold"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Silver-Gold Image Pipeline",
+    "shortDescription": "Controlled reference-to-image generation with Silver-Gold contracts and manual visual QA",
+    "longDescription": "Transform available reference images into new or edited Silver-Gold assets through explicit analysis, locks, generator routing, manual visual QA, targeted correction, technical validation, and user-visible delivery.",
+    "developerName": "Vsevolod Rymar",
+    "category": "Creativity",
+    "defaultPrompt": ["Transform the supplied reference into a controlled Silver-Gold image and complete every QA and delivery stage"]
+  }
 }
