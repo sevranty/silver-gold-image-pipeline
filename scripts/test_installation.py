@@ -62,12 +62,18 @@ def smoke(root: Path) -> tuple[list[str], dict[str, Any]]:
         else:
             plugin = json.loads(plugin_path.read_text(encoding="utf-8"))
 
-        skills = plugin.get("skills", [])
-        if skills != ["skills/silver-gold-image-pipeline"]:
-            errors.append("installed plugin skill path mismatch")
-            skill_root = install / "skills/silver-gold-image-pipeline"
+        skills_path = plugin.get("skills")
+        if skills_path != "./skills/":
+            errors.append("installed plugin skills path mismatch")
+            skills_root = install / "skills"
         else:
-            skill_root = install / skills[0]
+            skills_root = install / skills_path
+
+        plugin_name = plugin.get("name")
+        if plugin_name != "silver-gold-image-pipeline":
+            errors.append("installed plugin name mismatch")
+            plugin_name = "silver-gold-image-pipeline"
+        skill_root = skills_root / plugin_name
 
         skill = skill_root / "SKILL.md"
         agent = skill_root / "agents/openai.yaml"
@@ -77,8 +83,8 @@ def smoke(root: Path) -> tuple[list[str], dict[str, Any]]:
             skill_text = skill.read_text(encoding="utf-8")
             match = re.match(r"^---\n(.*?)\n---", skill_text, re.S)
             frontmatter = yaml.safe_load(match.group(1)) if match else {}
-            if frontmatter.get("name") != plugin.get("id"):
-                errors.append("installed skill id mismatch")
+            if frontmatter.get("name") != plugin.get("name"):
+                errors.append("installed skill name mismatch")
             references = sorted(set(re.findall(r"`(references/[^`]+)`", skill_text)))
             if not references:
                 errors.append("installed SKILL contains no runtime reference links")
