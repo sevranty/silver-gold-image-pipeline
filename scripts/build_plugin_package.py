@@ -13,7 +13,7 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXED_TIME = (2026, 1, 1, 0, 0, 0)

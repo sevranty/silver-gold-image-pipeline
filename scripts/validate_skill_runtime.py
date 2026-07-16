@@ -5,7 +5,7 @@ import re
 import sys
 from pathlib import Path
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills/silver-gold-image-pipeline/SKILL.md"
@@ -107,7 +107,7 @@ def main() -> int:
 
     fixture = yaml.safe_load(CASES.read_text(encoding="utf-8"))
     cases = fixture.get("cases", [])
-    require(fixture.get("schema_version") == "1.0.0", "case schema")
+    require(fixture.get("schema_version") == "1.1.0", "case schema")
     require(fixture.get("skill_version") == "0.1.0", "case skill version")
     require(len(cases) >= 14, "case count")
     ids = [case.get("id") for case in cases]

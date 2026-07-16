@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILES = ROOT / "skills/silver-gold-image-pipeline/assets/templates/capability-profiles.yaml"
@@ -73,7 +73,7 @@ def main() -> int:
             for source in profile["evidence_sources"]:
                 require(source.get("type") == "official_documentation", f"{profile_id}: source type")
                 require(str(source.get("url", "")).startswith("https://"), f"{profile_id}: source URL")
-                require(source.get("retrieved_at") == "2026-07-15", f"{profile_id}: retrieval date")
+                require(str(source.get("retrieved_at")) == "2026-07-15", f"{profile_id}: retrieval date")
 
     decision = yaml.safe_load(DECISION.read_text(encoding="utf-8"))
     required_decision_fields = {"schema_version", "adapter_contract_version", "decision_id", "run_id", "requested_mode", "mandatory_capabilities", "available_profile_ids", "selected_profile_id", "runtime_available", "capability_results", "degradations", "preserved_requirements", "lost_requirements", "deterministic_post_processing", "fallback_level", "stop_reason", "actual_invocation"}

@@ -1,0 +1,51 @@
+schema_version: 1.0.0
+case_id: readme-accepted-contract-smoke
+status: accepted
+claim_boundary:
+  image_generator_executed: false
+  synthetic_qa_anchor: true
+  production_visual_quality_proven: false
+input:
+  reference_role: subject_reference
+  subject: faceted shield
+  transformation_mode: reinterpretation
+  background_profile: product-light
+preserve:
+- shield meaning
+- centered composition
+- readable silhouette
+change:
+- rendering language
+- material allocation
+- lighting treatment
+locks:
+- semantic_lock
+- object_lock
+- composition_lock
+- silver_gold_style_lock
+materials:
+  declared_silver_ratio: 80
+  declared_gold_ratio: 20
+workflow:
+- input_gate
+- reference_analysis
+- safety_and_rights
+- locks
+- scene_brief
+- adapter_decision
+- generation_specification
+- prompt_preflight
+- generation_or_edit_call_required_at_runtime
+- full_size_visual_qa
+- target_size_visual_qa
+- targeted_correction_if_needed
+- technical_validation
+- user_visible_delivery
+expected:
+  terminal_state: DELIVERED
+  critical_defects: []
+  manual_visual_review_required: true
+evidence:
+  anchor: skills/silver-gold-image-pipeline/assets/examples/accepted/product-light.svg
+  manual_review: docs/evidence/visual-manual-review.json
+  manifest_template: skills/silver-gold-image-pipeline/assets/templates/output-manifest.yaml

@@ -2,7 +2,7 @@
 from __future__ import annotations
 import argparse, json
 from pathlib import Path
-import yaml
+from yaml_compat import yaml
 ROOT=Path(__file__).resolve().parents[1]
 DEFECTS={'gold_dominance','chrome_mirror_glossy','jewelry_baroque','missing_rim_light','noisy_texture','wrong_background_profile','alternate_dark_style_drift','photoreal_product_photo_drift','unreadable_silhouette','reference_identity_loss','final_asset_not_surfaced'}
 STATUSES={'pass','expected_defect_confirmed','ambiguous'}
