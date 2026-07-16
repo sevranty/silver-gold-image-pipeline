@@ -1,0 +1,48 @@
+# SGP orchestration handoff
+
+```text
+PROJECT_ID: SILVER_GOLD_IMAGE_PIPELINE
+SHORT_ID: SGP
+PROJECT_NAME: silver-gold-image-pipeline
+REPOSITORY_URL: https://github.com/sevranty/silver-gold-image-pipeline
+TASKS_URL: https://github.com/sevranty/silver-gold-image-pipeline/issues
+ORCHESTRATION_SYSTEM: WebFactoryOS
+LOCAL_HANDOFF_ISSUE: https://github.com/sevranty/silver-gold-image-pipeline/issues/25
+REMOTE_ROUTING_ISSUE: https://github.com/sevranty/web-factory-os/issues/67
+NAMING_SOURCE: https://github.com/sevranty/web-factory-os/issues/65
+```
+
+## Ownership
+
+| Concern | Owner |
+|---|---|
+| Skill runtime, references, assets and prompts | SGP repository |
+| QA, validators, fixtures and evidence | SGP repository |
+| Plugin package, checksums, tags and releases | SGP repository |
+| Project registry and route lookup | WebFactoryOS |
+| Cross-project task relations and orchestration status | WebFactoryOS |
+| Chat-title grammar | WebFactoryOS naming contract |
+
+## Boundary
+
+- WebFactoryOS relations do not grant write access to this repository
+- SGP remains independently installable and testable
+- Do not copy the WebFactoryOS registry, naming grammar, workflows or implementation into SGP
+- Do not add a WebFactoryOS runtime, CI, package or pinned dependency to SGP
+- External orchestration does not change local Issue, branch, PR, review or release gates
+
+## Local execution
+
+Every SGP implementation change uses:
+
+```text
+Issue -> task branch -> commits -> Draft PR -> exact-HEAD validation -> review -> guarded merge
+```
+
+Run local validation from the reviewed HEAD:
+
+```bash
+python3 scripts/validate_all.py
+```
+
+Release work remains governed by [SGP#26](https://github.com/sevranty/silver-gold-image-pipeline/issues/26) and closes only after the project-level gate in [SGP#1](https://github.com/sevranty/silver-gold-image-pipeline/issues/1).
