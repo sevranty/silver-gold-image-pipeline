@@ -1,5 +1,8 @@
 # Architecture
 
+Status: accepted runtime-contract foundation  
+Architecture version: 0.2.0  
+Related issues: #1, #3, #4, #5, #6, #25
 Status: accepted production-candidate architecture  
 Architecture version: 0.3.0  
 Related issues: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #25
