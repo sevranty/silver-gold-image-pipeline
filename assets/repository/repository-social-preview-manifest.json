@@ -1,0 +1,29 @@
+{
+  "alt_text": "A silver geometric shield moves from a wireframe reference through Analyze, Locks, and QA gates into a finished Silver-Gold asset with restrained gold accents.",
+  "asset_id": "repository-social-preview",
+  "dimensions": {"height": 640, "width": 1280},
+  "editable_source": "assets/repository/repository-social-preview-source.svg",
+  "files": {
+    "assets/repository/proofs/dark-ui-proof.png": {"sha256": "799c62e1ae80dd2d2c0fd12361f183eb8b10c12d34af0bda32610e1c2fcc4bb6", "size_bytes": 10559},
+    "assets/repository/proofs/github-crop-proof.png": {"sha256": "a2ea260e7f65ef4fc4712770c190c986990159a3ecf8cea5c6725637eeb81b48", "size_bytes": 8353},
+    "assets/repository/proofs/light-ui-proof.png": {"sha256": "583396de1a1f3bd1533acec128f0711eb01465271ef5a2926e930baab1b7be5f", "size_bytes": 10026},
+    "assets/repository/proofs/small-size-proof.png": {"sha256": "9800490f73a46a78f8c868b6519a120c24b56998d7a157aefc2ad85adf008c76", "size_bytes": 6849},
+    "assets/repository/repository-social-preview-source.svg": {"sha256": "21f12ac40998a9f2cd68210749d9402415cc25410bdfa19543396fc66f1b4505", "size_bytes": 3672},
+    "assets/repository/repository-social-preview.png": {"sha256": "a2ea260e7f65ef4fc4712770c190c986990159a3ecf8cea5c6725637eeb81b48", "size_bytes": 8353}
+  },
+  "format": "PNG",
+  "max_size_bytes": 1000000,
+  "production_path": "assets/repository/repository-social-preview.png",
+  "proofs": {
+    "dark_ui": "assets/repository/proofs/dark-ui-proof.png",
+    "full_size": "assets/repository/repository-social-preview.png",
+    "github_crop": "assets/repository/proofs/github-crop-proof.png",
+    "light_ui": "assets/repository/proofs/light-ui-proof.png",
+    "small_size": "assets/repository/proofs/small-size-proof.png"
+  },
+  "public_proof": {"manual_action_required": true, "settings_route": "Settings -> Social preview -> Edit -> Upload an image", "verified": false},
+  "schema_version": "1.0.0",
+  "source_notes": {"external_logos": false, "font_file_embedded": false, "generator_executed": false, "original_project_asset": true, "render_method": "deterministic SVG rendered at 640 x 320 and upscaled to 1280 x 640", "third_party_visual_assets": false},
+  "status": "awaiting_settings_upload",
+  "style_review": {"declared_gold_ratio": 20, "declared_silver_ratio": 80, "external_brand_trace": false, "gold_accent_only": true, "manual_review": "pass", "no_black_gold_drift": true, "no_chrome_or_gloss": true, "no_small_critical_text": true, "silver_dominant": true}
+}
