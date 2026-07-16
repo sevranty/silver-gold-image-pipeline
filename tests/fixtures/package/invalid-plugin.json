@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "id": "wrong-combined-style-plugin",
-  "version": "9.9.9",
-  "display_name": "Wrong Plugin",
-  "skills": ["skills/silver-gold-image-pipeline", "skills/another-style"],
-  "repository": "https://example.invalid/private",
-  "license": "Proprietary"
+  "id": "silver-gold-image-pipeline",
+  "version": "0.1.0",
+  "description": "Legacy plugin metadata fixture.",
+  "skills": ["skills/silver-gold-image-pipeline"],
+  "repository": "https://github.com/sevranty/silver-gold-image-pipeline",
+  "license": "MIT"
 }
