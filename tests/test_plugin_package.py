@@ -4,14 +4,16 @@ import importlib.util
 import json
 import shutil
 import tempfile
+import sys
 import unittest
 import zipfile
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+
+from yaml_compat import yaml
 
 
 def load_module(name: str, path: Path):

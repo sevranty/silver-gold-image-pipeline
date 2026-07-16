@@ -12,7 +12,7 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
-import yaml
+from yaml_compat import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = Path(__file__).resolve().parent
