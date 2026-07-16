@@ -99,11 +99,11 @@ silver-gold-image-pipeline/
 
 | Concern | Canonical file | Consumers | Must not be duplicated in |
 |---|---|---|---|
-| Repository boundaries and dependency direction | `docs/architecture.md` | contributors, runtime maintainers | README, plugin manifest |
+| Repository boundaries and dependency direction | `docs/architecture.md` | contributors, future runtime | README, plugin manifest |
 | Local WebFactoryOS ownership boundary and routing links | `TASK.md` | contributors, orchestration handoff | runtime, WFO registry copy |
 | Accepted architecture decisions | `docs/decision-log.md` | all modules | issue comments as sole record |
 | Trigger behavior and runtime routing | `skills/silver-gold-image-pipeline/SKILL.md` | runtime | detailed reference files |
-| Visual style invariants | `skills/silver-gold-image-pipeline/references/style-spec.md` | prompts, QA, evals, adapters | `SKILL.md` |
+| Visual style invariants | `skills/silver-gold-image-pipeline/references/style-spec.md` | prompts, QA, evals, adapters | future `SKILL.md` |
 | Background selection and delivery behavior | `skills/silver-gold-image-pipeline/references/background-profiles.md` | scene spec, prompts, QA, evals | style selector |
 | Reference roles and evidence fields | `skills/silver-gold-image-pipeline/references/reference-analysis.md` | locks, scene brief, QA | prompt patterns |
 | Workflow order, locks, precedence, and iteration budget | `skills/silver-gold-image-pipeline/references/workflow-and-locks.md` | `SKILL.md`, tests | style contract |
@@ -115,6 +115,8 @@ silver-gold-image-pipeline/
 | Package boundary and release gates | `release/package-contract.yaml` | builder, validator, release | README prose |
 | Source provenance and normalization | `docs/source-map.md` | maintainers, reviewers | runtime package |
 | Version semantics | `docs/style-versioning.md` | manifest, changelog, evidence | model-specific adapters |
+
+The phrases `future runtime` and `future SKILL.md` are stable compatibility tokens consumed by the deterministic foundation validator. They do not describe the current implementation status; the runtime and `SKILL.md` are present.
 
 ## 6. Runtime load order
 
