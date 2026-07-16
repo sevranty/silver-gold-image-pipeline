@@ -25,6 +25,14 @@
 - [ ] #12 benchmarked production README
 - [ ] #13 repository social preview
 
+## WebFactoryOS handoff
+
+- [x] #25 records SGP ownership of skill code, runtime package, QA contracts, assets, validation, and releases.
+- [x] #25 records WebFactoryOS ownership of external registry, routing status, and cross-project relation records.
+- [x] #25 records that external WebFactoryOS relations grant no write access to SGP.
+- [x] #25 records that SGP has no WebFactoryOS runtime or CI dependency.
+- [ ] #26 tracks closure debt for external orchestration records.
+
 ## Release constraint
 
 The packaging task does not publish a version tag or GitHub Release. Ready transitions and merges require exact-HEAD validation and owner review. Release v0.1.0 is created only after #8, #12, #13, post-merge validation, and project closure #1.
