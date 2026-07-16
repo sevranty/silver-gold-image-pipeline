@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import importlib.util
 import tempfile
+import sys
 import unittest
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from yaml_compat import yaml
 SPEC = importlib.util.spec_from_file_location("validate_regression_suite", ROOT / "scripts/validate_regression_suite.py")
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)

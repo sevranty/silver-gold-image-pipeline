@@ -17,9 +17,18 @@ COMMANDS = [
     [sys.executable, "scripts/validate_adapters.py"],
     [sys.executable, "scripts/validate_regression_suite.py"],
     [sys.executable, "scripts/validate_visual_evidence.py"],
+    [sys.executable, "scripts/validate_readme.py"],
     [sys.executable, "scripts/validate_plugin_package.py"],
     [sys.executable, "scripts/test_installation.py"],
-    [sys.executable, "-m", "unittest", "tests/test_validation.py", "tests/test_regression_suite.py", "tests/test_plugin_package.py"],
+    [
+        sys.executable,
+        "-m",
+        "unittest",
+        "tests/test_validation.py",
+        "tests/test_regression_suite.py",
+        "tests/test_plugin_package.py",
+        "tests/test_readme.py",
+    ],
 ]
 
 
