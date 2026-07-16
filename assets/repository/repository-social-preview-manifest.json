@@ -4,12 +4,12 @@
   "dimensions": {"height": 640, "width": 1280},
   "editable_source": "assets/repository/repository-social-preview-source.svg",
   "files": {
-    "assets/repository/proofs/dark-ui-proof.png": {"sha256": "738439a11e57165c59e2490309cd9bcb06adc129bf5030d7f647028575713a67", "size_bytes": 17750},
-    "assets/repository/proofs/github-crop-proof.png": {"sha256": "c49efb16a816bd07ac23e2c259b491f6bb367fcfa550d854b0578d141b68f4cc", "size_bytes": 15552},
-    "assets/repository/proofs/light-ui-proof.png": {"sha256": "be68e29fd4b04ab76a316c3e5e3a6be8ba5598b7d3cdd7702b914bc7a1d4be11", "size_bytes": 17422},
-    "assets/repository/proofs/small-size-proof.png": {"sha256": "b7c666e9d320746391d8882ee9729178e6b4601831b21d40fac9aa02abefe476", "size_bytes": 11195},
+    "assets/repository/proofs/dark-ui-proof.png": {"sha256": "799c62e1ae80dd2d2c0fd12361f183eb8b10c12d34af0bda32610e1c2fcc4bb6", "size_bytes": 10559},
+    "assets/repository/proofs/github-crop-proof.png": {"sha256": "a2ea260e7f65ef4fc4712770c190c986990159a3ecf8cea5c6725637eeb81b48", "size_bytes": 8353},
+    "assets/repository/proofs/light-ui-proof.png": {"sha256": "583396de1a1f3bd1533acec128f0711eb01465271ef5a2926e930baab1b7be5f", "size_bytes": 10026},
+    "assets/repository/proofs/small-size-proof.png": {"sha256": "9800490f73a46a78f8c868b6519a120c24b56998d7a157aefc2ad85adf008c76", "size_bytes": 6849},
     "assets/repository/repository-social-preview-source.svg": {"sha256": "21f12ac40998a9f2cd68210749d9402415cc25410bdfa19543396fc66f1b4505", "size_bytes": 3672},
-    "assets/repository/repository-social-preview.png": {"sha256": "a917fa0b6df053d85910c1e38f000d163d6eaad5c1fc68fbac5e4ec45429ae09", "size_bytes": 16403}
+    "assets/repository/repository-social-preview.png": {"sha256": "a2ea260e7f65ef4fc4712770c190c986990159a3ecf8cea5c6725637eeb81b48", "size_bytes": 8353}
   },
   "format": "PNG",
   "max_size_bytes": 1000000,
@@ -23,7 +23,7 @@
   },
   "public_proof": {"manual_action_required": true, "settings_route": "Settings -> Social preview -> Edit -> Upload an image", "verified": false},
   "schema_version": "1.0.0",
-  "source_notes": {"external_logos": false, "font_file_embedded": false, "generator_executed": false, "original_project_asset": true, "render_method": "deterministic SVG rendered to PNG", "third_party_visual_assets": false},
+  "source_notes": {"external_logos": false, "font_file_embedded": false, "generator_executed": false, "original_project_asset": true, "render_method": "deterministic SVG rendered at 640 x 320 and upscaled to 1280 x 640", "third_party_visual_assets": false},
   "status": "awaiting_settings_upload",
   "style_review": {"declared_gold_ratio": 20, "declared_silver_ratio": 80, "external_brand_trace": false, "gold_accent_only": true, "manual_review": "pass", "no_black_gold_drift": true, "no_chrome_or_gloss": true, "no_small_critical_text": true, "silver_dominant": true}
 }
