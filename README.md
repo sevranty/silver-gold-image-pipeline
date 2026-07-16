@@ -147,10 +147,10 @@ delivery:
 
 ## Validation
 
-Install the only Python dependencies required by the current validators:
+Install the only Python dependency required by the current validators:
 
 ```bash
-python3 -m pip install PyYAML Pillow
+python3 -m pip install PyYAML
 ```
 
 Run the README contract:

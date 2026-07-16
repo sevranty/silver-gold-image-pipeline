@@ -2,14 +2,19 @@ from __future__ import annotations
 
 import importlib.util
 import shutil
+import site
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "scripts/validate_readme.py"
+SCRIPTS = ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+
+from yaml_compat import _candidate_roots, yaml
+
+MODULE_PATH = SCRIPTS / "validate_readme.py"
 
 
 def load_module():
@@ -44,6 +49,16 @@ class ReadmeValidationTests(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertGreaterEqual(details["headings"], 18)
         self.assertGreaterEqual(details["internal_links"], 10)
+
+    def test_yaml_compat_includes_user_site_without_duplicates(self) -> None:
+        roots = _candidate_roots()
+        self.assertEqual(len(roots), len(set(roots)))
+        user_site = site.getusersitepackages()
+        if isinstance(user_site, str):
+            self.assertIn(Path(user_site).expanduser().resolve(), roots)
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("from yaml_compat import yaml", source)
+        self.assertNotIn("\nimport yaml\n", source)
 
     def test_broken_link_and_missing_heading_fail(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
