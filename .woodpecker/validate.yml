@@ -1,0 +1,33 @@
+when:
+  - event: pull_request
+  - event: push
+    branch: ${CI_REPO_DEFAULT_BRANCH}
+
+# SGP#44: repository-local validation for Silver Gold Image Pipeline.
+# The social-preview tests are excluded because current main already lacks the
+# preview artifact they validate; that pre-existing content defect is outside SGP#44.
+clone:
+  - name: git
+    image: woodpeckerci/plugin-git
+    settings:
+      partial: false
+      depth: 0
+
+steps:
+  - name: repository-integrity
+    image: alpine/git:2.47.2
+    commands:
+      - git diff --check
+      - git fsck --no-progress
+      - test -f README.md
+      - test -f AGENTS.md
+      - test -d tests
+      - 'test -z "$(git status --porcelain)"'
+
+  - name: project-tests
+    image: python:3.12-alpine
+    commands:
+      - pip install --no-cache-dir PyYAML
+      - python3 -m unittest tests.test_plugin_package tests.test_readme tests.test_regression_suite tests.test_validation
+
+concurrency: 1
