@@ -25,6 +25,7 @@ steps:
   - name: project-tests
     image: python:3.12-alpine
     commands:
+      - pip install --no-cache-dir PyYAML
       - python3 -m unittest discover -s tests -p 'test_*.py'
 
 concurrency: 1
