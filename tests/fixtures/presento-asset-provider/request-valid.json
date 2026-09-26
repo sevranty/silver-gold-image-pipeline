@@ -1,7 +1,5 @@
 {
   "schema_version": "1.0.0",
-  "contract_id": "presento.asset-provider.request.v1",
-  "contract_version": "1.0.0",
   "request_id": "sgp-presento-contract-fixture-001",
   "provider_id": "silver-gold-image-pipeline",
   "asset_kind": "raster-image",
