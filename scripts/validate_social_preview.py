@@ -66,6 +66,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         manifest = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
     except Exception as exc:
         return [f"invalid social preview manifest: {exc}"], {"files": 0, "benchmark_repositories": 0, "concepts": 0}
+    if not isinstance(manifest, dict):
+        return ["social preview manifest must be a JSON object"], {"files": 0, "benchmark_repositories": 0, "concepts": 0}
 
     if manifest.get("schema_version") != "1.0.0":
         errors.append("social preview manifest schema_version must be 1.0.0")
