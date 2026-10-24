@@ -32,6 +32,19 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def is_safe_manifest_path(relative: object) -> bool:
+    """Reject non-canonical paths before accessing manifest-controlled files."""
+    if not isinstance(relative, str) or not relative.startswith("assets/repository/"):
+        return False
+    path = Path(relative)
+    return (
+        "\\" not in relative
+        and ".." not in path.parts
+        and path.as_posix() == relative
+        and len(path.parts) > 2
+    )
+
+
 def validate_manifest_coverage(records: object) -> list[str]:
     """Require a digest and size record for every delivered preview asset."""
     if not isinstance(records, dict):
@@ -42,12 +55,7 @@ def validate_manifest_coverage(records: object) -> list[str]:
     for relative in sorted(required - records.keys()):
         errors.append(f"manifest missing required file record: {relative}")
     for relative in records:
-        if (
-            not isinstance(relative, str)
-            or not relative.startswith("assets/repository/")
-            or "\\" in relative
-            or ".." in Path(relative).parts
-        ):
+        if not is_safe_manifest_path(relative):
             errors.append(f"unsafe social preview manifest path: {relative}")
     return errors
 
@@ -110,14 +118,14 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     errors.extend(validate_manifest_coverage(records))
     if not isinstance(records, dict):
         records = {}
+    allowed_root = (root / "assets/repository").resolve()
     for relative, record in records.items():
-        if (
-            not relative.startswith("assets/repository/")
-            or "\\" in relative
-            or ".." in Path(relative).parts
-        ):
+        if not is_safe_manifest_path(relative):
             continue
         path = root / relative
+        if not path.resolve().is_relative_to(allowed_root):
+            errors.append(f"unsafe social preview manifest path: {relative}")
+            continue
         if not path.is_file():
             errors.append(f"manifest file missing: {relative}")
             continue
