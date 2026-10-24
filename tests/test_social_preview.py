@@ -120,5 +120,40 @@ class SocialPreviewTests(unittest.TestCase):
         self.assertTrue(any("unsafe social preview manifest path" in error for error in errors))
 
 
+    def test_manifest_rejects_noncanonical_paths(self) -> None:
+        for relative in (
+            "assets/repository//double-separator.png",
+            "assets/repository/./dot-segment.png",
+            "assets/repository/../outside.png",
+            "assets/repository\\windows-path.png",
+            None,
+        ):
+            with self.subTest(relative=relative):
+                errors = VALIDATOR.validate_manifest_coverage({relative: {}})
+                self.assertTrue(
+                    any("unsafe social preview manifest path" in error for error in errors),
+                    errors,
+                )
+
+    def test_manifest_rejects_symlink_escape(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            external = Path(directory) / "outside.png"
+            external.write_bytes(b"not a repository preview")
+            link = root / "assets/repository/escape.png"
+            link.symlink_to(external)
+            path, data = self.load_manifest(root)
+            data["files"]["assets/repository/escape.png"] = {
+                "sha256": "0" * 64,
+                "size_bytes": 0,
+            }
+            self.write_manifest(path, data)
+            errors, _ = VALIDATOR.validate(root)
+            self.assertIn(
+                "unsafe social preview manifest path: assets/repository/escape.png",
+                errors,
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
