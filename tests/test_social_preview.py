@@ -137,21 +137,24 @@ class SocialPreviewTests(unittest.TestCase):
 
     def test_manifest_rejects_symlink_escape(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            root = self.copy_scope(Path(directory))
+            root = Path(directory) / "repo"
+            asset_dir = root / "assets/repository"
+            asset_dir.mkdir(parents=True)
             external = Path(directory) / "outside.png"
             external.write_bytes(b"not a repository preview")
-            link = root / "assets/repository/escape.png"
+            link = asset_dir / "escape.png"
             link.symlink_to(external)
-            path, data = self.load_manifest(root)
-            data["files"]["assets/repository/escape.png"] = {
-                "sha256": "0" * 64,
-                "size_bytes": 0,
-            }
-            self.write_manifest(path, data)
-            errors, _ = VALIDATOR.validate(root)
-            self.assertIn(
-                "unsafe social preview manifest path: assets/repository/escape.png",
-                errors,
+            self.assertFalse(
+                VALIDATOR.is_safe_manifest_target(
+                    root, "assets/repository/escape.png"
+                )
+            )
+            local = asset_dir / "local.png"
+            local.write_bytes(b"local preview")
+            self.assertTrue(
+                VALIDATOR.is_safe_manifest_target(
+                    root, "assets/repository/local.png"
+                )
             )
 
 
