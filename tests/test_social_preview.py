@@ -56,7 +56,7 @@ class SocialPreviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = self.copy_scope(Path(directory))
             path, _ = self.load_manifest(root)
-            path.write_text("[]\\n", encoding="utf-8")
+            path.write_text("[]\n", encoding="utf-8")
             errors, details = VALIDATOR.validate(root)
             self.assertEqual(errors, ["social preview manifest must be a JSON object"])
             self.assertEqual(details["files"], 0)
