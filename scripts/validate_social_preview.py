@@ -32,6 +32,26 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def validate_manifest_coverage(records: object) -> list[str]:
+    """Require a digest and size record for every delivered preview asset."""
+    if not isinstance(records, dict):
+        return ["manifest files must be a mapping"]
+
+    errors: list[str] = []
+    required = set(EXPECTED_DIMENSIONS) | {SOURCE.as_posix()}
+    for relative in sorted(required - records.keys()):
+        errors.append(f"manifest missing required file record: {relative}")
+    for relative in records:
+        if (
+            not isinstance(relative, str)
+            or not relative.startswith("assets/repository/")
+            or "\\" in relative
+            or ".." in Path(relative).parts
+        ):
+            errors.append(f"unsafe social preview manifest path: {relative}")
+    return errors
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
@@ -85,10 +105,16 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         errors.append("awaiting_settings_upload must keep the manual action explicit")
 
     records = manifest.get("files")
+    errors.extend(validate_manifest_coverage(records))
     if not isinstance(records, dict):
-        errors.append("manifest files must be a mapping")
         records = {}
     for relative, record in records.items():
+        if (
+            not relative.startswith("assets/repository/")
+            or "\\" in relative
+            or ".." in Path(relative).parts
+        ):
+            continue
         path = root / relative
         if not path.is_file():
             errors.append(f"manifest file missing: {relative}")
