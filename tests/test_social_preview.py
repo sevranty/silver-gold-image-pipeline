@@ -52,6 +52,15 @@ class SocialPreviewTests(unittest.TestCase):
         self.assertEqual(details["concepts"], 3)
         self.assertFalse(details["public_verified"])
 
+    def test_non_object_manifest_fails_without_exception(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            path, _ = self.load_manifest(root)
+            path.write_text("[]\\n", encoding="utf-8")
+            errors, details = VALIDATOR.validate(root)
+            self.assertEqual(errors, ["social preview manifest must be a JSON object"])
+            self.assertEqual(details["files"], 0)
+
     def test_wrong_dimensions_and_stale_checksum_fail(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = self.copy_scope(Path(directory))
