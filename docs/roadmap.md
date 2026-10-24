@@ -33,14 +33,7 @@
 - WebFactoryOS owns external registration and route lookup only
 - SGP owns implementation, package, QA, assets, validation and releases
 - External relations grant no write access and add no runtime or CI dependency
-
-## WebFactoryOS handoff
-
-- [x] #25 records SGP ownership of skill code, runtime package, QA contracts, assets, validation, and releases.
-- [x] #25 records WebFactoryOS ownership of external registry, routing status, and cross-project relation records.
-- [x] #25 records that external WebFactoryOS relations grant no write access to SGP.
-- [x] #25 records that SGP has no WebFactoryOS runtime or CI dependency.
-- [ ] #26 tracks closure debt for external orchestration records.
+- [ ] #26 tracks the post-merge repair and final closure evidence for this handoff
 
 ## Release constraint
 
