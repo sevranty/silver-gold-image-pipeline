@@ -45,6 +45,13 @@ def is_safe_manifest_path(relative: object) -> bool:
     )
 
 
+def is_safe_manifest_target(root: Path, relative: object) -> bool:
+    """Prevent symlinks from redirecting a manifest record outside its asset root."""
+    return is_safe_manifest_path(relative) and (
+        (root / relative).resolve().is_relative_to((root / "assets/repository").resolve())
+    )
+
+
 def validate_manifest_coverage(records: object) -> list[str]:
     """Require a digest and size record for every delivered preview asset."""
     if not isinstance(records, dict):
@@ -118,14 +125,13 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     errors.extend(validate_manifest_coverage(records))
     if not isinstance(records, dict):
         records = {}
-    allowed_root = (root / "assets/repository").resolve()
     for relative, record in records.items():
         if not is_safe_manifest_path(relative):
             continue
-        path = root / relative
-        if not path.resolve().is_relative_to(allowed_root):
+        if not is_safe_manifest_target(root, relative):
             errors.append(f"unsafe social preview manifest path: {relative}")
             continue
+        path = root / relative
         if not path.is_file():
             errors.append(f"manifest file missing: {relative}")
             continue
