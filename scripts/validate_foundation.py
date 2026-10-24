@@ -443,7 +443,7 @@ def main() -> int:
             fail(errors, f"decision log missing {adr}")
 
     # SGP#26: reject duplicated post-merge ownership and decision sections.
-    adr_headings = re.findall(r"^## (ADR-\\d{4}):", decision_log, flags=re.MULTILINE)
+    adr_headings = re.findall(r"^## (ADR-\d{4}):", decision_log, flags=re.MULTILINE)
     checks[0] += 2
     if len(adr_headings) != len(set(adr_headings)):
         fail(errors, "duplicate ADR identifiers in decision log")
@@ -452,7 +452,7 @@ def main() -> int:
 
     agents = read("AGENTS.md")
     checks[0] += 1
-    if len(re.findall(r"^## WebFactoryOS orchestration boundary\\s*$", agents, flags=re.MULTILINE)) != 1:
+    if len(re.findall(r"^## WebFactoryOS orchestration boundary\s*$", agents, flags=re.MULTILINE)) != 1:
         fail(errors, "AGENTS.md must contain exactly one WebFactoryOS boundary section")
 
     checks[0] += 2
@@ -463,7 +463,7 @@ def main() -> int:
 
     roadmap = read("docs/roadmap.md")
     checks[0] += 1
-    if len(re.findall(r"^## Orchestration handoff\\s*$", roadmap, flags=re.MULTILINE)) != 1:
+    if len(re.findall(r"^## Orchestration handoff\s*$", roadmap, flags=re.MULTILINE)) != 1:
         fail(errors, "roadmap must contain exactly one orchestration handoff section")
     checks[0] += 1
     if "#1 orchestration remains open" not in roadmap:
