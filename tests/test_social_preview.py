@@ -92,5 +92,24 @@ class SocialPreviewTests(unittest.TestCase):
             self.assertTrue(any("external brand" in error for error in errors))
 
 
+    def test_manifest_requires_all_preview_and_source_records(self) -> None:
+        _, manifest = self.load_manifest(ROOT)
+        records = dict(manifest["files"])
+        missing = "assets/repository/proofs/dark-ui-proof.png"
+        records.pop(missing)
+        errors = VALIDATOR.validate_manifest_coverage(records)
+        self.assertIn(f"manifest missing required file record: {missing}", errors)
+
+    def test_manifest_rejects_path_escape(self) -> None:
+        _, manifest = self.load_manifest(ROOT)
+        records = dict(manifest["files"])
+        records["assets/repository/../../../outside.png"] = {
+            "sha256": "0" * 64,
+            "size_bytes": 0,
+        }
+        errors = VALIDATOR.validate_manifest_coverage(records)
+        self.assertTrue(any("unsafe social preview manifest path" in error for error in errors))
+
+
 if __name__ == "__main__":
     unittest.main()
