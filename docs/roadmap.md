@@ -29,7 +29,8 @@
 ## Orchestration handoff
 
 - [x] #25 local WebFactoryOS ownership and routing handoff merged through PR #28
-- [ ] #30 post-merge foundation marker compatibility repair
+- [x] #30 foundation marker compatibility repaired through merged PR #31
+- [x] #33 strict PNG/YAML validation and compatibility repaired through merged PR #36
 - WebFactoryOS owns external registration and route lookup only
 - SGP owns implementation, package, QA, assets, validation and releases
 - External relations grant no write access and add no runtime or CI dependency
