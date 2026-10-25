@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import hashlib
 import json
 import re
@@ -97,6 +98,47 @@ def validate_manifest_references(manifest: object) -> list[str]:
     return errors
 
 
+
+
+def validate_public_proof(public: object, status: object) -> list[str]:
+    """Require traceable evidence before declaring the public repository card verified.
+
+    URL shape and timestamp are structural checks, not independent proof that
+    GitHub actually displays the preview. Human review remains mandatory.
+    """
+    if not isinstance(public, dict):
+        return ["missing public_proof"]
+
+    errors: list[str] = []
+    if status == "public_verified":
+        if public.get("verified") is not True or public.get("manual_action_required") is not False:
+            errors.append("public_verified status requires verified proof and no manual action")
+
+        evidence_ref = public.get("evidence_ref")
+        evidence_pattern = (
+            r"https://github\.com/sevranty/silver-gold-image-pipeline/"
+            r"(?:issues/[0-9]+#issuecomment-[0-9]+|"
+            r"blob/[0-9a-f]{40}/docs/evidence/[A-Za-z0-9._/-]+)"
+        )
+        if not isinstance(evidence_ref, str) or not re.fullmatch(evidence_pattern, evidence_ref):
+            errors.append("public_verified requires a repository-owned evidence_ref")
+
+        verified_at = public.get("verified_at_utc")
+        if not isinstance(verified_at, str) or not re.fullmatch(
+            r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z",
+            verified_at,
+        ):
+            errors.append("public_verified requires verified_at_utc in UTC")
+        else:
+            try:
+                datetime.fromisoformat(verified_at.replace("Z", "+00:00"))
+            except ValueError:
+                errors.append("public_verified requires a valid UTC verification time")
+    elif public.get("verified") is not False or public.get("manual_action_required") is not True:
+        errors.append("awaiting_settings_upload must keep the manual action explicit")
+    return errors
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
@@ -144,13 +186,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
             errors.append("external brand trace must be false")
 
     public = manifest.get("public_proof")
-    if not isinstance(public, dict):
-        errors.append("missing public_proof")
-    elif manifest.get("status") == "public_verified":
-        if public.get("verified") is not True or public.get("manual_action_required") is not False:
-            errors.append("public_verified status requires verified proof and no manual action")
-    elif public.get("verified") is not False or public.get("manual_action_required") is not True:
-        errors.append("awaiting_settings_upload must keep the manual action explicit")
+    errors.extend(validate_public_proof(public, manifest.get("status")))
 
     records = manifest.get("files")
     errors.extend(validate_manifest_coverage(records))
