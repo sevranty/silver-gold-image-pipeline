@@ -83,6 +83,20 @@ class SocialPreviewTests(unittest.TestCase):
             errors, _ = VALIDATOR.validate(root)
             self.assertTrue(any("missing social preview artifact" in error for error in errors))
 
+    def test_missing_production_reports_all_available_diagnostics(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            production = root / "assets/repository/repository-social-preview.png"
+            if production.exists():
+                production.unlink()
+            errors, details = VALIDATOR.validate(root)
+            self.assertIn(
+                "missing preview proof: assets/repository/repository-social-preview.png",
+                errors,
+            )
+            self.assertIsNone(details["production_sha256"])
+            self.assertGreater(details["files"], 0)
+
     def test_style_and_brand_mutations_fail(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = self.copy_scope(Path(directory))
