@@ -165,7 +165,7 @@ class SocialPreviewTests(unittest.TestCase):
             "assets/repository/./dot-segment.png",
             "assets/repository/../outside.png",
             "assets/repository\\windows-path.png",
-            "assets/repository/nul\\x00byte.png",
+            "assets/repository/nul\x00byte.png",
             None,
         ):
             with self.subTest(relative=relative):
