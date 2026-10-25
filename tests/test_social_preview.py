@@ -165,6 +165,7 @@ class SocialPreviewTests(unittest.TestCase):
             "assets/repository/./dot-segment.png",
             "assets/repository/../outside.png",
             "assets/repository\\windows-path.png",
+            "assets/repository/nul\\x00byte.png",
             None,
         ):
             with self.subTest(relative=relative):
@@ -196,6 +197,19 @@ class SocialPreviewTests(unittest.TestCase):
                 )
             )
 
+
+    def test_manifest_rejects_symlink_cycle_without_exception(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "repo"
+            asset_dir = root / "assets/repository"
+            asset_dir.mkdir(parents=True)
+            link = asset_dir / "loop.png"
+            link.symlink_to(link)
+            self.assertFalse(
+                VALIDATOR.is_safe_manifest_target(
+                    root, "assets/repository/loop.png"
+                )
+            )
 
     def test_manifest_rejects_symlinked_asset_root_outside_repository(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
