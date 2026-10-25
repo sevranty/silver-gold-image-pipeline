@@ -46,10 +46,14 @@ def is_safe_manifest_path(relative: object) -> bool:
 
 
 def is_safe_manifest_target(root: Path, relative: object) -> bool:
-    """Prevent symlinks from redirecting a manifest record outside its asset root."""
-    return is_safe_manifest_path(relative) and (
-        (root / relative).resolve().is_relative_to((root / "assets/repository").resolve())
-    )
+    """Reject file and asset-root symlinks that escape the repository."""
+    if not is_safe_manifest_path(relative):
+        return False
+    project_root = root.resolve()
+    asset_root = (project_root / "assets/repository").resolve()
+    if not asset_root.is_relative_to(project_root):
+        return False
+    return (project_root / relative).resolve().is_relative_to(asset_root)
 
 
 def validate_manifest_coverage(records: object) -> list[str]:
