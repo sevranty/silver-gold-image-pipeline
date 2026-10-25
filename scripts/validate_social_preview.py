@@ -90,6 +90,23 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         errors.append("invalid social preview lifecycle status")
     if manifest.get("dimensions") != {"width": 1280, "height": 640}:
         errors.append("production dimensions must be 1280 x 640")
+    # Cross-check manifest pointers against the actual validated artifacts.
+    # Otherwise a manifest can advertise unrelated production/proof paths.
+    if manifest.get("production_path") != PRODUCTION.as_posix():
+        errors.append("production_path must reference the canonical preview PNG")
+    if manifest.get("editable_source") != SOURCE.as_posix():
+        errors.append("editable_source must reference the canonical SVG")
+    expected_proofs = {
+        "full_size": PRODUCTION.as_posix(),
+        "github_crop": "assets/repository/proofs/github-crop-proof.png",
+        "small_size": "assets/repository/proofs/small-size-proof.png",
+        "light_ui": "assets/repository/proofs/light-ui-proof.png",
+        "dark_ui": "assets/repository/proofs/dark-ui-proof.png",
+    }
+    proofs = manifest.get("proofs")
+    if not isinstance(proofs, dict) or proofs != expected_proofs:
+        errors.append("proofs must reference exactly the canonical preview assets")
+
     alt_text = manifest.get("alt_text")
     if not isinstance(alt_text, str) or len(alt_text.strip()) < 40:
         errors.append("social preview alt text is missing or too short")
