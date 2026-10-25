@@ -197,5 +197,23 @@ class SocialPreviewTests(unittest.TestCase):
             )
 
 
+    def test_manifest_rejects_symlinked_asset_root_outside_repository(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "repo"
+            (root / "assets").mkdir(parents=True)
+            external = base / "external-assets"
+            external.mkdir()
+            (external / "preview.png").write_bytes(b"not a repository preview")
+            (root / "assets/repository").symlink_to(
+                external, target_is_directory=True
+            )
+            self.assertFalse(
+                VALIDATOR.is_safe_manifest_target(
+                    root, "assets/repository/preview.png"
+                )
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
