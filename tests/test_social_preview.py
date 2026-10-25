@@ -115,6 +115,41 @@ class SocialPreviewTests(unittest.TestCase):
             self.assertTrue(any("external brand" in error for error in errors))
 
 
+    def test_public_verified_rejects_unproven_or_malformed_evidence(self) -> None:
+        public = {"verified": True, "manual_action_required": False}
+        errors = VALIDATOR.validate_public_proof(public, "public_verified")
+        self.assertTrue(any("evidence_ref" in error for error in errors))
+        self.assertTrue(any("verified_at_utc" in error for error in errors))
+
+        public["evidence_ref"] = "https://github.com/other/repository/issues/13#issuecomment-123"
+        public["verified_at_utc"] = "2026-02-30T12:00:00Z"
+        errors = VALIDATOR.validate_public_proof(public, "public_verified")
+        self.assertTrue(any("evidence_ref" in error for error in errors))
+        self.assertTrue(any("valid UTC" in error for error in errors))
+
+    def test_public_verified_accepts_structured_evidence_without_claiming_live_proof(self) -> None:
+        public = {
+            "verified": True,
+            "manual_action_required": False,
+            "evidence_ref": (
+                "https://github.com/sevranty/silver-gold-image-pipeline/"
+                "issues/13#issuecomment-123456"
+            ),
+            "verified_at_utc": "2026-10-26T00:00:00Z",
+        }
+        self.assertEqual(VALIDATOR.validate_public_proof(public, "public_verified"), [])
+        self.assertEqual(
+            VALIDATOR.validate_public_proof(
+                {"verified": False, "manual_action_required": True},
+                "awaiting_settings_upload",
+            ),
+            [],
+        )
+        public["verified_at_utc"] = "2026-10-26T00:00:00+03:00"
+        self.assertTrue(
+            VALIDATOR.validate_public_proof(public, "public_verified")
+        )
+
     def test_manifest_references_are_canonical(self) -> None:
         _, manifest = self.load_manifest(ROOT)
         self.assertEqual(VALIDATOR.validate_manifest_references(manifest), [])
