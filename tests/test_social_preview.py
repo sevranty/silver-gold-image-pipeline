@@ -101,6 +101,31 @@ class SocialPreviewTests(unittest.TestCase):
             self.assertTrue(any("external brand" in error for error in errors))
 
 
+    def test_manifest_references_are_canonical(self) -> None:
+        _, manifest = self.load_manifest(ROOT)
+        self.assertEqual(VALIDATOR.validate_manifest_references(manifest), [])
+        mutations = (
+            ("production_path", "assets/repository/other.png"),
+            ("editable_source", "assets/repository/other.svg"),
+            ("proofs", {"full_size": "assets/repository/other.png"}),
+            ("proofs", None),
+        )
+        for key, replacement in mutations:
+            with self.subTest(field=key, replacement=replacement):
+                changed = dict(manifest)
+                changed[key] = replacement
+                self.assertTrue(VALIDATOR.validate_manifest_references(changed))
+
+    def test_manifest_references_reject_extra_proofs(self) -> None:
+        _, manifest = self.load_manifest(ROOT)
+        changed = dict(manifest)
+        changed["proofs"] = {**manifest["proofs"], "unreviewed": "assets/repository/other.png"}
+        self.assertIn(
+            "proofs must reference exactly the canonical preview assets",
+            VALIDATOR.validate_manifest_references(changed),
+        )
+
+
     def test_manifest_requires_all_preview_and_source_records(self) -> None:
         _, manifest = self.load_manifest(ROOT)
         records = dict(manifest["files"])
