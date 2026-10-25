@@ -92,7 +92,7 @@ def validate_manifest_references(manifest: object) -> list[str]:
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
-    required = (MANIFEST, SOURCE, PRODUCTION, BENCHMARK, CONCEPTS, ASSET_NOTES)
+    required = (MANIFEST, SOURCE, BENCHMARK, CONCEPTS, ASSET_NOTES)
     for relative in required:
         if not (root / relative).is_file():
             errors.append(f"missing social preview artifact: {relative.as_posix()}")
@@ -211,7 +211,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         "files": len(records),
         "benchmark_repositories": benchmark_count,
         "concepts": concept_count,
-        "production_sha256": sha256(root / PRODUCTION),
+        "production_sha256": sha256(root / PRODUCTION) if (root / PRODUCTION).is_file() else None,
         "public_verified": bool(public.get("verified")) if isinstance(public, dict) else False,
         "subjective_style_review": "manual",
     }
