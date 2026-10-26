@@ -145,6 +145,22 @@ def validate_public_proof(public: object, status: object) -> list[str]:
     return errors
 
 
+def svg_has_external_resources(source_text: str) -> bool:
+    """Reject active SVG content and nonlocal references in the editable source."""
+    if re.search(r"<(?:image|script|foreignObject)\\b|@import\\b", source_text, flags=re.IGNORECASE):
+        return True
+    if re.search(r"url\\s*\\(\\s*(?![\\\"']?#)[^)]+\\)", source_text, flags=re.IGNORECASE):
+        return True
+    if re.search(
+        r"\\b(?:xlink:)?href\\s*=\\s*[\\\"'](?!#)[^\\\"']+|"
+        r"\\bsrc\\s*=\\s*[\\\"'][^\\\"']+",
+        source_text,
+        flags=re.IGNORECASE,
+    ):
+        return True
+    return False
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
@@ -234,7 +250,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     source_text = (root / SOURCE).read_text(encoding="utf-8")
     if '<svg' not in source_text or 'width="1280"' not in source_text or 'height="640"' not in source_text:
         errors.append("editable SVG source must declare 1280 x 640")
-    if re.search(r"<(?:image|script)\b|(?:href|src)=[\"']https?://", source_text, flags=re.IGNORECASE):
+    if svg_has_external_resources(source_text):
         errors.append("editable source must not embed external resources")
 
     combined_text = "\n".join((source_text, (root / BENCHMARK).read_text(encoding="utf-8"), (root / CONCEPTS).read_text(encoding="utf-8"), json.dumps(manifest))).casefold()
