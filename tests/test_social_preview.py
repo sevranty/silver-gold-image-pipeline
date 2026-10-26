@@ -150,6 +150,25 @@ class SocialPreviewTests(unittest.TestCase):
             VALIDATOR.validate_public_proof(public, "public_verified")
         )
 
+    def test_public_verified_rejects_noncanonical_evidence_paths(self) -> None:
+        base = (
+            "https://github.com/sevranty/silver-gold-image-pipeline/blob/"
+            + "a" * 40
+            + "/docs/evidence/"
+        )
+        for relative in ("../other.md", "./proof.md", "proof//image.png", "proof/../../other.md"):
+            with self.subTest(relative=relative):
+                public = {
+                    "verified": True,
+                    "manual_action_required": False,
+                    "evidence_ref": base + relative,
+                    "verified_at_utc": "2026-10-26T00:00:00Z",
+                }
+                self.assertIn(
+                    "public_verified evidence_ref must use a canonical evidence path",
+                    VALIDATOR.validate_public_proof(public, "public_verified"),
+                )
+
     def test_public_verified_rejects_future_dated_evidence(self) -> None:
         public = {
             "verified": True,
