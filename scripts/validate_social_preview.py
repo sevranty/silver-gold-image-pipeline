@@ -147,13 +147,13 @@ def validate_public_proof(public: object, status: object) -> list[str]:
 
 def svg_has_external_resources(source_text: str) -> bool:
     """Reject active SVG content and nonlocal references in the editable source."""
-    if re.search(r"<(?:image|script|foreignObject)\\b|@import\\b", source_text, flags=re.IGNORECASE):
+    if re.search(r"<(?:image|script|foreignObject)\b|@import\b", source_text, flags=re.IGNORECASE):
         return True
-    if re.search(r"url\\s*\\(\\s*(?![\\\"']?#)[^)]+\\)", source_text, flags=re.IGNORECASE):
+    if re.search(r"url\s*\(\s*(?!['\"]?#)[^)]+\)", source_text, flags=re.IGNORECASE):
         return True
     if re.search(
-        r"\\b(?:xlink:)?href\\s*=\\s*[\\\"'](?!#)[^\\\"']+|"
-        r"\\bsrc\\s*=\\s*[\\\"'][^\\\"']+",
+        r"\b(?:xlink:)?href\s*=\s*['\"](?!#)[^'\"]+|"
+        r"\bsrc\s*=\s*['\"][^'\"]+",
         source_text,
         flags=re.IGNORECASE,
     ):
