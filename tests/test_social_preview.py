@@ -309,6 +309,14 @@ class SocialPreviewTests(unittest.TestCase):
             '<use xlink:href="//example.org/a.svg#id" />',
             '<use href="file:///tmp/other.svg#id" />',
             '<rect src="https://example.org/a.png" />',
+            '<svg onload="alert(1)">',
+            '<rect onmouseover = "alert(1)" />',
+            '<animate attributeName="opacity" from="0" to="1" />',
+            '<animateMotion path="M0,0 L1,1" />',
+            '<animateTransform attributeName="transform" type="rotate" />',
+            '<set attributeName="visibility" to="hidden" />',
+            '<?xml-stylesheet href="https://example.org/style.css"?>',
+            '<!ENTITY local SYSTEM "file:///etc/passwd">',
         )
         allowed = (
             '<svg xmlns="http://www.w3.org/2000/svg"><rect fill="#eee"/></svg>',
