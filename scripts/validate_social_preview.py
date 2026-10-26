@@ -149,7 +149,7 @@ def svg_has_external_resources(source_text: str) -> bool:
     """Reject active SVG content and nonlocal references in the editable source."""
     if re.search(
         r"<(?:image|script|foreignObject|animate|animateMotion|animateTransform|set)\b"
-        r"|@import\b|<\?xml-stylesheet\b|<!ENTITY\b",
+        r"|@import\b|<\?xml-stylesheet\b|<!DOCTYPE\b|<!ENTITY\b",
         source_text,
         flags=re.IGNORECASE,
     ):
