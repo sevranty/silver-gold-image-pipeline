@@ -150,6 +150,21 @@ class SocialPreviewTests(unittest.TestCase):
             VALIDATOR.validate_public_proof(public, "public_verified")
         )
 
+    def test_public_verified_rejects_future_dated_evidence(self) -> None:
+        public = {
+            "verified": True,
+            "manual_action_required": False,
+            "evidence_ref": (
+                "https://github.com/sevranty/silver-gold-image-pipeline/"
+                "issues/13#issuecomment-123456"
+            ),
+            "verified_at_utc": "2999-01-01T00:00:00Z",
+        }
+        self.assertIn(
+            "public_verified verification time cannot be in the future",
+            VALIDATOR.validate_public_proof(public, "public_verified"),
+        )
+
     def test_manifest_references_are_canonical(self) -> None:
         _, manifest = self.load_manifest(ROOT)
         self.assertEqual(VALIDATOR.validate_manifest_references(manifest), [])
