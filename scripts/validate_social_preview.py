@@ -122,6 +122,10 @@ def validate_public_proof(public: object, status: object) -> list[str]:
         )
         if not isinstance(evidence_ref, str) or not re.fullmatch(evidence_pattern, evidence_ref):
             errors.append("public_verified requires a repository-owned evidence_ref")
+        elif "/blob/" in evidence_ref:
+            evidence_path = evidence_ref.split("/docs/evidence/", 1)[1]
+            if any(segment in {"", ".", ".."} for segment in evidence_path.split("/")):
+                errors.append("public_verified evidence_ref must use a canonical evidence path")
 
         verified_at = public.get("verified_at_utc")
         if not isinstance(verified_at, str) or not re.fullmatch(
