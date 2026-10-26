@@ -298,5 +298,49 @@ class SocialPreviewTests(unittest.TestCase):
             )
 
 
+    def test_svg_external_resources_are_rejected(self) -> None:
+        blocked = (
+            '<image href="https://example.org/a.png" />',
+            "<script>alert(1)</script>",
+            "<foreignObject><body>untrusted</body></foreignObject>",
+            '<style>@import "https://example.org/style.css";</style>',
+            '<rect fill="url(https://example.org/a.svg#id)" />',
+            '<rect fill="url(data:image/svg+xml;base64,AAAA)" />',
+            '<use xlink:href="//example.org/a.svg#id" />',
+            '<use href="file:///tmp/other.svg#id" />',
+            '<rect src="https://example.org/a.png" />',
+        )
+        allowed = (
+            '<svg xmlns="http://www.w3.org/2000/svg"><rect fill="#eee"/></svg>',
+            '<rect fill="url(#silver-gradient)" />',
+            '<rect fill="url(\"#silver-gradient\")" />',
+            '<use href="#local-shape" />',
+            '<use xlink:href="#local-shape" />',
+        )
+        for snippet in blocked:
+            with self.subTest(blocked=snippet):
+                self.assertTrue(VALIDATOR.svg_has_external_resources(snippet))
+        for snippet in allowed:
+            with self.subTest(allowed=snippet):
+                self.assertFalse(VALIDATOR.svg_has_external_resources(snippet))
+
+    def test_validator_rejects_external_svg_css_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            source = root / "assets/repository/repository-social-preview-source.svg"
+            text = source.read_text(encoding="utf-8")
+            self.assertIn("</svg>", text)
+            source.write_text(
+                text.replace(
+                    "</svg>",
+                    '<style>@import "https://example.org/remote.css";</style></svg>',
+                ),
+                encoding="utf-8",
+            )
+            errors, _ = VALIDATOR.validate(root)
+            self.assertIn("editable source must not embed external resources", errors)
+
+
+
 if __name__ == "__main__":
     unittest.main()
