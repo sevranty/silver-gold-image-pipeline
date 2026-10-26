@@ -300,6 +300,9 @@ class SocialPreviewTests(unittest.TestCase):
 
     def test_svg_external_resources_are_rejected(self) -> None:
         blocked = (
+            '<!DOCTYPE svg SYSTEM "https://example.org/evil.dtd">',
+            '<!DOCTYPE svg [<!ELEMENT svg ANY>]>',
+            '<!doctype svg PUBLIC "-//EXAMPLE//DTD" "file:///tmp/evil.dtd">',
             '<image href="https://example.org/a.png" />',
             "<script>alert(1)</script>",
             "<foreignObject><body>untrusted</body></foreignObject>",
@@ -331,6 +334,18 @@ class SocialPreviewTests(unittest.TestCase):
         for snippet in allowed:
             with self.subTest(allowed=snippet):
                 self.assertFalse(VALIDATOR.svg_has_external_resources(snippet))
+
+    def test_validator_rejects_external_svg_doctype(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            source = root / "assets/repository/repository-social-preview-source.svg"
+            text = source.read_text(encoding="utf-8")
+            source.write_text(
+                '<!DOCTYPE svg SYSTEM "https://example.org/evil.dtd">\n' + text,
+                encoding="utf-8",
+            )
+            errors, _ = VALIDATOR.validate(root)
+            self.assertIn("editable source must not embed external resources", errors)
 
     def test_validator_rejects_external_svg_css_reference(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
