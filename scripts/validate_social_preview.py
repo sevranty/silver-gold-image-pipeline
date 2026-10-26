@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 import json
 import re
@@ -131,7 +131,9 @@ def validate_public_proof(public: object, status: object) -> list[str]:
             errors.append("public_verified requires verified_at_utc in UTC")
         else:
             try:
-                datetime.fromisoformat(verified_at.replace("Z", "+00:00"))
+                verified_time = datetime.fromisoformat(verified_at.replace("Z", "+00:00"))
+                if verified_time > datetime.now(timezone.utc):
+                    errors.append("public_verified verification time cannot be in the future")
             except ValueError:
                 errors.append("public_verified requires a valid UTC verification time")
     elif public.get("verified") is not False or public.get("manual_action_required") is not True:
