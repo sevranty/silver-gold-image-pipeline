@@ -33,6 +33,16 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject ambiguous manifest keys at every JSON object nesting level."""
+    document: dict[str, object] = {}
+    for key, value in pairs:
+        if key in document:
+            raise ValueError(f"duplicate JSON key: {key}")
+        document[key] = value
+    return document
+
+
 def is_safe_manifest_path(relative: object) -> bool:
     """Reject non-canonical paths before accessing manifest-controlled files."""
     if not isinstance(relative, str) or not relative.startswith("assets/repository/"):
@@ -179,7 +189,10 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         return errors, {"files": 0, "benchmark_repositories": 0, "concepts": 0}
 
     try:
-        manifest = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
+        manifest = json.loads(
+            (root / MANIFEST).read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_json_keys,
+        )
     except Exception as exc:
         return [f"invalid social preview manifest: {exc}"], {"files": 0, "benchmark_repositories": 0, "concepts": 0}
     if not isinstance(manifest, dict):
