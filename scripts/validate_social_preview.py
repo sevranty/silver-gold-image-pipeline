@@ -26,7 +26,7 @@ EXPECTED_DIMENSIONS = {
     "assets/repository/proofs/light-ui-proof.png": (1440, 840),
     "assets/repository/proofs/dark-ui-proof.png": (1440, 840),
 }
-BANNED = ("finuslugi", "финуслуги", "moex", "finkit", "external-logo")
+BANNED = ("finuslugi", "\u0444\u0438\u043d\u0443\u0441\u043b\u0443\u0433\u0438", "moex", "finkit", "external-logo")
 
 
 def sha256(path: Path) -> str:
@@ -173,7 +173,7 @@ def validate_public_proof(public: object, status: object) -> list[str]:
 def svg_has_external_resources(source_text: str) -> bool:
     """Reject active SVG content and nonlocal references in the editable source."""
     if re.search(
-        r"<(?:image|script|foreignObject|animate|animateMotion|animateTransform|set)\b"
+        r"<(?:[A-Za-z_][A-Za-z0-9_.-]*:)?(?:image|script|foreignObject|animate|animateMotion|animateTransform|set)\b"
         r"|@import\b|<\?xml-stylesheet\b|<!DOCTYPE\b|<!ENTITY\b",
         source_text,
         flags=re.IGNORECASE,
