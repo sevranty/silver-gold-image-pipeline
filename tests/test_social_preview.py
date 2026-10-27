@@ -61,6 +61,22 @@ class SocialPreviewTests(unittest.TestCase):
             self.assertEqual(errors, ["social preview manifest must be a JSON object"])
             self.assertEqual(details["files"], 0)
 
+    def test_manifest_rejects_duplicate_json_keys(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.copy_scope(Path(directory))
+            path, _ = self.load_manifest(root)
+            for malformed in (
+                '{"schema_version":"1.0.0","schema_version":"2.0.0"}',
+                '{"public_proof":{"verified":false,"verified":true}}',
+            ):
+                with self.subTest(payload=malformed):
+                    path.write_text(malformed, encoding="utf-8")
+                    errors, _ = VALIDATOR.validate(root)
+                    self.assertTrue(
+                        any("duplicate JSON key:" in error for error in errors),
+                        errors,
+                    )
+
     def test_wrong_dimensions_and_stale_checksum_fail(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = self.copy_scope(Path(directory))
