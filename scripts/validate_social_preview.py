@@ -63,8 +63,11 @@ def is_safe_manifest_target(root: Path, relative: object) -> bool:
         return False
     try:
         project_root = root.resolve()
-        asset_root = (project_root / "assets/repository").resolve()
-        if not asset_root.is_relative_to(project_root):
+        canonical_asset_root = project_root / "assets/repository"
+        asset_root = canonical_asset_root.resolve()
+        # Even a symlink to another directory inside the checkout escapes
+        # the canonical preview asset boundary.
+        if asset_root != canonical_asset_root:
             return False
         return (project_root / relative).resolve().is_relative_to(asset_root)
     except (OSError, RuntimeError, ValueError):
