@@ -74,6 +74,18 @@ def is_safe_manifest_target(root: Path, relative: object) -> bool:
         return False
 
 
+def is_safe_required_artifact(root: Path, relative: Path) -> bool:
+    """Keep fixed validator inputs inside their canonical repository boundaries."""
+    try:
+        if not (root / relative).resolve().is_relative_to(root):
+            return False
+        if relative.parts[:2] == ("assets", "repository"):
+            return is_safe_manifest_target(root, relative.as_posix())
+        return True
+    except (OSError, RuntimeError, ValueError):
+        return False
+
+
 def validate_manifest_coverage(records: object) -> list[str]:
     """Require a digest and size record for every delivered preview asset."""
     if not isinstance(records, dict):
@@ -188,6 +200,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     for relative in required:
         if not (root / relative).is_file():
             errors.append(f"missing social preview artifact: {relative.as_posix()}")
+        elif not is_safe_required_artifact(root, relative):
+            errors.append(f"unsafe social preview artifact: {relative.as_posix()}")
     if errors:
         return errors, {"files": 0, "benchmark_repositories": 0, "concepts": 0}
 
@@ -260,6 +274,9 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         if not path.is_file():
             errors.append(f"missing preview proof: {relative}")
             continue
+        if not is_safe_required_artifact(root, Path(relative)):
+            errors.append(f"unsafe preview proof: {relative}")
+            continue
         try:
             info = parse_png(path.read_bytes())
         except ValueError as exc:
@@ -300,7 +317,11 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         "files": len(records),
         "benchmark_repositories": benchmark_count,
         "concepts": concept_count,
-        "production_sha256": sha256(root / PRODUCTION) if (root / PRODUCTION).is_file() else None,
+        "production_sha256": (
+            sha256(root / PRODUCTION)
+            if (root / PRODUCTION).is_file() and is_safe_required_artifact(root, PRODUCTION)
+            else None
+        ),
         "public_verified": bool(public.get("verified")) if isinstance(public, dict) else False,
         "subjective_style_review": "manual",
     }
