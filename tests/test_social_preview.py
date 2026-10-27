@@ -260,6 +260,40 @@ class SocialPreviewTests(unittest.TestCase):
                     errors,
                 )
 
+    def test_validator_rejects_symlinked_fixed_inputs(self) -> None:
+        for relative in (
+            "assets/repository/repository-social-preview-manifest.json",
+            "assets/repository/repository-social-preview-source.svg",
+            "docs/social-preview-benchmark.md",
+        ):
+            with self.subTest(relative=relative), tempfile.TemporaryDirectory() as directory:
+                base = Path(directory)
+                root = self.copy_scope(base)
+                original = root / relative
+                external = base / "outside.txt"
+                external.write_bytes(original.read_bytes())
+                original.unlink()
+                original.symlink_to(external)
+                errors, details = VALIDATOR.validate(root)
+                self.assertIn(f"unsafe social preview artifact: {relative}", errors)
+                self.assertEqual(details["files"], 0)
+
+    def test_validator_does_not_hash_symlinked_production_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = self.copy_scope(base)
+            production = root / "assets/repository/repository-social-preview.png"
+            production.unlink(missing_ok=True)
+            external = base / "outside.png"
+            external.write_bytes(b"external bytes must not be read by preview validator")
+            production.symlink_to(external)
+            errors, details = VALIDATOR.validate(root)
+            self.assertIn(
+                "unsafe preview proof: assets/repository/repository-social-preview.png",
+                errors,
+            )
+            self.assertIsNone(details["production_sha256"])
+
     def test_manifest_rejects_symlink_escape(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "repo"
