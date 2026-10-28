@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import re
 import sys
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -25,27 +27,212 @@ EXPECTED_DIMENSIONS = {
     "assets/repository/proofs/light-ui-proof.png": (1440, 840),
     "assets/repository/proofs/dark-ui-proof.png": (1440, 840),
 }
-BANNED = ("finuslugi", "финуслуги", "moex", "finkit", "external-logo")
+BANNED = ("finuslugi", "\u0444\u0438\u043d\u0443\u0441\u043b\u0443\u0433\u0438", "moex", "finkit", "external-logo")
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject ambiguous manifest keys at every JSON object nesting level."""
+    document: dict[str, object] = {}
+    for key, value in pairs:
+        if key in document:
+            raise ValueError(f"duplicate JSON key: {key}")
+        document[key] = value
+    return document
+
+
+def is_safe_manifest_path(relative: object) -> bool:
+    """Reject non-canonical paths before accessing manifest-controlled files."""
+    if not isinstance(relative, str) or not relative.startswith("assets/repository/"):
+        return False
+    path = Path(relative)
+    return (
+        "\\" not in relative
+        and "\x00" not in relative
+        and ".." not in path.parts
+        and path.as_posix() == relative
+        and len(path.parts) > 2
+    )
+
+
+def is_safe_manifest_target(root: Path, relative: object) -> bool:
+    """Reject file and asset-root symlinks that escape the repository."""
+    if not is_safe_manifest_path(relative):
+        return False
+    try:
+        project_root = root.resolve()
+        canonical_asset_root = project_root / "assets/repository"
+        asset_root = canonical_asset_root.resolve()
+        # Even a symlink to another directory inside the checkout escapes
+        # the canonical preview asset boundary.
+        if asset_root != canonical_asset_root:
+            return False
+        return (project_root / relative).resolve().is_relative_to(asset_root)
+    except (OSError, RuntimeError, ValueError):
+        return False
+
+
+def is_safe_required_artifact(root: Path, relative: Path) -> bool:
+    """Keep fixed validator inputs inside their canonical repository boundaries."""
+    try:
+        if not (root / relative).resolve().is_relative_to(root):
+            return False
+        if relative.parts[:2] == ("assets", "repository"):
+            return is_safe_manifest_target(root, relative.as_posix())
+        return True
+    except (OSError, RuntimeError, ValueError):
+        return False
+
+
+def validate_manifest_coverage(records: object) -> list[str]:
+    """Require a digest and size record for every delivered preview asset."""
+    if not isinstance(records, dict):
+        return ["manifest files must be a mapping"]
+
+    errors: list[str] = []
+    required = set(EXPECTED_DIMENSIONS) | {SOURCE.as_posix()}
+    for relative in sorted(required - records.keys()):
+        errors.append(f"manifest missing required file record: {relative}")
+    for relative in records:
+        if not is_safe_manifest_path(relative):
+            errors.append(f"unsafe social preview manifest path: {relative}")
+    return errors
+
+
+def validate_manifest_references(manifest: object) -> list[str]:
+    """Check that public-facing manifest pointers name validated assets."""
+    if not isinstance(manifest, dict):
+        return ["social preview manifest must be a JSON object"]
+    errors: list[str] = []
+    if manifest.get("production_path") != PRODUCTION.as_posix():
+        errors.append("production_path must reference the canonical preview PNG")
+    if manifest.get("editable_source") != SOURCE.as_posix():
+        errors.append("editable_source must reference the canonical SVG")
+    expected_proofs = {
+        "full_size": PRODUCTION.as_posix(),
+        "github_crop": "assets/repository/proofs/github-crop-proof.png",
+        "small_size": "assets/repository/proofs/small-size-proof.png",
+        "light_ui": "assets/repository/proofs/light-ui-proof.png",
+        "dark_ui": "assets/repository/proofs/dark-ui-proof.png",
+    }
+    proofs = manifest.get("proofs")
+    if not isinstance(proofs, dict) or proofs != expected_proofs:
+        errors.append("proofs must reference exactly the canonical preview assets")
+    return errors
+
+
+
+
+def validate_public_proof(public: object, status: object) -> list[str]:
+    """Require traceable evidence before declaring the public repository card verified.
+
+    URL shape and timestamp are structural checks, not independent proof that
+    GitHub actually displays the preview. Human review remains mandatory.
+    """
+    if not isinstance(public, dict):
+        return ["missing public_proof"]
+
+    errors: list[str] = []
+    if status == "public_verified":
+        if public.get("verified") is not True or public.get("manual_action_required") is not False:
+            errors.append("public_verified status requires verified proof and no manual action")
+
+        evidence_ref = public.get("evidence_ref")
+        evidence_pattern = (
+            r"https://github\.com/sevranty/silver-gold-image-pipeline/"
+            r"(?:issues/[0-9]+#issuecomment-[0-9]+|"
+            r"blob/[0-9a-f]{40}/docs/evidence/[A-Za-z0-9._/-]+)"
+        )
+        if not isinstance(evidence_ref, str) or not re.fullmatch(evidence_pattern, evidence_ref):
+            errors.append("public_verified requires a repository-owned evidence_ref")
+        elif "/blob/" in evidence_ref:
+            evidence_path = evidence_ref.split("/docs/evidence/", 1)[1]
+            if any(segment in {"", ".", ".."} for segment in evidence_path.split("/")):
+                errors.append("public_verified evidence_ref must use a canonical evidence path")
+
+        verified_at = public.get("verified_at_utc")
+        if not isinstance(verified_at, str) or not re.fullmatch(
+            r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z",
+            verified_at,
+        ):
+            errors.append("public_verified requires verified_at_utc in UTC")
+        else:
+            try:
+                verified_time = datetime.fromisoformat(verified_at.replace("Z", "+00:00"))
+                if verified_time > datetime.now(timezone.utc):
+                    errors.append("public_verified verification time cannot be in the future")
+            except ValueError:
+                errors.append("public_verified requires a valid UTC verification time")
+    elif public.get("verified") is not False or public.get("manual_action_required") is not True:
+        errors.append("awaiting_settings_upload must keep the manual action explicit")
+    return errors
+
+
+def svg_has_external_resources(source_text: str) -> bool:
+    """Reject active SVG content and nonlocal references in the editable source."""
+    if re.search(
+        r"<(?:[A-Za-z_][A-Za-z0-9_.-]*:)?(?:image|script|foreignObject|animate|animateMotion|animateTransform|set)\b"
+        r"|@import\b|<\?xml-stylesheet\b|<!DOCTYPE\b|<!ENTITY\b",
+        source_text,
+        flags=re.IGNORECASE,
+    ):
+        return True
+    if re.search(r"\bon[a-z][a-z0-9_-]*\s*=", source_text, flags=re.IGNORECASE):
+        return True
+    if re.search(r"url\s*\(\s*(?!['\"]?#)[^)]+\)", source_text, flags=re.IGNORECASE):
+        return True
+    if re.search(
+        r"\b(?:xlink:)?href\s*=\s*['\"](?!#)[^'\"]+|"
+        r"\bsrc\s*=\s*['\"][^'\"]+",
+        source_text,
+        flags=re.IGNORECASE,
+    ):
+        return True
+    return False
+
+
+def validate_svg_document(source_text: str) -> list[str]:
+    """Require a well-formed, safe SVG document with canonical root dimensions."""
+    # Reject external entities before invoking the XML parser.
+    if svg_has_external_resources(source_text):
+        return ["editable source must not embed external resources"]
+    try:
+        document = ET.fromstring(source_text)
+    except ET.ParseError:
+        return ["editable SVG source must be well-formed XML"]
+    if document.tag != "{http://www.w3.org/2000/svg}svg":
+        return ["editable SVG source must have an SVG namespace root"]
+    if document.attrib.get("width") != "1280" or document.attrib.get("height") != "640":
+        return ["editable SVG source must declare 1280 x 640"]
+    if document.attrib.get("viewBox") != "0 0 1280 640":
+        return ["editable SVG source must declare canonical 0 0 1280 640 viewBox"]
+    return []
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
-    required = (MANIFEST, SOURCE, PRODUCTION, BENCHMARK, CONCEPTS, ASSET_NOTES)
+    required = (MANIFEST, SOURCE, BENCHMARK, CONCEPTS, ASSET_NOTES)
     for relative in required:
         if not (root / relative).is_file():
             errors.append(f"missing social preview artifact: {relative.as_posix()}")
+        elif not is_safe_required_artifact(root, relative):
+            errors.append(f"unsafe social preview artifact: {relative.as_posix()}")
     if errors:
         return errors, {"files": 0, "benchmark_repositories": 0, "concepts": 0}
 
     try:
-        manifest = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
+        manifest = json.loads(
+            (root / MANIFEST).read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_json_keys,
+        )
     except Exception as exc:
         return [f"invalid social preview manifest: {exc}"], {"files": 0, "benchmark_repositories": 0, "concepts": 0}
+    if not isinstance(manifest, dict):
+        return ["social preview manifest must be a JSON object"], {"files": 0, "benchmark_repositories": 0, "concepts": 0}
 
     if manifest.get("schema_version") != "1.0.0":
         errors.append("social preview manifest schema_version must be 1.0.0")
@@ -53,6 +240,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         errors.append("invalid social preview lifecycle status")
     if manifest.get("dimensions") != {"width": 1280, "height": 640}:
         errors.append("production dimensions must be 1280 x 640")
+    errors.extend(validate_manifest_references(manifest))
     alt_text = manifest.get("alt_text")
     if not isinstance(alt_text, str) or len(alt_text.strip()) < 40:
         errors.append("social preview alt text is missing or too short")
@@ -76,19 +264,18 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
             errors.append("external brand trace must be false")
 
     public = manifest.get("public_proof")
-    if not isinstance(public, dict):
-        errors.append("missing public_proof")
-    elif manifest.get("status") == "public_verified":
-        if public.get("verified") is not True or public.get("manual_action_required") is not False:
-            errors.append("public_verified status requires verified proof and no manual action")
-    elif public.get("verified") is not False or public.get("manual_action_required") is not True:
-        errors.append("awaiting_settings_upload must keep the manual action explicit")
+    errors.extend(validate_public_proof(public, manifest.get("status")))
 
     records = manifest.get("files")
+    errors.extend(validate_manifest_coverage(records))
     if not isinstance(records, dict):
-        errors.append("manifest files must be a mapping")
         records = {}
     for relative, record in records.items():
+        if not is_safe_manifest_path(relative):
+            continue
+        if not is_safe_manifest_target(root, relative):
+            errors.append(f"unsafe social preview manifest path: {relative}")
+            continue
         path = root / relative
         if not path.is_file():
             errors.append(f"manifest file missing: {relative}")
@@ -106,6 +293,9 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         if not path.is_file():
             errors.append(f"missing preview proof: {relative}")
             continue
+        if not is_safe_required_artifact(root, Path(relative)):
+            errors.append(f"unsafe preview proof: {relative}")
+            continue
         try:
             info = parse_png(path.read_bytes())
         except ValueError as exc:
@@ -117,10 +307,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
             errors.append("production preview must be under 1 MB")
 
     source_text = (root / SOURCE).read_text(encoding="utf-8")
-    if '<svg' not in source_text or 'width="1280"' not in source_text or 'height="640"' not in source_text:
-        errors.append("editable SVG source must declare 1280 x 640")
-    if re.search(r"<(?:image|script)\b|(?:href|src)=[\"']https?://", source_text, flags=re.IGNORECASE):
-        errors.append("editable source must not embed external resources")
+    errors.extend(validate_svg_document(source_text))
 
     combined_text = "\n".join((source_text, (root / BENCHMARK).read_text(encoding="utf-8"), (root / CONCEPTS).read_text(encoding="utf-8"), json.dumps(manifest))).casefold()
     for marker in BANNED:
@@ -146,7 +333,11 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
         "files": len(records),
         "benchmark_repositories": benchmark_count,
         "concepts": concept_count,
-        "production_sha256": sha256(root / PRODUCTION),
+        "production_sha256": (
+            sha256(root / PRODUCTION)
+            if (root / PRODUCTION).is_file() and is_safe_required_artifact(root, PRODUCTION)
+            else None
+        ),
         "public_verified": bool(public.get("verified")) if isinstance(public, dict) else False,
         "subjective_style_review": "manual",
     }
