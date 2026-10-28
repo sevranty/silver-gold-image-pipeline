@@ -207,6 +207,8 @@ def validate_svg_document(source_text: str) -> list[str]:
         return ["editable SVG source must have an SVG namespace root"]
     if document.attrib.get("width") != "1280" or document.attrib.get("height") != "640":
         return ["editable SVG source must declare 1280 x 640"]
+    if document.attrib.get("viewBox") != "0 0 1280 640":
+        return ["editable SVG source must declare canonical 0 0 1280 640 viewBox"]
     return []
 
 
