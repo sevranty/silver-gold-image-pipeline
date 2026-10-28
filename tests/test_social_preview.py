@@ -406,6 +406,22 @@ class SocialPreviewTests(unittest.TestCase):
             with self.subTest(allowed=snippet):
                 self.assertFalse(VALIDATOR.svg_has_external_resources(snippet))
 
+    def test_svg_document_requires_well_formed_svg_root(self) -> None:
+        valid = '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640"><rect /></svg>'
+        self.assertEqual(VALIDATOR.validate_svg_document(valid), [])
+        invalid = (
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640"><g></svg>', "well-formed XML"),
+            ('<html width="1280" height="640"><svg xmlns="http://www.w3.org/2000/svg" /></html>', "SVG namespace root"),
+            ('<!-- <svg width="1280" height="640"> -->', "well-formed XML"),
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="639" />', "1280 x 640"),
+        )
+        for document, expected in invalid:
+            with self.subTest(expected=expected):
+                self.assertTrue(
+                    any(expected in error for error in VALIDATOR.validate_svg_document(document)),
+                    document,
+                )
+
     def test_validator_rejects_external_svg_doctype(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = self.copy_scope(Path(directory))
