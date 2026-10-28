@@ -407,13 +407,17 @@ class SocialPreviewTests(unittest.TestCase):
                 self.assertFalse(VALIDATOR.svg_has_external_resources(snippet))
 
     def test_svg_document_requires_well_formed_svg_root(self) -> None:
-        valid = '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640"><rect /></svg>'
+        valid = '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640"><rect /></svg>'
         self.assertEqual(VALIDATOR.validate_svg_document(valid), [])
         invalid = (
             ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640"><g></svg>', "well-formed XML"),
             ('<html width="1280" height="640"><svg xmlns="http://www.w3.org/2000/svg" /></html>', "SVG namespace root"),
             ('<!-- <svg width="1280" height="640"> -->', "well-formed XML"),
             ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="639" />', "1280 x 640"),
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" />', "viewBox"),
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 640 320" />', "viewBox"),
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="10 0 1280 640" />', "viewBox"),
+            ('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 0 640" />', "viewBox"),
         )
         for document, expected in invalid:
             with self.subTest(expected=expected):
