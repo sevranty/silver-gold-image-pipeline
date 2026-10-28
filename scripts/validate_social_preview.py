@@ -8,6 +8,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -193,6 +194,22 @@ def svg_has_external_resources(source_text: str) -> bool:
     return False
 
 
+def validate_svg_document(source_text: str) -> list[str]:
+    """Require a well-formed, safe SVG document with canonical root dimensions."""
+    # Reject external entities before invoking the XML parser.
+    if svg_has_external_resources(source_text):
+        return ["editable source must not embed external resources"]
+    try:
+        document = ET.fromstring(source_text)
+    except ET.ParseError:
+        return ["editable SVG source must be well-formed XML"]
+    if document.tag != "{http://www.w3.org/2000/svg}svg":
+        return ["editable SVG source must have an SVG namespace root"]
+    if document.attrib.get("width") != "1280" or document.attrib.get("height") != "640":
+        return ["editable SVG source must declare 1280 x 640"]
+    return []
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict]:
     root = root.resolve()
     errors: list[str] = []
@@ -288,10 +305,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict]:
             errors.append("production preview must be under 1 MB")
 
     source_text = (root / SOURCE).read_text(encoding="utf-8")
-    if '<svg' not in source_text or 'width="1280"' not in source_text or 'height="640"' not in source_text:
-        errors.append("editable SVG source must declare 1280 x 640")
-    if svg_has_external_resources(source_text):
-        errors.append("editable source must not embed external resources")
+    errors.extend(validate_svg_document(source_text))
 
     combined_text = "\n".join((source_text, (root / BENCHMARK).read_text(encoding="utf-8"), (root / CONCEPTS).read_text(encoding="utf-8"), json.dumps(manifest))).casefold()
     for marker in BANNED:
